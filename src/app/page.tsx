@@ -1,13 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@mantine/core";
 
-const Home = () => {
+function Demo() {
   return (
-    <Button color="blue" radius="md" size="md">
-      Click Me
+    <Button component={Link} href="/hello">
+      Next link button
     </Button>
   );
-};
-
-export default Home;
+}
+export default Demo;
