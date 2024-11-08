@@ -14,7 +14,7 @@ LifeKit is a simple life management application built with Next.js, TypeScript, 
 
 - **Authentication**: User sign-up, log-in, and secure access using Supabase.
 - **Task Management**: Organize tasks by priority (High, Medium, Low) and status.
-- **Finance Tracking**: Log daily expenses, track remaining balance, and view monthly summaries for both cash and in-bank accounts
+- **Finance Tracking**: Log daily expenses, track remaining balance, and view monthly summaries for both cash and in-bank accounts.
 - **Ideas Hub**: Store and revisit new business ideas.
 - **Goals Management**: Set and track goals in categories like Skills, Projects, Finance, and Personal.
 - **Personal Notes**: Save and organize personal text storage.
