@@ -6,7 +6,7 @@ import { Button } from "@mantine/core";
 function Demo() {
   return (
     <Button component={Link} href="/hello">
-      Next link button
+      click me
     </Button>
   );
 }
