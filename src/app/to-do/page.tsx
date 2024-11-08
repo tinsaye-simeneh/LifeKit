@@ -32,7 +32,7 @@ const TasksPage = () => {
   const handleSubmit = async (values: typeof form.values) => {
     try {
       const newTask: Omit<Task, "id" | "created_at"> = {
-        user_id: "1",
+        user_id: "7e47cccc-1a7a-4db8-ad5b-36302794c74a",
         name: values.name,
         priority: values.priority,
         status: values.status,
@@ -47,7 +47,7 @@ const TasksPage = () => {
       });
 
       if (response.ok) {
-        await fetchTasks(); // Refresh task list
+        await fetchTasks();
         form.reset();
       } else {
         console.error("Failed to create task");
@@ -57,7 +57,6 @@ const TasksPage = () => {
     }
   };
 
-  // Delete a task by ID
   const handleDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/tasks/${id}`, {
@@ -65,7 +64,7 @@ const TasksPage = () => {
       });
 
       if (response.ok) {
-        await fetchTasks(); // Refresh task list
+        await fetchTasks();
       } else {
         console.error("Failed to delete task");
       }
@@ -74,7 +73,6 @@ const TasksPage = () => {
     }
   };
 
-  // Update a task by ID
   const handleUpdate = async (id: string) => {
     try {
       const updates = { status: "completed" };
@@ -87,7 +85,7 @@ const TasksPage = () => {
       });
 
       if (response.ok) {
-        await fetchTasks(); // Refresh task list
+        await fetchTasks();
       } else {
         console.error("Failed to update task");
       }

@@ -13,13 +13,13 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { name, priority, status }: Task = await req.json();
+  const { user_id, name, priority, status }: Task = await req.json();
 
   const { data, error } = await supabase
     .from("tasks")
     .insert([
       {
-        user_id: "1",
+        user_id,
         name,
         priority,
         status,
