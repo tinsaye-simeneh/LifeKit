@@ -12,8 +12,8 @@ export interface Task {
   id: UUID;
   user_id: UUID;
   name: string;
-  priority: "High" | "medium" | "low";
-  status: "Pending" | "onProgress" | "completed";
+  priority: "high" | "medium" | "low";
+  status: "pending" | "onProgress" | "completed";
   created_at: string;
   due_date?: string;
 }
