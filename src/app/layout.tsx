@@ -4,13 +4,7 @@ import "@mantine/core/styles.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { useEffect } from "react";
 import { useSessionStore } from "@/store/sessionStore";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-
-// export const metadata = {
-//   title: "Life kit",
-//   description: "A collection of tools for life",
-// };
+import { usePathname, useRouter } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -20,19 +14,19 @@ export default function RootLayout({
   const pathname = usePathname();
   const router = useRouter();
   const isAuthRoute = pathname === "/login" || pathname === "/register";
-  const { session, fetchSession } = useSessionStore();
+  const { session } = useSessionStore();
 
   useEffect(() => {
-    fetchSession();
-  }, [fetchSession]);
+    const timeout = setTimeout(() => {
+      if (isAuthRoute && session) {
+        router.push("/");
+      } else if (!isAuthRoute && !session) {
+        router.push("/login");
+      }
+    }, 500);
 
-  useEffect(() => {
-    if (!isAuthRoute && !session) {
-      router.push("/login");
-    } else if (isAuthRoute && session) {
-      router.push("/");
-    }
-  }, [isAuthRoute, session, router]);
+    return () => clearTimeout(timeout);
+  }, [isAuthRoute, session, router, pathname]);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -41,7 +35,8 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
-          {isAuthRoute && !session ? children : session ? null : null}
+          {/* Render children only if session exists, or if it's an auth route and no session */}
+          {isAuthRoute && !session ? children : session ? children : null}
         </MantineProvider>
       </body>
     </html>
