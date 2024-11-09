@@ -4,6 +4,8 @@ import "@mantine/core/styles.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { useEffect } from "react";
 import { useSessionStore } from "@/store/sessionStore";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 // export const metadata = {
 //   title: "Life kit",
@@ -15,13 +17,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const isAuthRoute = pathname === "/login" || pathname === "/register";
   const { session, fetchSession } = useSessionStore();
 
   useEffect(() => {
     fetchSession();
   }, [fetchSession]);
 
-  console.log("session", session);
+  useEffect(() => {
+    if (!isAuthRoute && !session) {
+      router.push("/login");
+    } else if (isAuthRoute && session) {
+      router.push("/");
+    }
+  }, [isAuthRoute, session, router]);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -30,12 +41,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
-          {session ? (
-            <p>Welcome {session?.user?.user_metadata?.email}</p>
-          ) : (
-            <p>You are not logged in.</p>
-          )}
-          {children}
+          {isAuthRoute && !session ? children : session ? null : null}
         </MantineProvider>
       </body>
     </html>

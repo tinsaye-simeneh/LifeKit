@@ -19,3 +19,12 @@ export const onAuthStateChange = (
 ) => {
   return supabase.auth.onAuthStateChange((_, session) => callback(session));
 };
+
+export const clearSession = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Error signing out:", error.message);
+  } else {
+    console.log("Session cleared successfully.");
+  }
+};
