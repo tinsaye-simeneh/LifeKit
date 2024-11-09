@@ -5,6 +5,8 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { useEffect } from "react";
 import { useSessionStore } from "@/store/sessionStore";
 import { usePathname, useRouter } from "next/navigation";
+import Navbar from "../components/Navbar";
+import "../styles/globals.css";
 
 export default function RootLayout({
   children,
@@ -35,7 +37,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
-          {/* Render children only if session exists, or if it's an auth route and no session */}
+          <Navbar />
           {isAuthRoute && !session ? children : session ? children : null}
         </MantineProvider>
       </body>
