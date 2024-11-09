@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { Button, Input, Select, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Task } from "@/types/models";
+import { useSessionStore } from "@/store/sessionStore";
 
 const TasksPage = () => {
+  const session = useSessionStore((state) => state.session);
   const [tasks, setTasks] = useState<Task[]>([]);
   const form = useForm({
     initialValues: {
@@ -32,7 +34,7 @@ const TasksPage = () => {
   const handleSubmit = async (values: typeof form.values) => {
     try {
       const newTask: Omit<Task, "id" | "created_at"> = {
-        user_id: "7e47cccc-1a7a-4db8-ad5b-36302794c74a",
+        user_id: session?.user?.id,
         name: values.name,
         priority: values.priority,
         status: values.status,
@@ -117,13 +119,17 @@ const TasksPage = () => {
 
       <h2>Your Tasks</h2>
       <ul>
-        {tasks.map((task: Task) => (
-          <li key={task.id}>
+        {tasks?.map((task?: Task) => (
+          <li key={task?.id}>
             <p>
-              {task.name} - {task.priority} - {task.status}
+              {task?.name} - {task?.priority} - {task?.status}
             </p>
-            <Button onClick={() => handleDelete(task.id)}>Delete</Button>
-            <Button onClick={() => handleUpdate(task.id)}>Update</Button>
+            <Button onClick={() => handleDelete(task?.id as string)}>
+              Delete
+            </Button>
+            <Button onClick={() => handleUpdate(task?.id as string)}>
+              Update
+            </Button>
           </li>
         ))}
       </ul>

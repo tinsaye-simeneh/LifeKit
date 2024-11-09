@@ -33,7 +33,7 @@ export interface AuthFunctions {
 }
 
 export interface User {
-  id: UUID;
+  id?: UUID;
   email: string;
   full_name: string;
   created_at: string;
@@ -41,18 +41,18 @@ export interface User {
 }
 
 export interface Task {
-  id: UUID;
-  user_id: UUID;
-  name: string;
-  priority: "high" | "medium" | "low";
-  status: "pending" | "onProgress" | "completed";
-  created_at: string;
+  id?: UUID;
+  user_id?: UUID;
+  name?: string;
+  priority?: "high" | "medium" | "low";
+  status?: "pending" | "onProgress" | "completed";
+  created_at?: string;
   due_date?: string;
 }
 
 export interface Finance {
   id: UUID;
-  user_id: UUID;
+  user_id?: UUID;
   amount: number;
   type: "expense" | "income";
   reason: string;
