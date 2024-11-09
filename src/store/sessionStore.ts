@@ -1,15 +1,26 @@
-// stores/sessionStore.ts
 import { create } from "zustand";
 import { getSession, onAuthStateChange } from "../app/api/auth/route";
 
 interface SessionState {
-  session: any;
-  setSession: (session: any) => void;
+  session: {
+    user: {
+      email: string | null;
+    };
+  };
+  setSession: (session: {
+    user: {
+      email: string | null;
+    };
+  }) => void;
   fetchSession: () => Promise<void>;
 }
 
 export const useSessionStore = create<SessionState>((set) => ({
-  session: null,
+  session: {
+    user: {
+      email: null,
+    },
+  },
   setSession: (session) => set({ session }),
   fetchSession: async () => {
     const session = await getSession();
@@ -17,7 +28,6 @@ export const useSessionStore = create<SessionState>((set) => ({
   },
 }));
 
-// Initialize auth state change listener
 onAuthStateChange((newSession) => {
   useSessionStore.getState().setSession(newSession);
 });
