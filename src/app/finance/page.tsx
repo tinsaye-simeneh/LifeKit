@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button, Select, Textarea, NumberInput } from "@mantine/core";
+import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { Finance } from "@/types/models";
 import { useSessionStore } from "@/store/sessionStore";
@@ -16,6 +17,8 @@ const FinancePage = () => {
       reason: "",
       payment_method: "cash" as "cash" | "bank",
       remaining_balance: 0,
+      bank_name: "",
+      date: new Date().toISOString(),
     },
   });
 
@@ -35,13 +38,15 @@ const FinancePage = () => {
 
   const handleSubmit = async (values: typeof form.values) => {
     try {
-      const newFinance: Omit<Finance, "id" | "date"> = {
+      const newFinance: Omit<Finance, "id"> = {
         user_id: session?.user?.id,
         amount: values.amount,
         type: values.type,
         reason: values.reason,
         payment_method: values.payment_method,
         remaining_balance: values.remaining_balance,
+        bank_name: values.bank_name,
+        date: new Date().toISOString(),
       };
 
       const response = await fetch("/api/finance", {
@@ -84,6 +89,11 @@ const FinancePage = () => {
       <h1>Finance Records</h1>
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
+        <DateInput
+          label="Date"
+          placeholder="Enter date"
+          {...form.getInputProps("date")}
+        />
         <NumberInput
           label="Amount"
           placeholder="Enter amount"
@@ -103,6 +113,11 @@ const FinancePage = () => {
           label="Payment Method"
           data={["cash", "bank"]}
           {...form.getInputProps("payment_method")}
+        />
+        <Textarea
+          label="Bank Name"
+          placeholder="Enter bank name"
+          {...form.getInputProps("bank_name")}
         />
         <NumberInput
           label="Remaining Balance"

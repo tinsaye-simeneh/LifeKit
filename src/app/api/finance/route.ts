@@ -20,6 +20,8 @@ export async function POST(req: Request) {
     reason,
     payment_method,
     remaining_balance,
+    bank_name,
+    date,
   }: Finance = await req.json();
 
   const { data, error } = await supabase
@@ -32,7 +34,8 @@ export async function POST(req: Request) {
         reason,
         payment_method,
         remaining_balance,
-        date: new Date().toISOString(),
+        date,
+        bank_name,
       },
     ])
     .single();

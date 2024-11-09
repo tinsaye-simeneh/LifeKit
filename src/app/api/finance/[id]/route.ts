@@ -13,6 +13,8 @@ export async function PUT(
     reason,
     payment_method,
     remaining_balance,
+    bank_name,
+    date,
   }: Partial<Finance> = await req.json();
 
   const { data, error } = await supabase
@@ -23,7 +25,9 @@ export async function PUT(
       reason,
       payment_method,
       remaining_balance,
+      date,
       updated_at: new Date().toISOString(),
+      bank_name,
     })
     .eq("id", id)
     .single();

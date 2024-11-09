@@ -59,6 +59,7 @@ export interface Finance {
   date: string;
   payment_method: "cash" | "bank";
   remaining_balance: number;
+  bank_name?: string;
 }
 
 export interface MonthlyExpense {
