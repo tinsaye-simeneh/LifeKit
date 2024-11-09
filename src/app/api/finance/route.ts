@@ -3,7 +3,7 @@ import { supabase } from "@/utils/supabase";
 import { Finance } from "@/types/models";
 
 export async function GET() {
-  const { data, error } = await supabase.from("finances").select("*");
+  const { data, error } = await supabase.from("finance").select("*");
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   }: Finance = await req.json();
 
   const { data, error } = await supabase
-    .from("finances")
+    .from("finance")
     .insert([
       {
         user_id,

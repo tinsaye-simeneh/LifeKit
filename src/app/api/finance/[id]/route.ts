@@ -16,7 +16,7 @@ export async function PUT(
   }: Partial<Finance> = await req.json();
 
   const { data, error } = await supabase
-    .from("finances")
+    .from("finance")
     .update({
       amount,
       type,
@@ -41,7 +41,7 @@ export async function DELETE(
 ) {
   const { id } = params;
 
-  const { error } = await supabase.from("finances").delete().eq("id", id);
+  const { error } = await supabase.from("finance").delete().eq("id", id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
