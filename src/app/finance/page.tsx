@@ -21,7 +21,7 @@ const FinancePage = () => {
 
   const fetchFinances = async () => {
     try {
-      const response = await fetch("/api/finances");
+      const response = await fetch("/api/finance");
       const data = await response.json();
       setFinances(data);
     } catch (error) {
@@ -44,7 +44,7 @@ const FinancePage = () => {
         remaining_balance: values.remaining_balance,
       };
 
-      const response = await fetch("/api/finances", {
+      const response = await fetch("/api/finance", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const FinancePage = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(`/api/finances/${id}`, {
+      const response = await fetch(`/api/finance/${id}`, {
         method: "DELETE",
       });
 
