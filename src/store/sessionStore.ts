@@ -1,6 +1,6 @@
 // stores/sessionStore.ts
 import { create } from "zustand";
-import { getSession, onAuthStateChange } from "@/api/auth";
+import { getSession, onAuthStateChange } from "../app/api/auth/route";
 
 interface SessionState {
   session: any;
