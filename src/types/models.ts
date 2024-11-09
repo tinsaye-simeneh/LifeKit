@@ -77,7 +77,6 @@ export interface Idea {
   title: string;
   description: string;
   created_at: string;
-  tags: string[];
 }
 
 export interface Goal {
