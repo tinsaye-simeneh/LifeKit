@@ -31,7 +31,7 @@ export default function RootLayout({
       <body>
         <MantineProvider>
           {session ? (
-            <p>Welcome {session.user.email}</p>
+            <p>Welcome {session?.user?.user_metadata?.email}</p>
           ) : (
             <p>You are not logged in.</p>
           )}

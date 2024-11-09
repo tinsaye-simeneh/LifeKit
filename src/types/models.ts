@@ -1,4 +1,36 @@
+export interface Session {
+  access_token?: string;
+  token_type?: string;
+  expires_in?: number;
+  refresh_token?: string;
+  user?: {
+    id?: UUID;
+    role?: string;
+    email_confirmed_at?: string;
+    last_sign_in_at?: string;
+    app_metadata?: {
+      provider?: string;
+      providers?: string[];
+    };
+    user_metadata?: {
+      email?: string;
+      email_verified?: boolean;
+      phone_verified?: boolean;
+      sub?: UUID;
+    };
+  };
+}
+
 export type UUID = string;
+
+export interface AuthFunctions {
+  signUp: (email: string, password: string) => Promise<Session | null>;
+  signInWithPassword: (
+    email: string,
+    password: string
+  ) => Promise<Session | null>;
+  signOut: () => Promise<void>;
+}
 
 export interface User {
   id: UUID;

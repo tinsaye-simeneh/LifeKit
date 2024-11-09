@@ -1,4 +1,5 @@
 import { supabase } from "../../../utils/supabase";
+import { Session } from "@/types/models";
 
 export const signUp = async (email: string, password: string) => {
   return await supabase.auth.signUp({ email, password });
@@ -13,6 +14,8 @@ export const getSession = async () => {
   return data.session;
 };
 
-export const onAuthStateChange = (callback: (session: any) => void) => {
+export const onAuthStateChange = (
+  callback: (session: Session | null) => void
+) => {
   return supabase.auth.onAuthStateChange((_, session) => callback(session));
 };
