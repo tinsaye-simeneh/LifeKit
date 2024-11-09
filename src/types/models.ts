@@ -58,7 +58,6 @@ export interface Finance {
   reason: string;
   date: string;
   payment_method: "cash" | "bank";
-  remaining_balance: number;
   bank_name?: string;
 }
 

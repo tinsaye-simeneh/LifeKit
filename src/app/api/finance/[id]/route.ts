@@ -12,7 +12,6 @@ export async function PUT(
     type,
     reason,
     payment_method,
-    remaining_balance,
     bank_name,
     date,
   }: Partial<Finance> = await req.json();
@@ -24,7 +23,6 @@ export async function PUT(
       type,
       reason,
       payment_method,
-      remaining_balance,
       date,
       updated_at: new Date().toISOString(),
       bank_name,

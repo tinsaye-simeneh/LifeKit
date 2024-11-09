@@ -19,7 +19,6 @@ export async function POST(req: Request) {
     type,
     reason,
     payment_method,
-    remaining_balance,
     bank_name,
     date,
   }: Finance = await req.json();
@@ -33,7 +32,6 @@ export async function POST(req: Request) {
         type,
         reason,
         payment_method,
-        remaining_balance,
         date,
         bank_name,
       },

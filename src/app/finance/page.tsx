@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, Select, Textarea, NumberInput } from "@mantine/core";
-import { DateInput } from "@mantine/dates";
+import {
+  Button,
+  Select,
+  Textarea,
+  NumberInput,
+  TextInput,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Finance } from "@/types/models";
 import { useSessionStore } from "@/store/sessionStore";
@@ -16,9 +21,8 @@ const FinancePage = () => {
       type: "income" as "expense" | "income",
       reason: "",
       payment_method: "cash" as "cash" | "bank",
-      remaining_balance: 0,
       bank_name: "",
-      date: new Date().toISOString(),
+      date: new Date().toISOString().split("T")[0],
     },
   });
 
@@ -44,9 +48,8 @@ const FinancePage = () => {
         type: values.type,
         reason: values.reason,
         payment_method: values.payment_method,
-        remaining_balance: values.remaining_balance,
         bank_name: values.bank_name,
-        date: new Date().toISOString(),
+        date: values.date,
       };
 
       const response = await fetch("/api/finance", {
@@ -89,7 +92,7 @@ const FinancePage = () => {
       <h1>Finance Records</h1>
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <DateInput
+        <TextInput
           label="Date"
           placeholder="Enter date"
           {...form.getInputProps("date")}
@@ -114,16 +117,13 @@ const FinancePage = () => {
           data={["cash", "bank"]}
           {...form.getInputProps("payment_method")}
         />
-        <Textarea
-          label="Bank Name"
-          placeholder="Enter bank name"
-          {...form.getInputProps("bank_name")}
-        />
-        <NumberInput
-          label="Remaining Balance"
-          placeholder="Enter remaining balance"
-          {...form.getInputProps("remaining_balance")}
-        />
+        {form.values.payment_method === "bank" && (
+          <TextInput
+            label="Bank Name"
+            placeholder="Enter bank name"
+            {...form.getInputProps("bank_name")}
+          />
+        )}
 
         <Button type="submit">Add Finance Record</Button>
       </form>
@@ -134,8 +134,7 @@ const FinancePage = () => {
           <li key={finance.id}>
             <p>
               {finance.type === "income" ? "+" : "-"} ${finance.amount} -{" "}
-              {finance.reason} - {finance.payment_method} - Remaining balance: $
-              {finance.remaining_balance}
+              {finance.reason} - {finance.payment_method}
             </p>
             <Button onClick={() => handleDelete(finance.id as string)}>
               Delete
