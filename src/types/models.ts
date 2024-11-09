@@ -72,11 +72,11 @@ export interface MonthlyExpense {
 }
 
 export interface Idea {
-  id: UUID;
-  user_id: UUID;
-  title: string;
-  description: string;
-  created_at: string;
+  id?: UUID;
+  user_id?: UUID;
+  title?: string;
+  description?: string;
+  created_at?: string;
 }
 
 export interface Goal {
