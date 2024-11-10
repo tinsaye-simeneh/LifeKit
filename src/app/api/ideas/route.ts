@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         user_id,
         title,
         description,
-        created_at: new Date(),
+        created_at: new Date().toISOString(),
       },
     ])
     .single();

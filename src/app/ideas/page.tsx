@@ -19,7 +19,7 @@ const IdeasPage = () => {
     } catch (error) {
       console.error("Failed to fetch ideas:", error);
     }
-  }, [session]); // Add `session` as a dependency
+  }, [session]);
 
   useEffect(() => {
     fetchIdeas();

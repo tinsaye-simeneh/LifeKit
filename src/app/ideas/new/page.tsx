@@ -10,7 +10,7 @@ const AddIdeaPage = () => {
   const form = useForm({
     initialValues: {
       title: "",
-      notes: "",
+      description: "",
     },
   });
 
@@ -19,7 +19,7 @@ const AddIdeaPage = () => {
       const newIdea: Omit<Idea, "id" | "created_at"> = {
         user_id: session?.user?.id,
         title: values.title,
-        description: values.notes,
+        description: values.description,
       };
 
       const response = await fetch("/api/ideas", {
