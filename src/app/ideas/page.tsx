@@ -11,9 +11,12 @@ const IdeasPage = () => {
 
   const fetchIdeas = async () => {
     try {
-      const response = await fetch("/api/ideas");
-      const data = await response.json();
-      setIdeas(data);
+      if (session) {
+        // Fetch ideas only if the session exists
+        const response = await fetch(`/api/ideas?user_id=${session?.user?.id}`);
+        const data = await response.json();
+        setIdeas(data);
+      }
     } catch (error) {
       console.error("Failed to fetch ideas:", error);
     }
@@ -21,7 +24,7 @@ const IdeasPage = () => {
 
   useEffect(() => {
     fetchIdeas();
-  }, []);
+  }, [session]);
 
   const handleDelete = async (id: string) => {
     try {
