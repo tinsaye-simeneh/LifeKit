@@ -19,7 +19,7 @@ const AddIdeaPage = () => {
     try {
       const newIdea: Omit<Idea, "id" | "created_at"> = {
         user_id: session?.user?.id,
-        name: values.name,
+        title: values.title,
         priority: values.priority,
         status: values.status,
       };
