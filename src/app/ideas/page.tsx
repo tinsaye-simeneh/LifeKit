@@ -12,7 +12,6 @@ const IdeasPage = () => {
   const fetchIdeas = async () => {
     try {
       if (session) {
-        // Fetch ideas only if the session exists
         const response = await fetch(`/api/ideas?user_id=${session?.user?.id}`);
         const data = await response.json();
         setIdeas(data);
@@ -44,7 +43,10 @@ const IdeasPage = () => {
 
   const handleUpdate = async (id: string) => {
     try {
-      const updates = { status: "completed" };
+      const updates = {
+        title: "Updated Title",
+        description: "Updated Description",
+      };
       const response = await fetch(`/api/ideas/${id}`, {
         method: "PATCH",
         headers: {
