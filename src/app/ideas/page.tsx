@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button } from "@mantine/core";
 import { Idea } from "@/types/models";
 import { useSessionStore } from "@/store/sessionStore";
@@ -9,21 +9,21 @@ const IdeasPage = () => {
   const session = useSessionStore((state) => state.session);
   const [ideas, setIdeas] = useState<Idea[]>([]);
 
-  const fetchIdeas = async () => {
+  const fetchIdeas = useCallback(async () => {
     try {
       if (session) {
-        const response = await fetch(`/api/ideas?user_id=${session?.user?.id}`);
+        const response = await fetch(`/api/ideas?user_id=${session.user.id}`);
         const data = await response.json();
         setIdeas(data);
       }
     } catch (error) {
       console.error("Failed to fetch ideas:", error);
     }
-  };
+  }, [session]); // Add `session` as a dependency
 
   useEffect(() => {
     fetchIdeas();
-  }, [session]);
+  }, [fetchIdeas]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -43,10 +43,7 @@ const IdeasPage = () => {
 
   const handleUpdate = async (id: string) => {
     try {
-      const updates = {
-        title: "Updated Title",
-        description: "Updated Description",
-      };
+      const updates = { status: "completed" };
       const response = await fetch(`/api/ideas/${id}`, {
         method: "PATCH",
         headers: {
