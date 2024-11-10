@@ -12,7 +12,7 @@ const IdeasPage = () => {
   const fetchIdeas = useCallback(async () => {
     try {
       if (session) {
-        const response = await fetch(`/api/ideas?user_id=${session.user.id}`);
+        const response = await fetch(`/api/ideas?user_id=${session?.user?.id}`);
         const data = await response.json();
         setIdeas(data);
       }
