@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input, Select, Textarea } from "@mantine/core";
+import { Button, Input, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Idea } from "@/types/models";
 import { useSessionStore } from "@/store/sessionStore";
