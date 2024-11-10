@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input, Select, Textarea } from "@mantine/core";
+import { Button, Input, Select, Textarea, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Idea } from "@/types/models";
 import { useSessionStore } from "@/store/sessionStore";
@@ -19,9 +19,8 @@ const AddIdeaPage = () => {
     try {
       const newIdea: Omit<Idea, "id" | "created_at"> = {
         user_id: session?.user?.id,
-        title: values.title,
-        priority: values.priority,
-        status: values.status,
+        title: values.name,
+        description: values.name,
       };
 
       const response = await fetch("/api/ideas", {
