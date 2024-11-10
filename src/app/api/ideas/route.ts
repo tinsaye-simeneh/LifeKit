@@ -13,16 +13,15 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { user_id, name, priority, status }: Idea = await req.json();
+  const { user_id, title, description }: Idea = await req.json();
 
   const { data, error } = await supabase
     .from("ideas")
     .insert([
       {
         user_id,
-        name,
-        priority,
-        status,
+        title,
+        description,
         created_at: new Date(),
       },
     ])
