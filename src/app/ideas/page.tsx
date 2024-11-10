@@ -67,7 +67,7 @@ const IdeasPage = () => {
         {ideas?.map((idea?: Idea) => (
           <li key={idea?.id}>
             <p>
-              {idea?.name} - {idea?.priority} - {idea?.status}
+              {idea?.title} - {idea?.description}
             </p>
             <Button onClick={() => handleDelete(idea?.id as string)}>
               Delete
