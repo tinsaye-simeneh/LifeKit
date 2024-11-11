@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@mantine/core";
 import { Idea } from "@/types/models";
-import { useSessionStore } from "@/store/sessionStore";
 
 const IdeasPage = () => {
   const [ideas, setIdeas] = useState<Idea[]>([]);
