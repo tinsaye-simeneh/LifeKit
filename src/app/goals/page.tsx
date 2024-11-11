@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@mantine/core";
-import { Goal } from "@/types/models"; // Update this import based on your project structure
+import { Goal } from "@/types/models";
 
 const GoalsPage = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -21,7 +21,7 @@ const GoalsPage = () => {
     fetchGoals();
   }, [fetchGoals]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id?: string) => {
     try {
       const response = await fetch(`/api/goals/${id}`, {
         method: "DELETE",
@@ -37,7 +37,7 @@ const GoalsPage = () => {
     }
   };
 
-  const handleUpdateStatus = async (id: string, status: Goal["status"]) => {
+  const handleUpdateStatus = async (id?: string, status?: Goal["status"]) => {
     try {
       const updates = { status };
       const response = await fetch(`/api/goals/${id}`, {
@@ -62,7 +62,7 @@ const GoalsPage = () => {
     <div>
       <h1>Your Goals</h1>
       <ul>
-        {goals.map((goal) => (
+        {goals?.map((goal) => (
           <li key={goal.id}>
             <p>
               <strong>{goal.title}</strong> - {goal.description}
@@ -71,14 +71,16 @@ const GoalsPage = () => {
               <br />
               <em>Status: {goal.status}</em>
             </p>
-            <Button onClick={() => handleDelete(goal.id)}>Delete</Button>
+            <Button onClick={() => handleDelete(goal?.id)}>Delete</Button>
             {goal.status !== "completed" && (
-              <Button onClick={() => handleUpdateStatus(goal.id, "completed")}>
+              <Button onClick={() => handleUpdateStatus(goal?.id, "completed")}>
                 Mark as Completed
               </Button>
             )}
             {goal.status === "notStarted" && (
-              <Button onClick={() => handleUpdateStatus(goal.id, "onProgress")}>
+              <Button
+                onClick={() => handleUpdateStatus(goal?.id, "onProgress")}
+              >
                 Start Goal
               </Button>
             )}
