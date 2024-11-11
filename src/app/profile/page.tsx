@@ -1,103 +1,119 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSessionStore } from "@/store/sessionStore";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Button, TextInput, Textarea } from "@mantine/core";
+import { useUserStore } from "@/store/userStore";
 
 const ProfilePage = () => {
-  const session = useSessionStore((state) => state.session);
-  const [profile, setProfile] = useState({
+  const { profile, fetchProfile, updateProfile, uploadProfilePicture } =
+    useUserStore();
+  const [form, setForm] = useState({
+    full_name: "",
+    username: "",
+    email: "",
+    phone: "",
     bio: "",
     location: "",
     website: "",
-    avatar_url: "",
+    profile_picture_url: "",
   });
-  const [loading, setLoading] = useState(false);
-
-  const fetchProfile = async () => {
-    if (!session) return;
-
-    try {
-      const response = await fetch("/api/profile");
-      const data = await response.json();
-      setProfile(data);
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-    }
-  };
 
   useEffect(() => {
-    fetchProfile();
-  }, [session]);
+    const userId = "user_id_from_context_or_auth"; // Replace with the logged-in user's ID
+    fetchProfile(userId);
+  }, [fetchProfile]);
+
+  useEffect(() => {
+    if (profile) {
+      setForm({
+        full_name: profile.full_name || "",
+        username: profile.username || "",
+        email: profile.email || "",
+        phone: profile.phone || "",
+        bio: profile.bio || "",
+        location: profile.location || "",
+        website: profile.website || "",
+        profile_picture_url: profile.profile_picture_url || "",
+      });
+    }
+  }, [profile]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch("/api/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(profile),
-      });
+  const handleUpdate = async () => {
+    const userId = "user_id_from_context_or_auth"; // Replace with the logged-in user's ID
+    await updateProfile(userId, form);
+  };
 
-      if (!response.ok) {
-        throw new Error("Failed to update profile");
+  const handlePictureUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      const file = e.target.files[0];
+      const url = await uploadProfilePicture(file);
+      if (url) {
+        setForm((prev) => ({ ...prev, profile_picture_url: url }));
       }
-      alert("Profile updated successfully!");
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-semibold">Your Profile</h1>
-      <div className="mt-4">
-        <TextInput
-          label="Bio"
-          name="bio"
-          value={profile.bio}
-          onChange={handleChange}
-          placeholder="Tell us about yourself"
-        />
-        <TextInput
-          label="Location"
-          name="location"
-          value={profile.location}
-          onChange={handleChange}
-          placeholder="Your location"
-          className="mt-4"
-        />
-        <TextInput
-          label="Website"
-          name="website"
-          value={profile.website}
-          onChange={handleChange}
-          placeholder="https://yourwebsite.com"
-          className="mt-4"
-        />
-        <TextInput
-          label="Avatar URL"
-          name="avatar_url"
-          value={profile.avatar_url}
-          onChange={handleChange}
-          placeholder="https://yourimageurl.com/avatar.jpg"
-          className="mt-4"
-        />
-        <Button onClick={handleSave} loading={loading} className="mt-6">
-          Save Changes
-        </Button>
+    <div className="max-w-xl mx-auto p-6 bg-white rounded shadow">
+      <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
+      <div className="mb-4">
+        {form.profile_picture_url ? (
+          <img
+            src={form.profile_picture_url}
+            alt="Profile Picture"
+            className="w-24 h-24 rounded-full"
+          />
+        ) : (
+          <div className="w-24 h-24 bg-gray-200 rounded-full" />
+        )}
+        <input type="file" onChange={handlePictureUpload} className="mt-2" />
       </div>
+      <TextInput
+        label="Full Name"
+        name="full_name"
+        value={form.full_name}
+        onChange={handleChange}
+      />
+      <TextInput
+        label="Username"
+        name="username"
+        value={form.username}
+        onChange={handleChange}
+      />
+      <TextInput label="Email" name="email" value={form.email} disabled />
+      <TextInput
+        label="Phone"
+        name="phone"
+        value={form.phone}
+        onChange={handleChange}
+      />
+      <Textarea
+        label="Bio"
+        name="bio"
+        value={form.bio}
+        onChange={handleChange}
+      />
+      <TextInput
+        label="Location"
+        name="location"
+        value={form.location}
+        onChange={handleChange}
+      />
+      <TextInput
+        label="Website"
+        name="website"
+        value={form.website}
+        onChange={handleChange}
+      />
+      <Button onClick={handleUpdate} className="mt-4">
+        Save Changes
+      </Button>
     </div>
   );
 };
