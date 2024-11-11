@@ -19,8 +19,7 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
-    const userId = "user_id_from_context_or_auth"; // Replace with the logged-in user's ID
-    fetchProfile(userId);
+    fetchProfile();
   }, [fetchProfile]);
 
   useEffect(() => {
@@ -45,8 +44,7 @@ const ProfilePage = () => {
   };
 
   const handleUpdate = async () => {
-    const userId = "user_id_from_context_or_auth"; // Replace with the logged-in user's ID
-    await updateProfile(userId, form);
+    await updateProfile(form);
   };
 
   const handlePictureUpload = async (e: ChangeEvent<HTMLInputElement>) => {
