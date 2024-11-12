@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 
 const EditFinance = ({ id }: { id: string }) => {
   const session = useSessionStore((state) => state.session);
-  const finance = useFinanceStore((state) =>
-    state.finances.find((item) => item.id === id)
-  );
-  const updateFinance = useFinanceStore((state) => state.updateFinance);
+  const { fetchFinance, updateFinance } = useFinanceStore((state) => ({
+    fetchFinance: state.fetchFinance,
+    updateFinance: state.updateFinance,
+  }));
+
   const [initialValues, setInitialValues] = useState<{
     id?: string;
     amount: number;
@@ -21,19 +22,33 @@ const EditFinance = ({ id }: { id: string }) => {
     date: string;
   } | null>(null);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (finance) {
-      setInitialValues({
-        id: id,
-        amount: finance.amount,
-        type: finance.type,
-        reason: finance.reason,
-        payment_method: finance.payment_method,
-        bank_name: finance.bank_name,
-        date: finance.date,
-      });
-    }
-  }, [finance]);
+    const loadFinance = async () => {
+      setLoading(true);
+      try {
+        const finance = await fetchFinance(id);
+        if (finance) {
+          setInitialValues({
+            id: id,
+            amount: finance.amount,
+            type: finance.type,
+            reason: finance.reason,
+            payment_method: finance.payment_method,
+            bank_name: finance.bank_name,
+            date: finance.date,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching finance entry:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFinance();
+  }, [id, fetchFinance]);
 
   const handleUpdate = async (values: {
     amount: number;
@@ -56,7 +71,7 @@ const EditFinance = ({ id }: { id: string }) => {
     }
   };
 
-  if (!initialValues) {
+  if (loading) {
     return <p>Loading...</p>;
   }
 

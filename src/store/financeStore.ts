@@ -10,6 +10,7 @@ type FinanceStore = {
   updateFinance: (id: string, updates: Partial<Finance>) => void;
   deleteFinance: (id: string) => void;
   fetchFinances: () => void;
+  fetchFinance: (id: string) => Promise<Finance | undefined>;
 };
 
 export const useFinanceStore = create<FinanceStore>((set) => ({
@@ -63,6 +64,14 @@ export const useFinanceStore = create<FinanceStore>((set) => ({
     if (response.ok) {
       const finances = await response.json();
       set({ finances });
+    }
+  },
+  fetchFinance: async (id: string) => {
+    const response = await fetch(`/api/finance/${id}`, {
+      method: "GET",
+    });
+    if (response.ok) {
+      return await response.json();
     }
   },
 }));
