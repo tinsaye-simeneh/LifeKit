@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useEffect } from "react";
 
 interface FinanceFormProps {
   initialValues: {
@@ -33,6 +34,10 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
   const form = useForm({
     initialValues,
   });
+
+  useEffect(() => {
+    form.setValues(initialValues);
+  }, [initialValues, form]);
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
