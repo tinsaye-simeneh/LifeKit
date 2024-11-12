@@ -15,25 +15,14 @@ const columns = [
 
 const FinancePage = () => {
   const fetchFinances = useFinanceStore((state) => state.fetchFinances);
+  const deleteFinance = useFinanceStore((state) => state.deleteFinance);
 
   useEffect(() => {
     fetchFinances();
   }, [fetchFinances]);
 
   const handleDelete = async (id: string) => {
-    try {
-      const response = await fetch(`/api/finance/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        await fetchFinances();
-      } else {
-        console.error("Failed to delete finance entry");
-      }
-    } catch (error) {
-      console.error("Error deleting finance entry:", error);
-    }
+    await deleteFinance(id);
   };
 
   return (
@@ -43,7 +32,7 @@ const FinancePage = () => {
           Your Finance Records
         </h5>
         <Button
-          onClick={() => window.open("/finance/new")}
+          onClick={() => window.open("/finance/new", "_self")}
           className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
         >
           Add Finance
@@ -53,7 +42,7 @@ const FinancePage = () => {
       <EntityTable
         columns={columns}
         data={useFinanceStore((state) => state.finances)}
-        onEdit={(id) => window.open(`/finance/${id}`)}
+        onEdit={(id) => window.open(`/finance/${id}`, "_self")}
         onDelete={handleDelete}
       />
     </div>
