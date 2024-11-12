@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import { getSession, onAuthStateChange } from "../app/api/auth/route";
 import { Session } from "@/types/models";
