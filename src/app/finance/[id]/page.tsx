@@ -26,7 +26,7 @@ const EditFinancePage = () => {
 
   useEffect(() => {
     const loadFinanceData = async () => {
-      if (financeId) {
+      if (financeId && fetchFinance) {
         try {
           const financeDataArray = await fetchFinance(financeId);
 
@@ -34,12 +34,12 @@ const EditFinancePage = () => {
             const financeData = financeDataArray[0];
 
             setInitialValues({
-              amount: financeData.amount || 0,
-              type: financeData.type || "income",
-              reason: financeData.reason || "",
-              payment_method: financeData.payment_method || "cash",
-              bank_name: financeData.bank_name || "",
-              date: financeData.date || new Date().toISOString().split("T")[0],
+              amount: financeData?.amount,
+              type: financeData?.type,
+              reason: financeData?.reason,
+              payment_method: financeData?.payment_method,
+              bank_name: financeData?.bank_name,
+              date: financeData?.date,
             });
           } else {
             console.warn("No finance data found for the provided finance ID");
