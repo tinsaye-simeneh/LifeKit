@@ -90,6 +90,12 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
         >
           {initialValues ? "Update Finance Record" : "Create Finance Record"}
         </Button>
+        <Button
+          onClick={() => window.open("/finance", "_self")}
+          className="w-full col-span-2 bg-red-500 hover:bg-red-600 text-white"
+        >
+          Cancel
+        </Button>
       </form>
     </div>
   );
