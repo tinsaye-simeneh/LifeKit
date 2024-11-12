@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import { Idea } from "@/types/models";
 
@@ -82,6 +84,21 @@ export const useIdeaStore = create<IdeaStore>((set) => ({
 
       const ideas = await response.json();
       set({ ideas });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  fetchIdea: async (id: string) => {
+    try {
+      const response = await fetch(`/api/ideas/${id}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch idea");
+      }
+
+      return await response.json();
     } catch (error) {
       console.error(error);
     }

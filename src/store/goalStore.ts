@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import { Goal } from "@/types/models";
 
@@ -82,6 +84,21 @@ export const useGoalStore = create<GoalStore>((set) => ({
 
       const goals = await response.json();
       set({ goals });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  fetchGoal: async (id: string) => {
+    try {
+      const response = await fetch(`/api/goals/${id}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch goal");
+      }
+
+      return await response.json();
     } catch (error) {
       console.error(error);
     }

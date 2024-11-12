@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import { Finance } from "@/types/models";
 
@@ -8,6 +10,8 @@ type FinanceStore = {
   updateFinance: (id: string, updates: Partial<Finance>) => void;
   deleteFinance: (id: string) => void;
   fetchFinances: () => void;
+  //eslint-disable-next-line
+  fetchFinance: (id: string) => Promise<any>;
 };
 
 export const useFinanceStore = create<FinanceStore>((set) => ({
@@ -61,6 +65,14 @@ export const useFinanceStore = create<FinanceStore>((set) => ({
     if (response.ok) {
       const finances = await response.json();
       set({ finances });
+    }
+  },
+  fetchFinance: async (id: string) => {
+    const response = await fetch(`/api/finance/${id}`, {
+      method: "GET",
+    });
+    if (response.ok) {
+      return await response.json();
     }
   },
 }));

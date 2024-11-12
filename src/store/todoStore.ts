@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import { Task } from "@/types/models";
 
@@ -59,6 +61,12 @@ export const useTaskStore = create<TaskStore>((set) => ({
     if (response.ok) {
       const tasks = await response.json();
       set({ tasks });
+    }
+  },
+  fetchTask: async (id?: string) => {
+    const response = await fetch(`/api/tasks/${id}`);
+    if (response.ok) {
+      return await response.json();
     }
   },
 }));

@@ -2,6 +2,16 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
 import { Finance } from "@/types/models";
 
+export async function GET() {
+  const { data, error } = await supabase.from("finance").select();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data);
+}
+
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
