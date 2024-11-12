@@ -3,23 +3,19 @@
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@mantine/core";
 import { Idea } from "@/types/models";
-import { useSessionStore } from "@/store/sessionStore";
 
 const IdeasPage = () => {
-  const session = useSessionStore((state) => state.session);
   const [ideas, setIdeas] = useState<Idea[]>([]);
 
   const fetchIdeas = useCallback(async () => {
     try {
-      if (session) {
-        const response = await fetch(`/api/ideas?user_id=${session?.user?.id}`);
-        const data = await response.json();
-        setIdeas(data);
-      }
+      const response = await fetch(`/api/ideas`);
+      const data = await response.json();
+      setIdeas(data);
     } catch (error) {
       console.error("Failed to fetch ideas:", error);
     }
-  }, [session]);
+  }, []);
 
   useEffect(() => {
     fetchIdeas();

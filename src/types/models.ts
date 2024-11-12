@@ -80,14 +80,14 @@ export interface Idea {
 }
 
 export interface Goal {
-  id: UUID;
-  user_id: UUID;
-  category: "skill" | "project" | "finance" | "personal";
-  title: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  status: "notStarted" | "onProgress" | "completed";
+  id?: UUID;
+  user_id?: UUID;
+  category?: "skill" | "project" | "finance" | "personal";
+  title?: string;
+  description?: string;
+  start_date?: string;
+  end_date?: string;
+  status?: "notStarted" | "onProgress" | "completed";
 }
 
 export interface PersonalNote {
