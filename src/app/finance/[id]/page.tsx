@@ -1,54 +1,57 @@
 "use client";
 
-import FinanceForm from "@/components/finance/forms";
-import { useFinanceStore } from "@/store/financeStore";
-import { useSessionStore } from "@/store/sessionStore";
 import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import FinanceForm from "@/components/finance/forms";
+import { useSessionStore } from "@/store/sessionStore";
+import { useFinanceStore } from "@/store/financeStore";
 
-const EditFinance = ({ id }: { id: string }) => {
+const EditFinancePage = () => {
+  const router = useRouter();
+  const { id } = useParams();
+  const financeId = Array.isArray(id) ? id[0] : id;
+
   const session = useSessionStore((state) => state.session);
-  const { fetchFinance, updateFinance } = useFinanceStore((state) => ({
-    fetchFinance: state.fetchFinance,
-    updateFinance: state.updateFinance,
-  }));
+  const fetchFinance = useFinanceStore((state) => state.fetchFinance);
+  const updateFinance = useFinanceStore((state) => state.updateFinance);
 
-  const [initialValues, setInitialValues] = useState<{
-    id?: string;
-    amount: number;
-    type: "income" | "expense";
-    reason: string;
-    payment_method: "cash" | "bank";
-    bank_name?: string;
-    date: string;
-  } | null>(null);
-
-  const [loading, setLoading] = useState(true);
+  const [initialValues, setInitialValues] = useState({
+    amount: 0,
+    type: "income" as "income" | "expense",
+    reason: "",
+    payment_method: "cash" as "cash" | "bank",
+    bank_name: "",
+    date: new Date().toISOString().split("T")[0],
+  });
 
   useEffect(() => {
-    const loadFinance = async () => {
-      setLoading(true);
-      try {
-        const finance = await fetchFinance(id);
-        if (finance) {
-          setInitialValues({
-            id: id,
-            amount: finance.amount,
-            type: finance.type,
-            reason: finance.reason,
-            payment_method: finance.payment_method,
-            bank_name: finance.bank_name,
-            date: finance.date,
-          });
+    const loadFinanceData = async () => {
+      if (financeId) {
+        try {
+          const financeDataArray = await fetchFinance(financeId);
+
+          if (financeDataArray && financeDataArray.length > 0) {
+            const financeData = financeDataArray[0];
+
+            setInitialValues({
+              amount: financeData.amount || 0,
+              type: financeData.type || "income",
+              reason: financeData.reason || "",
+              payment_method: financeData.payment_method || "cash",
+              bank_name: financeData.bank_name || "",
+              date: financeData.date || new Date().toISOString().split("T")[0],
+            });
+          } else {
+            console.warn("No finance data found for the provided finance ID");
+          }
+        } catch (error) {
+          console.error("Error fetching finance data:", error);
         }
-      } catch (error) {
-        console.error("Error fetching finance entry:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
-    loadFinance();
-  }, [id, fetchFinance]);
+    loadFinanceData();
+  }, [financeId, fetchFinance]);
 
   const handleUpdate = async (values: {
     amount: number;
@@ -58,24 +61,26 @@ const EditFinance = ({ id }: { id: string }) => {
     bank_name?: string;
     date: string;
   }) => {
-    const updatedFinance = {
+    if (!financeId) {
+      console.error("No finance ID provided");
+      return;
+    }
+
+    const financeData = {
       ...values,
+      id: financeId,
       user_id: session?.user?.id,
     };
 
     try {
-      await updateFinance(id, updatedFinance);
-      window.open("/finance", "_self");
+      await updateFinance(financeId, financeData);
+      router.push("/finance");
     } catch (error) {
       console.error("Error updating finance entry:", error);
     }
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   return <FinanceForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };
 
-export default EditFinance;
+export default EditFinancePage;

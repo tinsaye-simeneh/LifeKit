@@ -11,7 +11,6 @@ import { useForm } from "@mantine/form";
 
 interface FinanceFormProps {
   initialValues: {
-    id?: string;
     amount: number;
     type: "income" | "expense";
     reason: string;
@@ -38,7 +37,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        {initialValues ? "Create Finance Record" : "Edit Finance Record"}
+        {initialValues ? "Edit Finance Record" : "Create Finance Record"}
       </h1>
 
       <form
@@ -88,7 +87,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           type="submit"
           className="w-full col-span-2 bg-blue-500 hover:bg-blue-600 text-white"
         >
-          {initialValues ? "Create Finance Record" : "Update Finance Record"}
+          {initialValues ? "Update Finance Record" : "Create Finance Record"}
         </Button>
       </form>
     </div>

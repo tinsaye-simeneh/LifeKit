@@ -10,7 +10,8 @@ type FinanceStore = {
   updateFinance: (id: string, updates: Partial<Finance>) => void;
   deleteFinance: (id: string) => void;
   fetchFinances: () => void;
-  fetchFinance: (id: string) => Promise<Finance | undefined>;
+  //eslint-disable-next-line
+  fetchFinance: (id: string) => Promise<any>;
 };
 
 export const useFinanceStore = create<FinanceStore>((set) => ({
