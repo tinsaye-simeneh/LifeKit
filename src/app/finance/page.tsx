@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
-import { Finance } from "@/types/models";
+import { useFinanceStore } from "@/store/financeStore";
 
 const columns = [
   { label: "Amount", accessor: "amount" },
@@ -14,21 +14,11 @@ const columns = [
 ];
 
 const FinancePage = () => {
-  const [finances, setFinances] = useState<Finance[]>([]);
-
-  const fetchFinances = async () => {
-    try {
-      const response = await fetch("/api/finance");
-      const data = await response.json();
-      setFinances(data);
-    } catch (error) {
-      console.error("Failed to fetch finances:", error);
-    }
-  };
+  const fetchFinances = useFinanceStore((state) => state.fetchFinances);
 
   useEffect(() => {
     fetchFinances();
-  }, []);
+  }, [fetchFinances]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -62,7 +52,7 @@ const FinancePage = () => {
 
       <EntityTable
         columns={columns}
-        data={finances}
+        data={useFinanceStore((state) => state.finances)}
         onEdit={(id) => window.open(`/finance/${id}`)}
         onDelete={handleDelete}
       />

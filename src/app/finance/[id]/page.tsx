@@ -10,11 +10,13 @@ import {
 import { useForm } from "@mantine/form";
 import { Finance } from "@/types/models";
 import { useSessionStore } from "@/store/sessionStore";
+import { useEffect, useState } from "react";
 import { useFinanceStore } from "@/store/financeStore";
 
-const FinancePage = () => {
+const EditFinancePage = ({ id }: { id: string }) => {
   const session = useSessionStore((state) => state.session);
-  const addFinance = useFinanceStore((state) => state.addFinance);
+  const updateFinance = useFinanceStore((state) => state.updateFinance);
+  const [loading, setLoading] = useState(true);
 
   const form = useForm({
     initialValues: {
@@ -27,8 +29,26 @@ const FinancePage = () => {
     },
   });
 
-  const handleSubmit = async (values: typeof form.values) => {
-    const newFinance: Omit<Finance, "id"> = {
+  const finance = useFinanceStore((state) =>
+    state.finances.find((finance) => finance.id === id)
+  );
+
+  useEffect(() => {
+    if (finance) {
+      form.setValues({
+        amount: finance.amount,
+        type: finance.type,
+        reason: finance.reason,
+        payment_method: finance.payment_method,
+        bank_name: finance.bank_name,
+        date: finance.date,
+      });
+      setLoading(false);
+    }
+  }, [finance, form]);
+
+  const hanldeEdit = async (values: typeof form.values) => {
+    const updatedFinance: Omit<Finance, "id"> = {
       user_id: session?.user?.id,
       amount: values.amount,
       type: values.type,
@@ -38,17 +58,21 @@ const FinancePage = () => {
       date: values.date,
     };
 
-    await addFinance(newFinance as Finance);
+    await updateFinance(id, updatedFinance);
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        Finance Records
+        Edit Finance Record
       </h1>
 
       <form
-        onSubmit={form.onSubmit(handleSubmit)}
+        onSubmit={form.onSubmit(hanldeEdit)}
         className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md"
       >
         <TextInput
@@ -99,11 +123,11 @@ const FinancePage = () => {
           type="submit"
           className="w-full col-span-2 bg-blue-500 hover:bg-blue-600 text-white"
         >
-          Add Finance Record
+          Update Finance Record
         </Button>
       </form>
     </div>
   );
 };
 
-export default FinancePage;
+export default EditFinancePage;
