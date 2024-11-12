@@ -88,4 +88,19 @@ export const useGoalStore = create<GoalStore>((set) => ({
       console.error(error);
     }
   },
+  fetchGoal: async (id: string) => {
+    try {
+      const response = await fetch(`/api/goals/${id}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch goal");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  },
 }));

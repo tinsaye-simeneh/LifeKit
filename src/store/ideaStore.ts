@@ -88,4 +88,19 @@ export const useIdeaStore = create<IdeaStore>((set) => ({
       console.error(error);
     }
   },
+  fetchIdea: async (id: string) => {
+    try {
+      const response = await fetch(`/api/ideas/${id}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch idea");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  },
 }));
