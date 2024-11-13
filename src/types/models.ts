@@ -5,6 +5,8 @@ export interface Session {
   refresh_token?: string;
   user?: {
     id?: UUID;
+    username?: string;
+    email?: string;
     role?: string;
     email_confirmed_at?: string;
     last_sign_in_at?: string;
