@@ -34,8 +34,8 @@ export interface AuthFunctions {
 
 export interface User {
   id?: UUID;
-  email: string;
-  full_name: string;
+  email?: string;
+  username?: string;
   created_at: string;
   updated_at: string;
 }
