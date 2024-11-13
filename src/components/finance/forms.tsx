@@ -48,6 +48,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
         <TextInput
           label="Date"
           placeholder="Enter date"
+          type="date"
           {...form.getInputProps("date")}
           classNames={{ label: "text-black", input: "text-black" }}
         />
