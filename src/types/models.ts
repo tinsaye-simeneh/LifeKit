@@ -5,6 +5,8 @@ export interface Session {
   refresh_token?: string;
   user?: {
     id?: UUID;
+    username?: string;
+    email?: string;
     role?: string;
     email_confirmed_at?: string;
     last_sign_in_at?: string;
@@ -34,8 +36,8 @@ export interface AuthFunctions {
 
 export interface User {
   id?: UUID;
-  email: string;
-  full_name: string;
+  email?: string;
+  username?: string;
   created_at: string;
   updated_at: string;
 }
