@@ -10,6 +10,7 @@ type TaskStore = {
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   fetchTasks: () => void;
+  fetchTask: (id?: string) => Promise<Task | undefined>;
 };
 
 export const useTaskStore = create<TaskStore>((set) => ({

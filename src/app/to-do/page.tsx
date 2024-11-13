@@ -1,138 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Button, Input, Select, Textarea } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { Task } from "@/types/models";
-import { useSessionStore } from "@/store/sessionStore";
+import { useEffect } from "react";
+import { Box, Button } from "@mantine/core";
+import EntityTable from "@/components/EntityTable";
+import { useTaskStore } from "@/store/todoStore";
+
+const columns = [
+  { label: "Task Name", accessor: "name" },
+  { label: "Priority", accessor: "priority" },
+  { label: "Status", accessor: "status" },
+  { label: "Due Date", accessor: "due_date" },
+  { label: "Created At", accessor: "created_at" },
+];
 
 const TasksPage = () => {
-  const session = useSessionStore((state) => state.session);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const form = useForm({
-    initialValues: {
-      name: "",
-      priority: "medium" as "high" | "medium" | "low",
-      status: "pending" as "completed" | "pending",
-    },
-  });
-
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch("/api/tasks");
-      const data = await response.json();
-      setTasks(data);
-    } catch (error) {
-      console.error("Failed to fetch tasks:", error);
-    }
-  };
+  const { tasks, fetchTasks, deleteTask } = useTaskStore();
 
   useEffect(() => {
     fetchTasks();
-  }, []);
-
-  const handleSubmit = async (values: typeof form.values) => {
-    try {
-      const newTask: Omit<Task, "id" | "created_at"> = {
-        user_id: session?.user?.id,
-        name: values.name,
-        priority: values.priority,
-        status: values.status,
-      };
-
-      const response = await fetch("/api/tasks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newTask),
-      });
-
-      if (response.ok) {
-        await fetchTasks();
-        form.reset();
-      } else {
-        console.error("Failed to create task");
-      }
-    } catch (error) {
-      console.error("Error creating task:", error);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      const response = await fetch(`/api/tasks/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        await fetchTasks();
-      } else {
-        console.error("Failed to delete task");
-      }
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
-
-  const handleUpdate = async (id: string) => {
-    try {
-      const updates = { status: "completed" };
-      const response = await fetch(`/api/tasks/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updates),
-      });
-
-      if (response.ok) {
-        await fetchTasks();
-      } else {
-        console.error("Failed to update task");
-      }
-    } catch (error) {
-      console.error("Error updating task:", error);
-    }
-  };
+  }, [fetchTasks]);
 
   return (
-    <div>
-      <h1>Task List</h1>
+    <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+      <Box className="flex mt-5">
+        <h5 className="text-2xl font-semibold text-black text-center mt-2">
+          Your Task List
+        </h5>
+        <Button
+          onClick={() => window.open("/to-do/new", "_self")}
+          className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+        >
+          Add Task
+        </Button>
+      </Box>
 
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Input placeholder="Enter task name" {...form.getInputProps("name")} />
-        <Select
-          label="Priority"
-          data={["high", "medium", "low"]}
-          {...form.getInputProps("priority")}
-        />
-        <Select
-          label="Status"
-          data={["pending", "completed"]}
-          {...form.getInputProps("status")}
-        />
-        <Textarea label="Notes" placeholder="Add any additional notes" />
-
-        <Button type="submit">Add Task</Button>
-      </form>
-
-      <h2>Your Tasks</h2>
-      <ul>
-        {tasks?.map((task?: Task) => (
-          <li key={task?.id}>
-            <p>
-              {task?.name} - {task?.priority} - {task?.status}
-            </p>
-            <Button onClick={() => handleDelete(task?.id as string)}>
-              Delete
-            </Button>
-            <Button onClick={() => handleUpdate(task?.id as string)}>
-              Update
-            </Button>
-          </li>
-        ))}
-      </ul>
+      <EntityTable
+        columns={columns}
+        data={tasks}
+        onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+        onDelete={deleteTask}
+      />
     </div>
   );
 };
