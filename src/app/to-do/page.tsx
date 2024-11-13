@@ -14,7 +14,7 @@ const columns = [
 ];
 
 const TasksPage = () => {
-  const { tasks, fetchTasks, updateTask, deleteTask } = useTaskStore();
+  const { tasks, fetchTasks, deleteTask } = useTaskStore();
 
   useEffect(() => {
     fetchTasks();
@@ -37,7 +37,7 @@ const TasksPage = () => {
       <EntityTable
         columns={columns}
         data={tasks}
-        onEdit={(id) => updateTask(id, { status: "completed" })}
+        onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
         onDelete={deleteTask}
       />
     </div>

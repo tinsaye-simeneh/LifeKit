@@ -72,7 +72,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
         </Button>
 
         <Button
-          onClick={() => window.open("/tasks", "_self")}
+          onClick={() => window.open("/to-do", "_self")}
           className="w-full col-span-2 bg-red-500 hover:bg-red-600 text-white"
         >
           Cancel
