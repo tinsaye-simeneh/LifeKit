@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { useSessionStore } from "../path/to/sessionStore";
+import { useSessionStore } from "@/store/sessionStore";
 
 const ProfilePage: React.FC = () => {
   const { session, fetchSession } = useSessionStore();
