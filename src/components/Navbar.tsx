@@ -8,7 +8,6 @@ import {
   Title,
   Menu,
   Avatar,
-  Divider,
   Burger,
   Drawer,
 } from "@mantine/core";
@@ -77,7 +76,6 @@ const Navbar = () => {
                   >
                     Logout
                   </Menu.Item>
-                  <Divider />
                 </Menu.Dropdown>
               </Menu>
             </>
