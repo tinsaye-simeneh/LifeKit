@@ -93,7 +93,8 @@ const Navbar = () => {
           <Burger
             opened={drawerOpened}
             onClick={() => setDrawerOpened(!drawerOpened)}
-            className="md:hidden text-white"
+            className="md:hidden"
+            color="white"
           />
         </Group>
       </Container>
