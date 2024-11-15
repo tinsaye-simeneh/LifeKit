@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useFinanceStore } from "@/store/financeStore";
@@ -14,15 +14,24 @@ const columns = [
 ];
 
 const FinancePage = () => {
+  const [loading, setLoading] = useState(true);
   const fetchFinances = useFinanceStore((state) => state.fetchFinances);
+  const finances = useFinanceStore((state) => state.finances);
   const deleteFinance = useFinanceStore((state) => state.deleteFinance);
 
   useEffect(() => {
-    fetchFinances();
+    const loadFinances = async () => {
+      await fetchFinances();
+      setLoading(false);
+    };
+    loadFinances();
   }, [fetchFinances]);
 
   const handleDelete = async (id: string) => {
+    setLoading(true);
     await deleteFinance(id);
+    await fetchFinances(); // Refresh the data after deletion
+    setLoading(false);
   };
 
   return (
@@ -41,9 +50,10 @@ const FinancePage = () => {
 
       <EntityTable
         columns={columns}
-        data={useFinanceStore((state) => state.finances)}
+        data={finances}
         onEdit={(id) => window.open(`/finance/${id}`, "_self")}
         onDelete={handleDelete}
+        loading={loading}
       />
     </div>
   );
