@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useTaskStore } from "@/store/todoStore";
@@ -14,11 +14,23 @@ const columns = [
 ];
 
 const TasksPage = () => {
+  const [loading, setLoading] = useState(true);
   const { tasks, fetchTasks, deleteTask } = useTaskStore();
 
   useEffect(() => {
-    fetchTasks();
+    const loadTasks = async () => {
+      await fetchTasks();
+      setLoading(false);
+    };
+    loadTasks();
   }, [fetchTasks]);
+
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    await deleteTask(id);
+    await fetchTasks(); // Refresh the data after deletion
+    setLoading(false);
+  };
 
   return (
     <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
@@ -38,7 +50,8 @@ const TasksPage = () => {
         columns={columns}
         data={tasks}
         onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
-        onDelete={deleteTask}
+        onDelete={handleDelete}
+        loading={loading}
       />
     </div>
   );
