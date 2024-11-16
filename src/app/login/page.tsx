@@ -51,8 +51,8 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             classNames={{
-              label: "text-black", // Make label black
-              input: "text-black", // Keep input text black
+              label: "text-black",
+              input: "text-gray-600",
             }}
           />
           <PasswordInput
