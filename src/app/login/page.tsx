@@ -34,50 +34,58 @@ const LoginPage = () => {
   };
 
   return (
-    <Container size={420} my={40} color="white">
-      <Title align="center" className="font-bold">
-        Welcome Back!
-      </Title>
-      <Text size="sm" align="center" mt={5} color="dimmed">
-        Enter your credentials to continue
-      </Text>
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <Container size={420} my={40}>
+        <Title align="center" className="font-bold text-black">
+          Welcome Back!
+        </Title>
+        <Text size="sm" align="center" mt={5} color="dimmed">
+          Enter your credentials to continue
+        </Text>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput
-          label="Email"
-          placeholder="you@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          classNames={{ input: "mt-1" }}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          mt="md"
-          classNames={{ input: "mt-1" }}
-        />
-        <Button
-          fullWidth
-          mt="xl"
-          onClick={handleLogin}
-          className="bg-blue-600 hover:bg-blue-700"
-        >
-          Login
-        </Button>
-        {notification && (
-          <Notification
-            color={notification.startsWith("Error") ? "red" : "green"}
+        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <TextInput
+            label="Email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            classNames={{
+              label: "text-black", // Make label black
+              input: "text-black", // Keep input text black
+            }}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
             mt="md"
+            classNames={{
+              label: "text-black", // Make label black
+              input: "text-black", // Keep input text black
+            }}
+          />
+          <Button
+            fullWidth
+            mt="xl"
+            onClick={handleLogin}
+            className="bg-blue-600 hover:bg-blue-700"
           >
-            {notification}
-          </Notification>
-        )}
-      </Paper>
-    </Container>
+            Login
+          </Button>
+          {notification && (
+            <Notification
+              color={notification.startsWith("Error") ? "red" : "green"}
+              mt="md"
+            >
+              {notification}
+            </Notification>
+          )}
+        </Paper>
+      </Container>
+    </div>
   );
 };
 
