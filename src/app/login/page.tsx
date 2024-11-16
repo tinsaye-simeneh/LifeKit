@@ -1,6 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Button,
+  TextInput,
+  PasswordInput,
+  Notification,
+  Container,
+  Paper,
+  Title,
+  Text,
+} from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { signInWithPassword } from "../api/auth/route";
 import { useSessionStore } from "../../store/sessionStore";
@@ -24,62 +34,50 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-start justify-center pt-16">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
+    <Container size={420} my={40}>
+      <Title align="center" className="font-bold">
+        Welcome Back!
+      </Title>
+      <Text size="sm" align="center" mt={5} color="dimmed">
+        Enter your credentials to continue
+      </Text>
+
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <TextInput
+          label="Email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          classNames={{ input: "mt-1" }}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          mt="md"
+          classNames={{ input: "mt-1" }}
+        />
+        <Button
+          fullWidth
+          mt="xl"
+          onClick={handleLogin}
+          className="bg-blue-600 hover:bg-blue-700"
+        >
           Login
-        </h1>
-        <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-600 mb-1"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-600 mb-1"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <button
-            onClick={handleLogin}
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        </Button>
+        {notification && (
+          <Notification
+            color={notification.startsWith("Error") ? "red" : "green"}
+            mt="md"
           >
-            Login
-          </button>
-          {notification && (
-            <div
-              className={`mt-4 px-4 py-2 rounded-lg ${
-                notification.startsWith("Error")
-                  ? "bg-red-100 text-red-600"
-                  : "bg-green-100 text-green-600"
-              }`}
-            >
-              {notification}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+            {notification}
+          </Notification>
+        )}
+      </Paper>
+    </Container>
   );
 };
 
