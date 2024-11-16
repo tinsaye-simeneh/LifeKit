@@ -35,7 +35,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-white flex items-start justify-center pt-4">
-      <Container size={1000} my={30}>
+      <Container size={1000} my={40}>
         <Title align="center" className="font-bold text-black">
           Welcome Back!
         </Title>
