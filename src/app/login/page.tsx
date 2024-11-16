@@ -72,7 +72,7 @@ const LoginPage = () => {
               fullWidth
               mt="xl"
               onClick={handleLogin}
-              className="bg-blue-950 hover:bg-blue-700"
+              className="bg-blue-950 hover:bg-blue-900"
             >
               Login
             </Button>
