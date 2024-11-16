@@ -14,7 +14,7 @@ const ProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="profile-page bg-gray-100 min-h-screen flex items-start justify-center pt-6">
+    <div className="profile-page bg-gray-100 min-h-screen flex items-start justify-center pt-16">
       <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
         <h1 className="text-xl font-bold text-center text-gray-800 mb-3">
           Profile
