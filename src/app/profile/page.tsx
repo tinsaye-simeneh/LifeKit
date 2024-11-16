@@ -20,7 +20,7 @@ const ProfilePage: React.FC = () => {
           Profile
         </h1>
         {session ? (
-          <div className="user-info space-y-">
+          <div className="user-info space-y-4">
             <div>
               <label
                 htmlFor="username"
