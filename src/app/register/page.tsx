@@ -71,7 +71,7 @@ const RegisterPage = () => {
               fullWidth
               mt="xl"
               onClick={handleSignUp}
-              className="bg-blue-950 hover:bg-blue-700"
+              className="bg-blue-950 hover:bg-blue-900"
             >
               Register
             </Button>
