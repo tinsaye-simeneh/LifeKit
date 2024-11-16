@@ -63,8 +63,8 @@ const LoginPage = () => {
             required
             mt="md"
             classNames={{
-              label: "text-black", // Make label black
-              input: "text-black", // Keep input text black
+              label: "text-black",
+              input: "text-gray-600",
             }}
           />
           <Button
