@@ -21,20 +21,27 @@ const RegisterPage = () => {
   const router = useRouter();
 
   const handleSignUp = async () => {
-    const { error } = await signUp(email, password);
-    if (error) {
-      setNotification(`Error: ${error.message}`);
-    } else {
+    try {
+      await signUp(email, password);
+      setNotification("Account created successfully!");
+      setTimeout(() => {
+        router.push("/login");
+      }, 1000);
+      //eslint-disable-next-line
+    } catch (error: any) {
       setNotification(
-        "Registration successful! Please check your email to confirm."
+        `Error: ${
+          error.message
+            ? error.message
+            : "Something went wrong, please try again."
+        }`
       );
-      router.push("/login");
     }
   };
 
   return (
     <div className="min-h-screen bg-white flex items-start justify-center pt-4">
-      <Container size={1000} my={40}>
+      <Container my={40} className="w-full">
         <Title className="font-bold text-black flex justify-center items-center">
           Create Your Account
         </Title>

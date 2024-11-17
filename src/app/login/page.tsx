@@ -20,11 +20,19 @@ const LoginPage = () => {
   const { signInStore } = useSessionStore();
 
   const handleLogin = async () => {
-    const { error } = await signInStore(email, password);
-    if (error) {
-      setNotification(`Error: ${error.message}`);
-    } else {
+    try {
+      await signInStore(email, password);
+      window.open("/", "_self");
       setNotification("Login successful!");
+      //eslint-disable-next-line
+    } catch (error: any) {
+      setNotification(
+        `Error: ${
+          error.message
+            ? error.message
+            : "Something went wrong, please try again."
+        }`
+      );
     }
   };
 

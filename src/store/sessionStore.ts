@@ -13,10 +13,8 @@ interface SessionState {
   session: Session | null | undefined;
   setSession: (session: Session | null | undefined) => void;
   fetchSession: () => Promise<void>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  signInStore: (email: string, password: string) => Promise<any>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  signUpStore: (email: string, password: string) => Promise<any>;
+  signInStore: (email: string, password: string) => void;
+  signUpStore: (email: string, password: string) => void;
 }
 
 export const useSessionStore = create<SessionState>((set) => ({
@@ -27,20 +25,10 @@ export const useSessionStore = create<SessionState>((set) => ({
     set({ session });
   },
   signInStore: async (email, password) => {
-    const { data, error } = await signInWithPassword(email, password);
-    if (error) {
-      console.error("Error signing in:", error.message);
-    } else {
-      set({ session: data.session });
-    }
+    await signInWithPassword(email, password);
   },
   signUpStore: async (email, password) => {
-    const { data, error } = await signUp(email, password);
-    if (error) {
-      console.error("Error signing up:", error.message);
-    } else {
-      set({ session: data.session });
-    }
+    await signUp(email, password);
   },
 }));
 
