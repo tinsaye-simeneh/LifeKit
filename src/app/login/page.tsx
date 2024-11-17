@@ -11,40 +11,42 @@ import {
   Title,
   Text,
 } from "@mantine/core";
-import { useRouter } from "next/navigation";
-import { signInWithPassword } from "../api/auth/route";
 import { useSessionStore } from "../../store/sessionStore";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState("");
-  const router = useRouter();
-  const setSession = useSessionStore((state) => state.setSession);
+  const { signInStore } = useSessionStore();
 
   const handleLogin = async () => {
-    const { data, error } = await signInWithPassword(email, password);
+    const { error } = await signInStore(email, password);
     if (error) {
       setNotification(`Error: ${error.message}`);
     } else {
-      setSession(data.session);
       setNotification("Login successful!");
-      router.push("/");
     }
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-start justify-center pt-4">
-      <Container size={1000} my={40}>
-        <Title align="center" className="font-bold text-black">
+    <div className="bg-white flex items-start justify-center pt-4 w-full min-h-screen">
+      <Container my={40} className="w-full">
+        <Title className="font-bold text-black flex justify-center items-center">
           Welcome Back!
         </Title>
-        <Text size="sm" align="center" mt={5} color="dimmed">
+        <Text className="text-gray-500 flex justify-center items-center mt-5 text-sm">
           Enter your credentials to continue
         </Text>
 
-        <div className="max-w-3xl mx-auto">
-          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <div className="mx-auto">
+          <Paper
+            withBorder
+            shadow="md"
+            p={30}
+            mt={30}
+            radius="md"
+            className="md:w-80 w-full mx-auto"
+          >
             <TextInput
               label="Email"
               placeholder="you@example.com"

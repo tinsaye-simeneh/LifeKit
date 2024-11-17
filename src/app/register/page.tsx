@@ -35,10 +35,10 @@ const RegisterPage = () => {
   return (
     <div className="min-h-screen bg-white flex items-start justify-center pt-4">
       <Container size={1000} my={40}>
-        <Title align="center" className="font-bold text-black">
+        <Title className="font-bold text-black flex justify-center items-center">
           Create Your Account
         </Title>
-        <Text size="sm" align="center" mt={5} color="dimmed">
+        <Text className="text-gray-500 flex justify-center items-center mt-5 text-sm">
           Enter your details to register
         </Text>
 
