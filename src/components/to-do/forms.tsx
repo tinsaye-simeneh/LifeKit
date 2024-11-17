@@ -26,9 +26,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg my-20">
-      <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        {initialValues ? "Create Task" : "Edit Task"}
-      </h1>
+      <h1 className="text-3xl font-bold text-black mb-4 text-center">Tasks</h1>
 
       <form
         onSubmit={form.onSubmit(onSubmit)}
@@ -60,18 +58,19 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           data={["pending", "onProgress", "completed"]}
           {...form.getInputProps("status")}
           classNames={{ label: "text-black", input: "text-black" }}
+          className="mb-10"
         />
 
         <Button
           type="submit"
-          className="w-full col-span-2 bg-blue-500 hover:bg-blue-600 text-white"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white"
         >
-          {initialValues ? "Create Task" : "Update Task"}
+          Submit
         </Button>
 
         <Button
           onClick={() => window.open("/to-do", "_self")}
-          className="w-full col-span-2 bg-red-500 hover:bg-red-600 text-white"
+          className="w-full bg-red-500 hover:bg-red-600 text-white"
         >
           Cancel
         </Button>
