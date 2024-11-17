@@ -27,7 +27,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        {initialValues ? "Edit Task" : "Create Task"}
+        {initialValues ? "Create Task" : "Edit Task"}
       </h1>
 
       <form
@@ -68,7 +68,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           type="submit"
           className="w-full col-span-2 bg-blue-500 hover:bg-blue-600 text-white"
         >
-          {initialValues ? "Update Task" : "Create Task"}
+          {initialValues ? "Create Task" : "Update Task"}
         </Button>
 
         <Button
