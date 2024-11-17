@@ -28,7 +28,7 @@ const TasksPage = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteTask(id);
-    await fetchTasks(); // Refresh the data after deletion
+    await fetchTasks();
     setLoading(false);
   };
 

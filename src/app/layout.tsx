@@ -7,6 +7,7 @@ import { useSessionStore } from "@/store/sessionStore";
 import { usePathname, useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
+import { Notifications } from "@mantine/notifications";
 
 export default function RootLayout({
   children,
@@ -37,6 +38,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
+          <Notifications position="top-right" zIndex={9999} />
           <Navbar />
           {isAuthRoute && !session ? children : session ? children : null}
         </MantineProvider>

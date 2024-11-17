@@ -5,89 +5,107 @@ import {
   Button,
   TextInput,
   PasswordInput,
-  Notification,
   Container,
   Paper,
   Title,
   Text,
+  Anchor,
 } from "@mantine/core";
-import { useRouter } from "next/navigation";
-import { signInWithPassword } from "../api/auth/route";
 import { useSessionStore } from "../../store/sessionStore";
+import CustomNotification from "../../components/Notification";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [notification, setNotification] = useState("");
-  const router = useRouter();
-  const setSession = useSessionStore((state) => state.setSession);
+  const { signInStore } = useSessionStore();
 
   const handleLogin = async () => {
-    const { data, error } = await signInWithPassword(email, password);
-    if (error) {
-      setNotification(`Error: ${error.message}`);
+    if (!email || !password) {
+      CustomNotification({
+        color: "red",
+        title: "Error",
+        content: "Please fill in all fields.",
+      });
+      return;
     } else {
-      setSession(data.session);
-      setNotification("Login successful!");
-      router.push("/");
+      try {
+        await signInStore(email, password);
+        window.open("/", "_self");
+
+        CustomNotification({
+          color: "green",
+          title: "Success",
+          content: "Logged in successfully!",
+        });
+
+        //eslint-disable-next-line
+      } catch (error: any) {
+        CustomNotification({
+          color: "red",
+          title: "Error",
+          content: error.message || "An error occurred.",
+        });
+      }
     }
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-start justify-center pt-4">
-      <Container size={1000} my={40}>
-        <Title align="center" className="font-bold text-black">
-          Welcome Back!
-        </Title>
-        <Text size="sm" align="center" mt={5} color="dimmed">
-          Enter your credentials to continue
-        </Text>
+    <Container my={40} className="w-full">
+      <Title className="font-bold text-black flex justify-center items-center">
+        Welcome Back!
+      </Title>
+      <Text c="dimmed" size="sm" ta="center" mt={5}>
+        Do not have an account yet?{" "}
+        <Anchor
+          size="sm"
+          component="button"
+          onClick={() => window.open("/register", "_self")}
+        >
+          Create account
+        </Anchor>
+      </Text>
 
-        <div className="max-w-3xl mx-auto">
-          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-            <TextInput
-              label="Email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              classNames={{
-                label: "text-black",
-                input: "text-gray-600",
-              }}
-            />
-            <PasswordInput
-              label="Password"
-              placeholder="Your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              mt="md"
-              classNames={{
-                label: "text-black",
-                input: "text-gray-600",
-              }}
-            />
-            <Button
-              fullWidth
-              mt="xl"
-              onClick={handleLogin}
-              className="bg-blue-950 hover:bg-blue-900"
-            >
-              Login
-            </Button>
-            {notification && (
-              <Notification
-                color={notification.startsWith("Error") ? "red" : "green"}
-                mt="md"
-              >
-                {notification}
-              </Notification>
-            )}
-          </Paper>
-        </div>
-      </Container>
-    </div>
+      <Paper
+        withBorder
+        shadow="md"
+        p={30}
+        mt={30}
+        radius="md"
+        className="md:w-96 w-full mx-auto"
+      >
+        <TextInput
+          label="Email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          classNames={{
+            label: "text-black",
+            input: "text-gray-600",
+          }}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          mt="md"
+          classNames={{
+            label: "text-black",
+            input: "text-gray-600",
+          }}
+        />
+        <Button
+          fullWidth
+          mt="xl"
+          onClick={handleLogin}
+          className="bg-blue-950 hover:bg-blue-900"
+        >
+          Login
+        </Button>
+      </Paper>
+    </Container>
   );
 };
 
