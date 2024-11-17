@@ -62,7 +62,11 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           label="Type"
           data={["income", "expense"]}
           {...form.getInputProps("type")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
         />
         <Textarea
           label="Reason"
@@ -74,7 +78,11 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           label="Payment Method"
           data={["cash", "bank"]}
           {...form.getInputProps("payment_method")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
         />
         <TextInput
           label="Bank Name (optional)"
