@@ -45,6 +45,7 @@ const LandingPage = () => {
             variant="filled"
             color="green"
             onClick={() => (window.location.href = "/finance")}
+            px={10}
           >
             Finance
           </Button>
