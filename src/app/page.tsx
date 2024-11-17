@@ -1,32 +1,83 @@
 "use client";
 
 import React from "react";
-import { Button, Box } from "@mantine/core";
+import { Card, Group, Text, Button, Container } from "@mantine/core";
 
 const LandingPage = () => {
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
-      <section className="py-16 px-8 bg-white">
-        <Box className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-semibold mb-4">What is LifeKit?</h2>
-          <p className="text-lg text-gray-700 mb-6">
-            LifeKit is your personal toolkit for living a balanced and
-            fulfilling life. Whether it&apos;s physical health, mental
-            well-being, or productivity, we have everything you need to thrive.
+    <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900">
+      <section className=" text-white py-20 px-6 text-center">
+        <Container size="lg">
+          <h1 className="text-4xl font-bold mb-4">Welcome to LifeKit</h1>
+          <p className="text-lg mb-6">
+            Your ultimate toolkit for a balanced, healthy, and productive life.
+            Discover how LifeKit empowers you to live your best life.
           </p>
           <Button
-            variant="outline"
-            color="blue"
+            variant="filled"
+            color="yellow"
             size="lg"
-            onClick={() => (window.location.href = "/about")}
+            onClick={() => (window.location.href = "/get-started")}
           >
-            Learn More
+            Get Started
           </Button>
-        </Box>
+        </Container>
       </section>
 
-      <footer className="bg-gray-800 text-white text-center py-6">
-        <p>&copy; 2024 LifeKit. All rights reserved.</p>
+      <Card
+        shadow="md"
+        radius="md"
+        withBorder
+        className="max-w-sm bg-gradient-to-r from-blue-50 to-blue-100 mx-auto"
+      >
+        <Text size="xl" className="mb-4">
+          Select a Category
+        </Text>
+        <Group grow>
+          <Button
+            variant="filled"
+            color="blue"
+            onClick={() => (window.location.href = "/to-do")}
+          >
+            Todo
+          </Button>
+          <Button
+            variant="filled"
+            color="green"
+            onClick={() => (window.location.href = "/finance")}
+          >
+            Finance
+          </Button>
+          <Button
+            variant="filled"
+            color="yellow"
+            onClick={() => (window.location.href = "/goals")}
+          >
+            Goals
+          </Button>
+        </Group>
+        <Group grow className="mt-4">
+          <Button
+            variant="filled"
+            color="purple"
+            onClick={() => (window.location.href = "/ideas")}
+          >
+            Ideas
+          </Button>
+          <Button
+            variant="filled"
+            color="red"
+            onClick={() => (window.location.href = "/others")}
+          >
+            Others
+          </Button>
+        </Group>
+      </Card>
+
+      <footer className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-white py-6 my-12 border-gray-4 border">
+        <Container size="lg" className="text-center">
+          <p>&copy; 2024 LifeKit. All rights reserved.</p>
+        </Container>
       </footer>
     </div>
   );
