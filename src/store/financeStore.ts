@@ -9,7 +9,7 @@ type FinanceStore = {
   addFinance: (finance: Finance) => void;
   updateFinance: (id: string, updates: Partial<Finance>) => void;
   deleteFinance: (id: string) => void;
-  fetchFinances: () => void;
+  fetchFinances: (userId?: string) => Promise<void>;
   //eslint-disable-next-line
   fetchFinance: (id: string) => Promise<any>;
 };
@@ -60,8 +60,8 @@ export const useFinanceStore = create<FinanceStore>((set) => ({
       }));
     }
   },
-  fetchFinances: async () => {
-    const response = await fetch("/api/finance");
+  fetchFinances: async (userId) => {
+    const response = await fetch(`/api/finance?user_id=${userId}`);
     if (response.ok) {
       const finances = await response.json();
       set({ finances });
