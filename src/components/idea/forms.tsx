@@ -22,7 +22,7 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        {initialValues ? "Edit Idea" : "Create Idea"}
+        {initialValues ? "Create Idea" : "Edit Idea"}
       </h1>
 
       <form
@@ -47,9 +47,9 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
 
         <Button
           type="submit"
-          className="bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          className="bg-blue-500 hover:bg-gray-600 text-white ml-auto mt-4 "
         >
-          {initialValues ? "Update Idea" : "Create Idea"}
+          {initialValues ? "Create Idea" : "Edit Idea"}
         </Button>
       </form>
     </div>
