@@ -5,26 +5,15 @@ import { Finance } from "@/types/models";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const user_id = searchParams.get("user_id");
-  const id = searchParams.get("id");
 
-  if (!user_id && !id) {
-    return NextResponse.json(
-      { error: "Either User ID or Finance ID is required" },
-      { status: 400 }
-    );
+  if (!user_id) {
+    return NextResponse.json({ error: "User ID is required" }, { status: 400 });
   }
 
-  const query = supabase.from("finance").select("*");
-
-  if (user_id) {
-    query.eq("user_id", user_id);
-  }
-
-  if (id) {
-    query.eq("id", id);
-  }
-
-  const { data, error } = await query;
+  const { data, error } = await supabase
+    .from("finance")
+    .select("*")
+    .eq("user_id", user_id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -28,6 +28,8 @@ const EditTaskPage = () => {
         try {
           const taskData = await fetchTask(taskId);
 
+          console.log("taskData", taskData);
+
           if (taskData) {
             setInitialValues({
               name: taskData.name || "",

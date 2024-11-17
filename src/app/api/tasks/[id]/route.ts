@@ -2,6 +2,37 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
 import { Task } from "@/types/models";
 
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const user_id = searchParams.get("user_id");
+  const id = searchParams.get("id");
+
+  if (!user_id && !id) {
+    return NextResponse.json(
+      { error: "Either User ID or Task ID is required" },
+      { status: 400 }
+    );
+  }
+
+  const query = supabase.from("tasks").select("*");
+
+  if (user_id) {
+    query.eq("user_id", user_id);
+  }
+
+  if (id) {
+    query.eq("id", id);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data);
+}
+
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
