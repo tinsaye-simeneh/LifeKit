@@ -31,27 +31,28 @@ const Navbar = () => {
   return (
     <Box component="nav" className="bg-gray-900 shadow-md sticky top-0 z-10">
       <Container className="flex items-center justify-between py-4">
-        {/* Brand Section */}
         <Title
           order={2}
           className="text-white font-bold text-xl cursor-pointer"
-          onClick={() => router.push("/")}
+          onClick={() => session && router.push("/")}
         >
           Life Kit
         </Title>
 
-        <Group className="hidden md:flex">
-          {menuItems.map((item) => (
-            <Button
-              key={item.label}
-              variant="subtle"
-              className="text-gray-300 hover:text-white"
-              onClick={() => router.push(item.link)}
-            >
-              {item.label}
-            </Button>
-          ))}
-        </Group>
+        {session && (
+          <Group className="hidden md:flex">
+            {menuItems.map((item) => (
+              <Button
+                key={item.label}
+                variant="subtle"
+                className="text-gray-300 hover:text-white"
+                onClick={() => router.push(item.link)}
+              >
+                {item.label}
+              </Button>
+            ))}
+          </Group>
+        )}
 
         <Group>
           {session ? (
@@ -104,21 +105,23 @@ const Navbar = () => {
         size="sm"
         className="md:hidden"
       >
-        <div className="flex flex-col gap-4">
-          {menuItems.map((item) => (
-            <Button
-              key={item.label}
-              variant="subtle"
-              className="text-gray-700 hover:bg-gray-100 w-full text-left"
-              onClick={() => {
-                router.push(item.link);
-                setDrawerOpened(false);
-              }}
-            >
-              {item.label}
-            </Button>
-          ))}
-        </div>
+        {session && (
+          <div className="flex flex-col gap-4">
+            {menuItems.map((item) => (
+              <Button
+                key={item.label}
+                variant="subtle"
+                className="text-gray-700 hover:bg-gray-100 w-full text-left"
+                onClick={() => {
+                  router.push(item.link);
+                  setDrawerOpened(false);
+                }}
+              >
+                {item.label}
+              </Button>
+            ))}
+          </div>
+        )}
       </Drawer>
     </Box>
   );
