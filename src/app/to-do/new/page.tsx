@@ -1,5 +1,6 @@
 "use client";
 
+import CustomNotification from "@/components/Notification";
 import ToDoForm from "@/components/to-do/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useTaskStore } from "@/store/todoStore";
@@ -22,7 +23,13 @@ const ToDoPage = () => {
 
     try {
       await createToDo(toDoData);
-      window.open("/todo", "_self");
+      CustomNotification({
+        title: "Success",
+        content: "To-do item created successfully.",
+        color: "green",
+        position: "top-right",
+      });
+      window.open("/to-do", "_self");
     } catch (error) {
       console.error("Error creating to-do item:", error);
     }
