@@ -25,7 +25,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg my-20">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">
         {initialValues ? "Create Task" : "Edit Task"}
       </h1>
