@@ -39,7 +39,13 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           placeholder="Enter task name"
           {...form.getInputProps("name")}
           classNames={{ label: "text-black", input: "text-black" }}
-          className="col-span-2"
+        />
+        <TextInput
+          label="Due Date"
+          placeholder="Select due date"
+          type="date"
+          {...form.getInputProps("due_date")}
+          classNames={{ label: "text-black", input: "text-black" }}
         />
 
         <Select
@@ -53,14 +59,6 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           label="Status"
           data={["pending", "onProgress", "completed"]}
           {...form.getInputProps("status")}
-          classNames={{ label: "text-black", input: "text-black" }}
-        />
-
-        <TextInput
-          label="Due Date"
-          placeholder="Select due date"
-          type="date"
-          {...form.getInputProps("due_date")}
           classNames={{ label: "text-black", input: "text-black" }}
         />
 
