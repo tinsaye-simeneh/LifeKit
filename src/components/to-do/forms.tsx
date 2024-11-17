@@ -50,14 +50,22 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           label="Priority"
           data={["high", "medium", "low"]}
           {...form.getInputProps("priority")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
         />
 
         <Select
           label="Status"
           data={["pending", "onProgress", "completed"]}
           {...form.getInputProps("status")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
           className="mb-10"
         />
 
