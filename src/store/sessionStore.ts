@@ -26,6 +26,7 @@ export const useSessionStore = create<SessionState>((set) => ({
   },
   signInStore: async (email, password) => {
     await signInWithPassword(email, password);
+    set({ session: await getSession() });
   },
   signUpStore: async (email, password) => {
     await signUp(email, password);
