@@ -10,6 +10,7 @@ import {
   Paper,
   Title,
   Text,
+  Anchor,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { signUp } from "../api/auth/route";
@@ -45,8 +46,15 @@ const RegisterPage = () => {
         <Title className="font-bold text-black flex justify-center items-center">
           Create Your Account
         </Title>
-        <Text className="text-gray-500 flex justify-center items-center mt-5 text-sm">
-          Enter your details to register
+        <Text c="dimmed" size="sm" ta="center" mt={5}>
+          Already have an account?{" "}
+          <Anchor
+            size="sm"
+            component="button"
+            onClick={() => window.open("/login", "_self")}
+          >
+            Login
+          </Anchor>
         </Text>
 
         <div className="max-w-3xl mx-auto">

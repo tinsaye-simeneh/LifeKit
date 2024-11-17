@@ -10,6 +10,7 @@ import {
   Paper,
   Title,
   Text,
+  Anchor,
 } from "@mantine/core";
 import { useSessionStore } from "../../store/sessionStore";
 
@@ -42,8 +43,15 @@ const LoginPage = () => {
         <Title className="font-bold text-black flex justify-center items-center">
           Welcome Back!
         </Title>
-        <Text className="text-gray-500 flex justify-center items-center mt-5 text-sm">
-          Enter your credentials to continue
+        <Text c="dimmed" size="sm" ta="center" mt={5}>
+          Do not have an account yet?{" "}
+          <Anchor
+            size="sm"
+            component="button"
+            onClick={() => window.open("/register", "_self")}
+          >
+            Create account
+          </Anchor>
         </Text>
 
         <div className="mx-auto">
