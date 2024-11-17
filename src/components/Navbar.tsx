@@ -29,7 +29,7 @@ const Navbar = () => {
   const [drawerOpened, setDrawerOpened] = useState(false);
 
   return (
-    <Box component="nav" className="bg-gray-900 shadow-md">
+    <Box component="nav" className="bg-gray-900 shadow-md sticky top-0 z-10">
       <Container className="flex items-center justify-between py-4">
         {/* Brand Section */}
         <Title

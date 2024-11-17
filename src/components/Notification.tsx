@@ -23,7 +23,7 @@ const CustomNotification: React.FC<NotificationProps> = ({
   content,
 }) => {
   return (
-    <div>
+    <>
       {notifications.show({
         title: title,
         message: content,
@@ -31,7 +31,7 @@ const CustomNotification: React.FC<NotificationProps> = ({
         position: "top-right",
         autoClose: 3000,
       })}
-    </div>
+    </>
   );
 };
 
