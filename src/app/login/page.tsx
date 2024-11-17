@@ -5,7 +5,6 @@ import {
   Button,
   TextInput,
   PasswordInput,
-  Notification,
   Container,
   Paper,
   Title,
@@ -13,27 +12,36 @@ import {
   Anchor,
 } from "@mantine/core";
 import { useSessionStore } from "../../store/sessionStore";
+import Notification from "../../components/Notification";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [notification, setNotification] = useState("");
   const { signInStore } = useSessionStore();
 
   const handleLogin = async () => {
-    try {
-      await signInStore(email, password);
-      window.open("/", "_self");
-      setNotification("Login successful!");
-      //eslint-disable-next-line
-    } catch (error: any) {
-      setNotification(
-        `Error: ${
-          error.message
-            ? error.message
-            : "Something went wrong, please try again."
-        }`
-      );
+    if (!email || !password) {
+      <Notification
+        color="red"
+        title="Error"
+        content="Please fill in all fields."
+      />;
+      return;
+    } else {
+      try {
+        await signInStore(email, password);
+        window.open("/", "_self");
+
+        <Notification
+          color="green"
+          title="Success"
+          content="Logged in successfully!"
+        />;
+
+        //eslint-disable-next-line
+      } catch (error: any) {
+        <Notification color="red" title="Error" content={error.message} />;
+      }
     }
   };
 
@@ -94,14 +102,6 @@ const LoginPage = () => {
             >
               Login
             </Button>
-            {notification && (
-              <Notification
-                color={notification.startsWith("Error") ? "red" : "green"}
-                mt="md"
-              >
-                {notification}
-              </Notification>
-            )}
           </Paper>
         </div>
       </Container>

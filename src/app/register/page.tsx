@@ -5,7 +5,6 @@ import {
   Button,
   TextInput,
   PasswordInput,
-  Notification,
   Container,
   Paper,
   Title,
@@ -14,29 +13,37 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { signUp } from "../api/auth/route";
+import Notification from "../../components/Notification";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [notification, setNotification] = useState("");
   const router = useRouter();
 
   const handleSignUp = async () => {
-    try {
-      await signUp(email, password);
-      setNotification("Account created successfully!");
-      setTimeout(() => {
-        router.push("/login");
-      }, 1000);
-      //eslint-disable-next-line
-    } catch (error: any) {
-      setNotification(
-        `Error: ${
-          error.message
-            ? error.message
-            : "Something went wrong, please try again."
-        }`
-      );
+    if (!email || !password) {
+      <Notification
+        color="red"
+        title="Error"
+        content="Please fill in all fields."
+      />;
+      return;
+    } else {
+      try {
+        await signUp(email, password);
+
+        <Notification
+          color="green"
+          title="Success"
+          content="Account created successfully!"
+        />;
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
+        //eslint-disable-next-line
+      } catch (error: any) {
+        <Notification color="red" title="Error" content={error.message} />;
+      }
     }
   };
 
@@ -90,14 +97,6 @@ const RegisterPage = () => {
             >
               Register
             </Button>
-            {notification && (
-              <Notification
-                color={notification.startsWith("Error") ? "red" : "green"}
-                mt="md"
-              >
-                {notification}
-              </Notification>
-            )}
           </Paper>
         </div>
       </Container>

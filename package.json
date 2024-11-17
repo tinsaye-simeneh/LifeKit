@@ -15,6 +15,7 @@
     "@mantine/dates": "^7.13.5",
     "@mantine/form": "^7.13.5",
     "@mantine/hooks": "^7.13.5",
+    "@mantine/notifications": "^7.14.1",
     "@supabase/supabase-js": "^2.46.1",
     "date-fns": "^4.1.0",
     "next": "15.0.3",
