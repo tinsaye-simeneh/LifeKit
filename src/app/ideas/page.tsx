@@ -1,81 +1,57 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Button } from "@mantine/core";
-import { Idea } from "@/types/models";
+import { useEffect, useState } from "react";
+import { Box, Button } from "@mantine/core";
+import EntityTable from "@/components/EntityTable";
+import { useIdeaStore } from "@/store/ideaStore";
+
+const columns = [
+  { label: "Title", accessor: "title" },
+  { label: "Description", accessor: "description" },
+  { label: "Status", accessor: "status" },
+  { label: "Created At", accessor: "created_at" },
+];
 
 const IdeasPage = () => {
-  const [ideas, setIdeas] = useState<Idea[]>([]);
-
-  const fetchIdeas = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/ideas`);
-      const data = await response.json();
-      setIdeas(data);
-    } catch (error) {
-      console.error("Failed to fetch ideas:", error);
-    }
-  }, []);
+  const [loading, setLoading] = useState(true);
+  const { ideas, fetchIdeas, deleteIdea } = useIdeaStore();
 
   useEffect(() => {
-    fetchIdeas();
+    const loadIdeas = async () => {
+      await fetchIdeas();
+      setLoading(false);
+    };
+    loadIdeas();
   }, [fetchIdeas]);
 
   const handleDelete = async (id: string) => {
-    try {
-      const response = await fetch(`/api/ideas/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        await fetchIdeas();
-      } else {
-        console.error("Failed to delete idea");
-      }
-    } catch (error) {
-      console.error("Error deleting idea:", error);
-    }
-  };
-
-  const handleUpdate = async (id: string) => {
-    try {
-      const updates = { status: "completed" };
-      const response = await fetch(`/api/ideas/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updates),
-      });
-
-      if (response.ok) {
-        await fetchIdeas();
-      } else {
-        console.error("Failed to update idea");
-      }
-    } catch (error) {
-      console.error("Error updating idea:", error);
-    }
+    setLoading(true);
+    await deleteIdea(id);
+    await fetchIdeas();
+    setLoading(false);
   };
 
   return (
-    <div>
-      <h1>Your Ideas</h1>
-      <ul>
-        {ideas?.map((idea?: Idea) => (
-          <li key={idea?.id}>
-            <p>
-              {idea?.title} - {idea?.description}
-            </p>
-            <Button onClick={() => handleDelete(idea?.id as string)}>
-              Delete
-            </Button>
-            <Button onClick={() => handleUpdate(idea?.id as string)}>
-              Update
-            </Button>
-          </li>
-        ))}
-      </ul>
+    <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+      <Box className="flex mt-5">
+        <h5 className="text-2xl font-semibold text-black text-center mt-2">
+          Your Ideas
+        </h5>
+        <Button
+          onClick={() => window.open("/ideas/new", "_self")}
+          className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+        >
+          Add Idea
+        </Button>
+      </Box>
+
+      <EntityTable
+        columns={columns}
+        data={ideas}
+        onEdit={(id) => window.open(`/ideas/${id}`, "_self")}
+        onDelete={handleDelete}
+        loading={loading}
+      />
     </div>
   );
 };
