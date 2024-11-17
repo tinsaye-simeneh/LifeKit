@@ -2,8 +2,24 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
 import { Finance } from "@/types/models";
 
-export async function GET() {
-  const { data, error } = await supabase.from("finance").select();
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+
+  if (!id) {
+    return NextResponse.json(
+      { error: "Finance ID is required" },
+      { status: 400 }
+    );
+  }
+
+  const { data, error } = await supabase
+    .from("finance")
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
