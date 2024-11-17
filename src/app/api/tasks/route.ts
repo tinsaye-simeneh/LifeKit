@@ -5,15 +5,26 @@ import { Task } from "@/types/models";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const user_id = searchParams.get("user_id");
+  const id = searchParams.get("id");
 
-  if (!user_id) {
-    return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+  if (!user_id && !id) {
+    return NextResponse.json(
+      { error: "Either User ID or Task ID is required" },
+      { status: 400 }
+    );
   }
 
-  const { data, error } = await supabase
-    .from("tasks")
-    .select("*")
-    .eq("user_id", user_id);
+  const query = supabase.from("tasks").select("*");
+
+  if (user_id) {
+    query.eq("user_id", user_id);
+  }
+
+  if (id) {
+    query.eq("id", id);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

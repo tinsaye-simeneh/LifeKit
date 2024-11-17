@@ -65,7 +65,7 @@ export const useTaskStore = create<TaskStore>((set) => ({
     }
   },
   fetchTask: async (id?: string) => {
-    const response = await fetch(`/api/tasks/${id}`);
+    const response = await fetch(`/api/tasks?id=${id}`);
     if (response.ok) {
       return await response.json();
     }
