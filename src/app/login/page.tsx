@@ -25,6 +25,7 @@ const LoginPage = () => {
         color: "red",
         title: "Error",
         content: "Please fill in all fields.",
+        position: "top-right",
       });
       return;
     } else {
@@ -36,6 +37,7 @@ const LoginPage = () => {
           color: "green",
           title: "Success",
           content: "Logged in successfully!",
+          position: "top-right",
         });
 
         //eslint-disable-next-line
@@ -44,6 +46,7 @@ const LoginPage = () => {
           color: "red",
           title: "Error",
           content: error.message || "An error occurred.",
+          position: "top-right",
         });
       }
     }

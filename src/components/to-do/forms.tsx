@@ -25,10 +25,8 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        {initialValues ? "Edit Task" : "Create Task"}
-      </h1>
+    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg my-20">
+      <h1 className="text-3xl font-bold text-black mb-4 text-center">Tasks</h1>
 
       <form
         onSubmit={form.onSubmit(onSubmit)}
@@ -39,23 +37,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           placeholder="Enter task name"
           {...form.getInputProps("name")}
           classNames={{ label: "text-black", input: "text-black" }}
-          className="col-span-2"
         />
-
-        <Select
-          label="Priority"
-          data={["high", "medium", "low"]}
-          {...form.getInputProps("priority")}
-          classNames={{ label: "text-black", input: "text-black" }}
-        />
-
-        <Select
-          label="Status"
-          data={["pending", "onProgress", "completed"]}
-          {...form.getInputProps("status")}
-          classNames={{ label: "text-black", input: "text-black" }}
-        />
-
         <TextInput
           label="Due Date"
           placeholder="Select due date"
@@ -64,16 +46,39 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           classNames={{ label: "text-black", input: "text-black" }}
         />
 
+        <Select
+          label="Priority"
+          data={["high", "medium", "low"]}
+          {...form.getInputProps("priority")}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
+        />
+
+        <Select
+          label="Status"
+          data={["pending", "onProgress", "completed"]}
+          {...form.getInputProps("status")}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
+          className="mb-10"
+        />
+
         <Button
           type="submit"
-          className="w-full col-span-2 bg-blue-500 hover:bg-blue-600 text-white"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white"
         >
-          {initialValues ? "Update Task" : "Create Task"}
+          Submit
         </Button>
 
         <Button
           onClick={() => window.open("/to-do", "_self")}
-          className="w-full col-span-2 bg-red-500 hover:bg-red-600 text-white"
+          className="w-full bg-red-500 hover:bg-red-600 text-white"
         >
           Cancel
         </Button>

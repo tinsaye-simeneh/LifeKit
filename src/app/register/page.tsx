@@ -26,6 +26,7 @@ const RegisterPage = () => {
         color: "red",
         title: "Error",
         content: "Please fill in all fields.",
+        position: "top-right",
       });
       return;
     } else {
@@ -36,7 +37,9 @@ const RegisterPage = () => {
           color: "green",
           title: "Success",
           content: "Account created successfully!",
+          position: "top-right",
         });
+
         setTimeout(() => {
           router.push("/login");
         }, 1000);
@@ -46,6 +49,7 @@ const RegisterPage = () => {
           color: "red",
           title: "Error",
           content: error.message || "An error occurred.",
+          position: "top-right",
         });
       }
     }

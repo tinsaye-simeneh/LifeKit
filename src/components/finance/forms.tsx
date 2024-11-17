@@ -36,9 +36,9 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg my-20">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        {initialValues ? "Edit Finance Record" : "Create Finance Record"}
+        Finance Record
       </h1>
 
       <form
@@ -62,38 +62,45 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           label="Type"
           data={["income", "expense"]}
           {...form.getInputProps("type")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
         />
         <Textarea
           label="Reason"
           placeholder="Enter reason for transaction"
           {...form.getInputProps("reason")}
           classNames={{ label: "text-black", input: "text-black" }}
-          className="col-span-2"
         />
         <Select
           label="Payment Method"
           data={["cash", "bank"]}
           {...form.getInputProps("payment_method")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
         />
-        {form.values.payment_method === "bank" && (
-          <TextInput
-            label="Bank Name"
-            placeholder="Enter bank name"
-            {...form.getInputProps("bank_name")}
-            classNames={{ label: "text-black", input: "text-black" }}
-          />
-        )}
+        <TextInput
+          label="Bank Name (optional)"
+          placeholder="Enter bank name"
+          {...form.getInputProps("bank_name")}
+          classNames={{ label: "text-black", input: "text-black" }}
+          className="mb-10"
+        />
+
         <Button
           type="submit"
-          className="w-full col-span-2 bg-blue-500 hover:bg-blue-600 text-white"
+          className="w-full col-span-1 bg-blue-500 hover:bg-blue-600 text-white"
         >
-          {initialValues ? "Update Finance Record" : "Create Finance Record"}
+          Submit
         </Button>
         <Button
           onClick={() => window.open("/finance", "_self")}
-          className="w-full col-span-2 bg-red-500 hover:bg-red-600 text-white"
+          className="w-full col-span-1 bg-red-500 hover:bg-red-600 text-white"
         >
           Cancel
         </Button>

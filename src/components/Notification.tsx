@@ -1,4 +1,3 @@
-import React from "react";
 import { notifications } from "@mantine/notifications";
 
 interface NotificationProps {
@@ -15,24 +14,22 @@ interface NotificationProps {
     | "cyan"
     | "gray";
   content: string;
+  position: "top-right" | "top-left" | "bottom-right" | "bottom-left";
 }
 
-const CustomNotification: React.FC<NotificationProps> = ({
+const CustomNotification = ({
   title,
   color,
   content,
-}) => {
-  return (
-    <>
-      {notifications.show({
-        title: title,
-        message: content,
-        color: color,
-        position: "top-right",
-        autoClose: 3000,
-      })}
-    </>
-  );
+  position = "top-right",
+}: NotificationProps) => {
+  notifications.show({
+    title,
+    message: content,
+    color,
+    position,
+    autoClose: 3000,
+  });
 };
 
 export default CustomNotification;
