@@ -9,7 +9,7 @@ type TaskStore = {
   addTask: (task: Task) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
-  fetchTasks: () => void;
+  fetchTasks: (userId: string) => Promise<void>;
   fetchTask: (id?: string) => Promise<Task | undefined>;
 };
 
@@ -57,15 +57,15 @@ export const useTaskStore = create<TaskStore>((set) => ({
       }));
     }
   },
-  fetchTasks: async () => {
-    const response = await fetch("/api/tasks");
+  fetchTasks: async (userId) => {
+    const response = await fetch(`/api/tasks?user_id=${userId}`);
     if (response.ok) {
       const tasks = await response.json();
       set({ tasks });
     }
   },
   fetchTask: async (id?: string) => {
-    const response = await fetch(`/api/tasks/${id}`);
+    const response = await fetch(`/api/tasks?id=${id}`);
     if (response.ok) {
       return await response.json();
     }

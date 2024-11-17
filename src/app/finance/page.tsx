@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useFinanceStore } from "@/store/financeStore";
+import { useSessionStore } from "@/store/sessionStore";
 
 const columns = [
   { label: "Amount", accessor: "amount" },
@@ -18,10 +19,11 @@ const FinancePage = () => {
   const fetchFinances = useFinanceStore((state) => state.fetchFinances);
   const finances = useFinanceStore((state) => state.finances);
   const deleteFinance = useFinanceStore((state) => state.deleteFinance);
+  const { session } = useSessionStore();
 
   useEffect(() => {
     const loadFinances = async () => {
-      await fetchFinances();
+      await fetchFinances(session?.user?.id as string);
       setLoading(false);
     };
     loadFinances();
@@ -30,7 +32,7 @@ const FinancePage = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteFinance(id);
-    await fetchFinances(); // Refresh the data after deletion
+    await fetchFinances(session?.user?.id as string); // Refresh the data after deletion
     setLoading(false);
   };
 

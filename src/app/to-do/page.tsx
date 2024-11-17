@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useTaskStore } from "@/store/todoStore";
+import { useSessionStore } from "@/store/sessionStore";
 
 const columns = [
   { label: "Task Name", accessor: "name" },
@@ -16,10 +17,11 @@ const columns = [
 const TasksPage = () => {
   const [loading, setLoading] = useState(true);
   const { tasks, fetchTasks, deleteTask } = useTaskStore();
+  const { session } = useSessionStore();
 
   useEffect(() => {
     const loadTasks = async () => {
-      await fetchTasks();
+      await fetchTasks(session?.user?.id as string);
       setLoading(false);
     };
     loadTasks();
@@ -28,7 +30,7 @@ const TasksPage = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteTask(id);
-    await fetchTasks();
+    await fetchTasks(session?.user?.id as string);
     setLoading(false);
   };
 
