@@ -28,6 +28,8 @@ const CustomNotification: React.FC<NotificationProps> = ({
         title: title,
         message: content,
         color: color,
+        position: "top-right",
+        autoClose: 3000,
       })}
     </div>
   );

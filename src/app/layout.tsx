@@ -38,9 +38,9 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
+          <Notifications position="top-right" zIndex={9999} />
           <Navbar />
           {isAuthRoute && !session ? children : session ? children : null}
-          <Notifications />
         </MantineProvider>
       </body>
     </html>
