@@ -17,7 +17,7 @@ const LandingPage = () => {
             variant="filled"
             color="yellow"
             size="lg"
-            onClick={() => (window.location.href = "/get-started")}
+            onClick={() => (window.location.href = "/to-do")}
           >
             Get Started
           </Button>
