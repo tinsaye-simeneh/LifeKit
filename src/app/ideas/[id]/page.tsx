@@ -2,83 +2,70 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import GoalForm from "@/components/goal/forms";
+import IdeaForm from "@/components/idea/forms";
 import { useSessionStore } from "@/store/sessionStore";
-import { useGoalStore } from "@/store/goalStore";
+import { useIdeaStore } from "@/store/ideaStore";
 
-const EditGoalPage = () => {
+const EditIdeaPage = () => {
   const router = useRouter();
   const { id } = useParams();
-  const goalId = Array.isArray(id) ? id[0] : id;
+  const ideaId = Array.isArray(id) ? id[0] : id;
 
   const session = useSessionStore((state) => state.session);
-  const fetchGoal = useGoalStore((state) => state.fetchGoals);
-  const updateGoal = useGoalStore((state) => state.updateGoal);
+  const fetchIdea = useIdeaStore((state) => state.fetchIdea);
+  const updateIdea = useIdeaStore((state) => state.updateIdea);
 
   const [initialValues, setInitialValues] = useState({
     title: "",
     description: "",
-    start_date: "",
-    end_date: "",
-    category: "skill",
-    status: "notStarted",
   });
 
   useEffect(() => {
-    const loadGoalData = async () => {
-      if (goalId && fetchGoal) {
+    const loadIdeaData = async () => {
+      if (ideaId && fetchIdea) {
         try {
-          const goalData = await fetchGoal(goalId);
+          const ideaData = await fetchIdea();
 
-          if (goalData) {
+          if (ideaData) {
             setInitialValues({
-              title: goalData.title || "",
-              description: goalData.description || "",
-              start_date: goalData.start_date || "",
-              end_date: goalData.end_date || "",
-              category: goalData.category || "skill",
-              status: goalData.status || "notStarted",
+              title: ideaData.title || "",
+              description: ideaData.description || "",
             });
           } else {
-            console.warn("No goal data found for the provided goal ID");
+            console.warn("No idea data found for the provided idea ID");
           }
         } catch (error) {
-          console.error("Error fetching goal data:", error);
+          console.error("Error fetching idea data:", error);
         }
       }
     };
 
-    loadGoalData();
-  }, [goalId, fetchGoal]);
+    loadIdeaData();
+  }, [ideaId, fetchIdea]);
 
   const handleUpdate = async (values: {
     title: string;
     description: string;
-    start_date?: string;
-    end_date?: string;
-    category?: "skill" | "project" | "finance" | "personal";
-    status?: "notStarted" | "onProgress" | "completed";
   }) => {
-    if (!goalId) {
-      console.error("No goal ID provided");
+    if (!ideaId) {
+      console.error("No idea ID provided");
       return;
     }
 
-    const goalData = {
+    const ideaData = {
       ...values,
-      id: goalId,
+      id: ideaId,
       user_id: session?.user?.id,
     };
 
     try {
-      await updateGoal(goalId, goalData);
-      router.push("/goals");
+      await updateIdea(ideaId, ideaData);
+      router.push("/ideas");
     } catch (error) {
-      console.error("Error updating goal:", error);
+      console.error("Error updating idea:", error);
     }
   };
 
-  return <GoalForm initialValues={initialValues} onSubmit={handleUpdate} />;
+  return <IdeaForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };
-
-export default EditGoalPage;
+export default EditIdeaPage;
