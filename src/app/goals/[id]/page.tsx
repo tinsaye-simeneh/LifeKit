@@ -15,7 +15,14 @@ const EditGoalPage = () => {
   const fetchGoal = useGoalStore((state) => state.fetchGoal);
   const updateGoal = useGoalStore((state) => state.updateGoal);
 
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState<{
+    title: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    category: "skill" | "project" | "finance" | "personal";
+    status: "notStarted" | "onProgress" | "completed";
+  }>({
     title: "",
     description: "",
     start_date: "",
