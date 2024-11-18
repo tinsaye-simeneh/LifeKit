@@ -33,6 +33,7 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
           {...form.getInputProps("title")}
           classNames={{ label: "text-black", input: "text-black" }}
           className="col-span-2"
+          required
         />
 
         <Textarea
@@ -41,6 +42,7 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
           {...form.getInputProps("description")}
           classNames={{ label: "text-black", input: "text-black" }}
           className="col-span-2"
+          required
         />
 
         <Button

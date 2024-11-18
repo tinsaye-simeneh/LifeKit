@@ -14,6 +14,7 @@ interface GoalFormProps {
     status?: "notStarted" | "onProgress" | "completed";
   };
   onSubmit: (values: {
+    id?: string;
     title?: string;
     description?: string;
     category?: "skill" | "project" | "finance" | "personal";

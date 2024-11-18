@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import IdeaForm from "@/components/idea/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useIdeaStore } from "@/store/ideaStore";
+import { notifications } from "@mantine/notifications";
 
 const EditIdeaPage = () => {
   const router = useRouter();
@@ -58,11 +59,21 @@ const EditIdeaPage = () => {
       user_id: session?.user?.id,
     };
 
-    try {
-      await updateIdea(ideaId, ideaData);
-      router.push("/ideas");
-    } catch (error) {
-      console.error("Error updating idea:", error);
+    if (!ideaData.title || !ideaData.description) {
+      console.error("Please fill all the fields");
+      notifications.show({
+        title: "Error",
+        message: "Please fill all the fields",
+        color: "red",
+      });
+      return;
+    } else {
+      try {
+        await updateIdea(ideaId, ideaData);
+        router.push("/ideas");
+      } catch (error) {
+        console.error("Error updating idea:", error);
+      }
     }
   };
 

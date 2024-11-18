@@ -3,19 +3,39 @@
 import GoalForm from "@/components/goal/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useGoalStore } from "@/store/goalStore";
+import { notifications } from "@mantine/notifications";
 
 const AddGoalPage = () => {
   const session = useSessionStore((state) => state.session);
   const addGoal = useGoalStore((state) => state.addGoal);
 
   const handleCreate = async (values: {
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     start_date?: string;
     end_date?: string;
     category?: "skill" | "project" | "finance" | "personal";
     status?: "notStarted" | "onProgress" | "completed";
   }) => {
+    const { title, description, start_date, end_date, category, status } =
+      values;
+
+    if (
+      !title ||
+      !description ||
+      !start_date ||
+      !end_date ||
+      !category ||
+      !status
+    ) {
+      notifications.show({
+        title: "Error",
+        message: "Please fill all the fields",
+        color: "red",
+      });
+      return;
+    }
+
     const goalData = {
       ...values,
       id: "",

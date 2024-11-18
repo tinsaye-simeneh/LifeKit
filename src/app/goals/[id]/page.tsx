@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import GoalForm from "@/components/goal/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useGoalStore } from "@/store/goalStore";
+import { notifications } from "@mantine/notifications";
 
 const EditGoalPage = () => {
   const router = useRouter();
@@ -77,11 +78,26 @@ const EditGoalPage = () => {
       user_id: session?.user?.id,
     };
 
-    try {
-      await updateGoal(goalId, goalData);
-      router.push("/goals");
-    } catch (error) {
-      console.error("Error updating goal:", error);
+    if (
+      !goalData.title ||
+      !goalData.description ||
+      !goalData.start_date ||
+      !goalData.end_date
+    ) {
+      console.error("Please fill all the fields");
+      notifications.show({
+        title: "Error",
+        message: "Please fill all the fields",
+        color: "red",
+      });
+      return;
+    } else {
+      try {
+        await updateGoal(goalId, goalData);
+        router.push("/goals");
+      } catch (error) {
+        console.error("Error updating goal:", error);
+      }
     }
   };
 
