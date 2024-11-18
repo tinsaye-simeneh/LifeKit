@@ -1,92 +1,78 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Button } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { Box, Button } from "@mantine/core";
+import EntityTable from "@/components/EntityTable";
 import { Goal } from "@/types/models";
+import { useGoalStore } from "@/store/goalStore";
+
+const columns = [
+  { label: "Title", accessor: "title" },
+  { label: "Description", accessor: "description" },
+  { label: "Category", accessor: "category" },
+  { label: "Created At", accessor: "created_at" },
+  { label: "Status", accessor: "status" },
+  { label: "Start Date", accessor: "start_date" },
+  { label: "End Date", accessor: "end_date" },
+];
 
 const GoalsPage = () => {
-  const [goals, setGoals] = useState<Goal[]>([]);
-
-  const fetchGoals = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/goals`);
-      const data = await response.json();
-      setGoals(data);
-    } catch (error) {
-      console.error("Failed to fetch goals:", error);
-    }
-  }, []);
+  const [loading, setLoading] = useState(true);
+  const { goals, fetchGoals, deleteGoal, updateGoalStatus } = useGoalStore();
 
   useEffect(() => {
-    fetchGoals();
+    const loadGoals = async () => {
+      await fetchGoals();
+      setLoading(false);
+    };
+    loadGoals();
   }, [fetchGoals]);
 
-  const handleDelete = async (id?: string) => {
-    try {
-      const response = await fetch(`/api/goals/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        await fetchGoals();
-      } else {
-        console.error("Failed to delete goal");
-      }
-    } catch (error) {
-      console.error("Error deleting goal:", error);
-    }
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    await deleteGoal(id);
+    await fetchGoals();
+    setLoading(false);
   };
 
-  const handleUpdateStatus = async (id?: string, status?: Goal["status"]) => {
-    try {
-      const updates = { status };
-      const response = await fetch(`/api/goals/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updates),
-      });
-
-      if (response.ok) {
-        await fetchGoals();
-      } else {
-        console.error("Failed to update goal");
-      }
-    } catch (error) {
-      console.error("Error updating goal:", error);
-    }
+  const handleUpdateStatus = async (id: string, status: Goal["status"]) => {
+    setLoading(true);
+    await updateGoalStatus(id, status);
+    await fetchGoals();
+    setLoading(false);
   };
 
   return (
-    <div>
-      <h1>Your Goals</h1>
-      <ul>
-        {goals?.map((goal) => (
-          <li key={goal.id}>
-            <p>
-              <strong>{goal.title}</strong> - {goal.description}
-              <br />
-              <em>Category: {goal.category}</em>
-              <br />
-              <em>Status: {goal.status}</em>
-            </p>
-            <Button onClick={() => handleDelete(goal?.id)}>Delete</Button>
-            {goal.status !== "completed" && (
-              <Button onClick={() => handleUpdateStatus(goal?.id, "completed")}>
-                Mark as Completed
-              </Button>
-            )}
-            {goal.status === "notStarted" && (
-              <Button
-                onClick={() => handleUpdateStatus(goal?.id, "onProgress")}
-              >
-                Start Goal
-              </Button>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+      <Box className="flex items-center">
+        <h1 className="text-2xl font-semibold text-black">Your Goals</h1>
+        <Button
+          onClick={() => window.open("/goals/new", "_self")}
+          className="ml-auto bg-blue-500 hover:bg-gray-600 text-white"
+        >
+          Add Goal
+        </Button>
+      </Box>
+
+      <EntityTable
+        columns={columns}
+        data={goals}
+        onEdit={(id) => window.open(`/goals/${id}`, "_self")}
+        onDelete={handleDelete}
+        actions={[
+          {
+            label: "Start Goal",
+            condition: (goal: Goal) => goal.status === "notStarted",
+            action: (goal: Goal) => handleUpdateStatus(goal.id, "onProgress"),
+          },
+          {
+            label: "Mark as Completed",
+            condition: (goal: Goal) => goal.status !== "completed",
+            action: (goal: Goal) => handleUpdateStatus(goal.id, "completed"),
+          },
+        ]}
+        loading={loading}
+      />
     </div>
   );
 };
