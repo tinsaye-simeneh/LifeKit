@@ -1,92 +1,59 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Button } from "@mantine/core";
-import { Goal } from "@/types/models";
+import { useEffect, useState } from "react";
+import { Box, Button } from "@mantine/core";
+import EntityTable from "@/components/EntityTable";
+import { useGoalStore } from "@/store/goalStore";
+
+const columns = [
+  { label: "Title", accessor: "title" },
+  { label: "Description", accessor: "description" },
+  { label: "Status", accessor: "status" },
+  { label: "Created At", accessor: "created_at" },
+  { label: "Start Date", accessor: "start_date" },
+  { label: "End Date", accessor: "end_date" },
+];
 
 const GoalsPage = () => {
-  const [goals, setGoals] = useState<Goal[]>([]);
-
-  const fetchGoals = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/goals`);
-      const data = await response.json();
-      setGoals(data);
-    } catch (error) {
-      console.error("Failed to fetch goals:", error);
-    }
-  }, []);
+  const [loading, setLoading] = useState(true);
+  const { goals, fetchGoals, deleteGoal } = useGoalStore();
 
   useEffect(() => {
-    fetchGoals();
+    const loadGoals = async () => {
+      await fetchGoals();
+      setLoading(false);
+    };
+    loadGoals();
   }, [fetchGoals]);
 
-  const handleDelete = async (id?: string) => {
-    try {
-      const response = await fetch(`/api/goals/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        await fetchGoals();
-      } else {
-        console.error("Failed to delete goal");
-      }
-    } catch (error) {
-      console.error("Error deleting goal:", error);
-    }
-  };
-
-  const handleUpdateStatus = async (id?: string, status?: Goal["status"]) => {
-    try {
-      const updates = { status };
-      const response = await fetch(`/api/goals/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updates),
-      });
-
-      if (response.ok) {
-        await fetchGoals();
-      } else {
-        console.error("Failed to update goal");
-      }
-    } catch (error) {
-      console.error("Error updating goal:", error);
-    }
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    await deleteGoal(id);
+    await fetchGoals();
+    setLoading(false);
   };
 
   return (
-    <div>
-      <h1>Your Goals</h1>
-      <ul>
-        {goals?.map((goal) => (
-          <li key={goal.id}>
-            <p>
-              <strong>{goal.title}</strong> - {goal.description}
-              <br />
-              <em>Category: {goal.category}</em>
-              <br />
-              <em>Status: {goal.status}</em>
-            </p>
-            <Button onClick={() => handleDelete(goal?.id)}>Delete</Button>
-            {goal.status !== "completed" && (
-              <Button onClick={() => handleUpdateStatus(goal?.id, "completed")}>
-                Mark as Completed
-              </Button>
-            )}
-            {goal.status === "notStarted" && (
-              <Button
-                onClick={() => handleUpdateStatus(goal?.id, "onProgress")}
-              >
-                Start Goal
-              </Button>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+      <Box className="flex mt-5">
+        <h5 className="text-2xl font-semibold text-black text-center mt-2">
+          Your Goals
+        </h5>
+        <Button
+          onClick={() => window.open("/goals/new", "_self")}
+          className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+        >
+          Add Goal
+        </Button>
+      </Box>
+
+      <EntityTable
+        columns={columns}
+        data={goals}
+        onEdit={(id) => window.open(`/goals/${id}`, "_self")}
+        onDelete={handleDelete}
+        loading={loading}
+      />
     </div>
   );
 };

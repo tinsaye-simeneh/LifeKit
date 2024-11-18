@@ -1,17 +1,32 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
-import { Idea } from "@/types/models";
+import { Goal } from "@/types/models";
 
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
-  const { title, description }: Partial<Idea> = await req.json();
+  const {
+    title,
+    description,
+    start_date,
+    end_date,
+    category,
+    status,
+  }: Partial<Goal> = await req.json();
 
   const { data, error } = await supabase
-    .from("ideas")
-    .update({ title, description, updated_at: new Date() })
+    .from("goals")
+    .update({
+      title,
+      description,
+      start_date,
+      end_date,
+      category,
+      status,
+      updated_at: new Date(),
+    })
     .eq("id", id)
     .single();
 
@@ -28,11 +43,11 @@ export async function DELETE(
 ) {
   const { id } = params;
 
-  const { error } = await supabase.from("ideas").delete().eq("id", id);
+  const { error } = await supabase.from("goals").delete().eq("id", id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ message: "Idea deleted successfully" });
+  return NextResponse.json({ message: "Goal deleted successfully" });
 }
