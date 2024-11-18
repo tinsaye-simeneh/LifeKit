@@ -6,10 +6,11 @@ import { Idea } from "@/types/models";
 type IdeaStore = {
   ideas: Idea[];
   setIdeas: (ideas: Idea[]) => void;
-  addIdea: (idea: Idea) => Promise<void>;
-  updateIdea: (id: string, updates: Partial<Idea>) => Promise<void>;
-  deleteIdea: (id: string) => Promise<void>;
-  fetchIdeas: () => Promise<void>;
+  addIdea: (idea: Idea) => void;
+  updateIdea: (id: string, updates: Partial<Idea>) => void;
+  deleteIdea: (id: string) => void;
+  fetchIdeas: () => void;
+  fetchIdea: (id?: string) => Promise<Idea | undefined>;
 };
 
 export const useIdeaStore = create<IdeaStore>((set) => ({
@@ -18,89 +19,56 @@ export const useIdeaStore = create<IdeaStore>((set) => ({
   setIdeas: (ideas) => set({ ideas }),
 
   addIdea: async (idea) => {
-    try {
-      const response = await fetch("/api/ideas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(idea),
-      });
+    const response = await fetch("/api/ideas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(idea),
+    });
 
-      if (!response.ok) {
-        throw new Error("Failed to add idea");
-      }
-
+    if (response.ok) {
       const newIdea = await response.json();
       set((state) => ({ ideas: [...state.ideas, newIdea] }));
-    } catch (error) {
-      console.error(error);
     }
   },
 
   updateIdea: async (id, updates) => {
-    try {
-      const response = await fetch(`/api/ideas/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updates),
-      });
+    const response = await fetch(`/api/ideas/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    });
 
-      if (!response.ok) {
-        throw new Error("Failed to update idea");
-      }
-
+    if (response.ok) {
       const updatedIdea = await response.json();
       set((state) => ({
         ideas: state.ideas.map((idea) => (idea.id === id ? updatedIdea : idea)),
       }));
-    } catch (error) {
-      console.error(error);
     }
   },
 
   deleteIdea: async (id) => {
-    try {
-      const response = await fetch(`/api/ideas/${id}`, {
-        method: "DELETE",
-      });
+    const response = await fetch(`/api/ideas/${id}`, {
+      method: "DELETE",
+    });
 
-      if (!response.ok) {
-        throw new Error("Failed to delete idea");
-      }
-
+    if (response.ok) {
       set((state) => ({
         ideas: state.ideas.filter((idea) => idea.id !== id),
       }));
-    } catch (error) {
-      console.error(error);
     }
   },
 
   fetchIdeas: async () => {
-    try {
-      const response = await fetch("/api/ideas");
-      if (!response.ok) {
-        throw new Error("Failed to fetch ideas");
-      }
-
+    const response = await fetch("/api/ideas");
+    if (response.ok) {
       const ideas = await response.json();
       set({ ideas });
-    } catch (error) {
-      console.error(error);
     }
   },
-  fetchIdea: async (id: string) => {
-    try {
-      const response = await fetch(`/api/ideas/${id}`, {
-        method: "GET",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch idea");
-      }
-
+  fetchIdea: async (id?: string) => {
+    const response = await fetch(`/api/ideas/${id}`);
+    if (response.ok) {
       return await response.json();
-    } catch (error) {
-      console.error(error);
     }
   },
 }));
