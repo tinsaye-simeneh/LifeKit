@@ -28,7 +28,7 @@ const EditGoalPage = () => {
     const loadGoalData = async () => {
       if (goalId && fetchGoal) {
         try {
-          const goalData = await fetchGoal(goalId);
+          const goalData = await fetchGoal();
 
           if (goalData) {
             setInitialValues({
@@ -52,8 +52,8 @@ const EditGoalPage = () => {
   }, [goalId, fetchGoal]);
 
   const handleUpdate = async (values: {
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     start_date?: string;
     end_date?: string;
     category?: "skill" | "project" | "finance" | "personal";

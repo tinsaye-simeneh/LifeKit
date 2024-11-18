@@ -6,8 +6,8 @@ import { useForm } from "@mantine/form";
 interface GoalFormProps {
   initialValues: {
     id?: string;
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     category?: "skill" | "project" | "finance" | "personal";
     start_date?: string;
     end_date?: string;
@@ -15,8 +15,8 @@ interface GoalFormProps {
   };
   onSubmit: (values: {
     id?: string;
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     category?: "skill" | "project" | "finance" | "personal";
     start_date?: string;
     end_date?: string;
@@ -85,6 +85,18 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           {...form.getInputProps("end_date")}
           classNames={{ label: "text-black", input: "text-black" }}
         />
+
+        <div className="col-span-2">
+          <label className="text-black block mb-2">Status</label>
+          <select
+            {...form.getInputProps("status")}
+            className="w-full p-2 border rounded text-black"
+          >
+            <option value="notStarted">Not Started</option>
+            <option value="onProgress">On Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
 
         <Button
           type="submit"
