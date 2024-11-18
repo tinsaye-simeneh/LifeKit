@@ -12,7 +12,7 @@ const EditIdeaPage = () => {
   const ideaId = Array.isArray(id) ? id[0] : id;
 
   const session = useSessionStore((state) => state.session);
-  const fetchIdea = useIdeaStore((state) => state.fetchIdeas);
+  const fetchIdea = useIdeaStore((state) => state.fetchIdea);
   const updateIdea = useIdeaStore((state) => state.updateIdea);
 
   const [initialValues, setInitialValues] = useState({
