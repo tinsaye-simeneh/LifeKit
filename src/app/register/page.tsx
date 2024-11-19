@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { signUp } from "../api/auth/route";
-import CustomNotification from "../../components/Notification";
+import { notifications } from "@mantine/notifications";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -22,22 +22,20 @@ const RegisterPage = () => {
 
   const handleSignUp = async () => {
     if (!email || !password) {
-      CustomNotification({
-        color: "red",
+      notifications.show({
         title: "Error",
-        content: "Please fill in all fields.",
-        position: "top-right",
+        message: "Please fill in all fields.",
+        color: "red",
       });
       return;
     } else {
       try {
         await signUp(email, password);
 
-        CustomNotification({
-          color: "green",
+        notifications.show({
           title: "Success",
-          content: "Account created successfully!",
-          position: "top-right",
+          message: "Account created successfully.",
+          color: "green",
         });
 
         setTimeout(() => {
@@ -45,12 +43,19 @@ const RegisterPage = () => {
         }, 1000);
         //eslint-disable-next-line
       } catch (error: any) {
-        CustomNotification({
-          color: "red",
-          title: "Error",
-          content: error.message || "An error occurred.",
-          position: "top-right",
-        });
+        if (error.message === "Email already in use") {
+          notifications.show({
+            title: "Error",
+            message: "Email already in use.",
+            color: "red",
+          });
+        } else {
+          notifications.show({
+            title: "Error",
+            message: "An error occurred. Please try again.",
+            color: "red",
+          });
+        }
       }
     }
   };
