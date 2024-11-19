@@ -10,11 +10,11 @@ type ResponseData = {
   data?: any;
 };
 
-export default async function handler(
+export default async function GET(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  const { id } = req.query; // Retrieve the `id` from the query parameters
+  const { id } = req.query;
 
   if (typeof id !== "string") {
     return res
@@ -38,6 +38,7 @@ export default async function handler(
 
   return res.status(200).json({ data });
 }
+
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
