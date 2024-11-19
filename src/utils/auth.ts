@@ -1,4 +1,4 @@
-import { supabase } from "../../../utils/supabase";
+import { supabase } from "./supabase";
 import { Session } from "@/types/models";
 
 export const signUp = async (email: string, password: string) => {

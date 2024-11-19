@@ -6,7 +6,7 @@ import {
   onAuthStateChange,
   signInWithPassword,
   signUp,
-} from "../app/api/auth/page";
+} from "@/utils/auth";
 import { Session } from "@/types/models";
 
 interface SessionState {
