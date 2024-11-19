@@ -42,6 +42,21 @@ const EntityTable: React.FC<EntityTableProps> = ({
     setSearchQuery(query);
   };
 
+  // Format date to UTC+3
+  const formatDate = (date: string | number | Date): string => {
+    const formattedDate = new Date(date).toLocaleString("en-US", {
+      timeZone: "Africa/Nairobi", // UTC+3 time zone
+      weekday: "short", // e.g., "Mon"
+      year: "numeric",
+      month: "short", // e.g., "Sep"
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    return formattedDate;
+  };
+
   // Debounced search effect
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -143,7 +158,14 @@ const EntityTable: React.FC<EntityTableProps> = ({
                           key={column.accessor}
                           className="p-4 text-gray-700 text-sm whitespace-nowrap"
                         >
-                          {row[column.accessor]}
+                          {[
+                            "created_at",
+                            "start_date",
+                            "end_date",
+                            "updated_at",
+                          ].includes(column.accessor)
+                            ? formatDate(row[column.accessor])
+                            : row[column.accessor]}
                         </td>
                       ))}
                       <td className="p-4 space-y-2 lg:space-y-0 lg:space-x-2">
