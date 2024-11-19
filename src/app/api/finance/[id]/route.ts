@@ -4,16 +4,13 @@ import { Finance } from "@/types/models";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-
-  if (!id) {
-    return NextResponse.json(
-      { error: "Finance ID is required" },
-      { status: 400 }
-    );
+  context: {
+    params: {
+      id: string;
+    };
   }
+) {
+  const { id } = context.params;
 
   const { data, error } = await supabase
     .from("finance")
@@ -23,6 +20,13 @@ export async function GET(
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  if (!data) {
+    return NextResponse.json(
+      { error: "No finance record found" },
+      { status: 404 }
+    );
   }
 
   return NextResponse.json(data);

@@ -73,6 +73,8 @@ export const useFinanceStore = create<FinanceStore>((set) => ({
     });
     if (response.ok) {
       return await response.json();
+    } else {
+      throw new Error("Failed to fetch finance data");
     }
   },
 }));
