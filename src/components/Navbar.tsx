@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { clearSession } from "@/app/api/auth/page";
+import { clearSession } from "@/utils/auth";
 import { useSessionStore } from "@/store/sessionStore";
 
 const menuItems = [
