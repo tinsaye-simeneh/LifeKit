@@ -13,6 +13,7 @@ const columns = [
   { label: "Status", accessor: "status" },
   { label: "Due Date", accessor: "due_date" },
   { label: "Created At", accessor: "created_at" },
+  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const TasksPage = () => {

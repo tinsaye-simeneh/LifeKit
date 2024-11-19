@@ -11,9 +11,10 @@ const columns = [
   { label: "Title", accessor: "title" },
   { label: "Description", accessor: "description" },
   { label: "Status", accessor: "status" },
-  { label: "Created At", accessor: "created_at" },
   { label: "Start Date", accessor: "start_date" },
   { label: "End Date", accessor: "end_date" },
+  { label: "Created At", accessor: "created_at" },
+  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const GoalsPage = () => {
