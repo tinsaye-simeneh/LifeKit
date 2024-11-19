@@ -20,16 +20,19 @@ const EditIdeaPage = () => {
     title: "",
     description: "",
   });
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // We set this to true to indicate the page is now client-side
+  }, []);
 
   useEffect(() => {
     const loadIdeaData = async () => {
       if (ideaId && fetchIdea) {
         try {
           const ideaData = await fetchIdea(ideaId);
-
           if (ideaData) {
             setInitialValues({
               title: ideaData.title || "",
@@ -61,7 +64,7 @@ const EditIdeaPage = () => {
 
     const ideaData = {
       ...values,
-      id: ideaId,
+      id: ideaId, // Include the idea ID here
       user_id: session?.user?.id,
     };
 
@@ -86,6 +89,8 @@ const EditIdeaPage = () => {
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>{error}</div>;
+
+  if (!isClient) return null; // Prevent rendering of the form until client-side hydration is done
 
   return <IdeaForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };
