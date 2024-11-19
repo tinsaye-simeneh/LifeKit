@@ -5,6 +5,7 @@ import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useIdeaStore } from "@/store/ideaStore";
 import { useSessionStore } from "@/store/sessionStore";
+import { notifications } from "@mantine/notifications";
 
 const columns = [
   { label: "Title", accessor: "title" },
@@ -29,7 +30,13 @@ const IdeasPage = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteIdea(id);
+    notifications.show({
+      title: "Success",
+      message: "Idea deleted successfully.",
+      color: "green",
+    });
     await fetchIdeas(session?.user?.id as string);
+
     setLoading(false);
   };
 

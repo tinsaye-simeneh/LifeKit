@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Table, Button, Pagination, Loader } from "@mantine/core";
+import { Table, Button, Pagination, Loader, Input } from "@mantine/core";
 
 interface Column {
   label: string;
@@ -27,19 +27,58 @@ const EntityTable: React.FC<EntityTableProps> = ({
   loading = false, // Default value for loading
 }) => {
   const [activePage, setActivePage] = useState(1);
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortedData, setSortedData] = useState(data);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortColumn, setSortColumn] = useState<string>("");
+
+  const totalPages = Math.ceil(sortedData.length / rowsPerPage);
 
   const handlePageChange = (page: number) => {
     setActivePage(page);
   };
 
-  const paginatedData = data.slice(
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    const filteredData = data.filter((row) =>
+      columns.some((column) =>
+        String(row[column.accessor]).toLowerCase().includes(query.toLowerCase())
+      )
+    );
+    setSortedData(filteredData);
+    setActivePage(1); // Reset to the first page after search
+  };
+
+  const handleSort = (column: string) => {
+    const newDirection =
+      sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    setSortColumn(column);
+    setSortDirection(newDirection);
+
+    const sorted = [...sortedData].sort((a, b) => {
+      if (a[column] < b[column]) return newDirection === "asc" ? -1 : 1;
+      if (a[column] > b[column]) return newDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+    setSortedData(sorted);
+  };
+
+  const paginatedData = sortedData.slice(
     (activePage - 1) * rowsPerPage,
     activePage * rowsPerPage
   );
 
   return (
     <>
+      <div className="flex justify-between items-center mb-4">
+        <Input
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="w-1/2"
+        />
+      </div>
+
       <div className="overflow-x-auto bg-white rounded-lg shadow-lg mt-6 border border-gray-200">
         {loading ? (
           <div className="flex justify-center items-center h-48">
@@ -63,9 +102,17 @@ const EntityTable: React.FC<EntityTableProps> = ({
                     {columns.map((column) => (
                       <th
                         key={column.accessor}
-                        className="text-left p-4 font-semibold text-gray-700"
+                        className="text-left p-4 font-semibold text-gray-700 cursor-pointer"
+                        onClick={() => handleSort(column.accessor)}
                       >
-                        {column.label}
+                        {column.label}{" "}
+                        {sortColumn === column.accessor ? (
+                          sortDirection === "asc" ? (
+                            <span>↑</span>
+                          ) : (
+                            <span>↓</span>
+                          )
+                        ) : null}
                       </th>
                     ))}
                     <th className="text-left p-4 font-semibold text-gray-700">
@@ -117,6 +164,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
           </>
         )}
       </div>
+
       {!loading && (
         <div className="flex justify-center mt-4">
           <Pagination
