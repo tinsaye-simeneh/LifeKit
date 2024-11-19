@@ -2,11 +2,8 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
 import { Task } from "@/types/models";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function GET(req: Request, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   if (!id) {
     return NextResponse.json({ error: "Task ID is required" }, { status: 400 });

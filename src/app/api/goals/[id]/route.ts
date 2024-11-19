@@ -52,11 +52,8 @@ export async function DELETE(
   return NextResponse.json({ message: "Goal deleted successfully" });
 }
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function GET(req: Request, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   const { data, error } = await supabase
     .from("goals")
