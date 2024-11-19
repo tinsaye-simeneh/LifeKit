@@ -57,6 +57,11 @@ const EntityTable: React.FC<EntityTableProps> = ({
     return formattedDate;
   };
 
+  // Trim text to 20 characters and add "..."
+  const trimText = (text: string) => {
+    return text.length > 20 ? `${text.substring(0, 20)}...` : text;
+  };
+
   // Debounced search effect
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -165,6 +170,8 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             "updated_at",
                           ].includes(column.accessor)
                             ? formatDate(row[column.accessor])
+                            : typeof row[column.accessor] === "string"
+                            ? trimText(row[column.accessor])
                             : row[column.accessor]}
                         </td>
                       ))}
