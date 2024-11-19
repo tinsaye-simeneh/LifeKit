@@ -44,9 +44,19 @@ const AddGoalPage = () => {
 
     try {
       await addGoal(goalData);
+      notifications.show({
+        title: "Success",
+        message: "Goal created successfully.",
+        color: "green",
+      });
       window.open("/goals", "_self");
     } catch (error) {
       console.error("Error creating goal:", error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to create the goal.",
+        color: "red",
+      });
     }
   };
 

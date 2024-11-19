@@ -3,6 +3,7 @@
 import FinanceForm from "@/components/finance/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useFinanceStore } from "@/store/financeStore";
+import { notifications } from "@mantine/notifications";
 
 const FinancePage = () => {
   const session = useSessionStore((state) => state.session);
@@ -24,9 +25,19 @@ const FinancePage = () => {
 
     try {
       await createFinance(financeData);
+      notifications.show({
+        title: "Success",
+        message: "Finance entry created successfully.",
+        color: "green",
+      });
       window.open("/finance", "_self");
     } catch (error) {
       console.error("Error creating finance entry:", error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to create the finance entry.",
+        color: "red",
+      });
     }
   };
 
