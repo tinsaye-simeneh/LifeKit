@@ -59,7 +59,7 @@ export const useGoalStore = create<GoalStore>((set) => ({
   },
 
   fetchGoals: async () => {
-    const response = await fetch("/api/goals");
+    const response = await fetch("/api/goals?user_id=${userId}");
     if (response.ok) {
       const goals = await response.json();
       set({ goals });

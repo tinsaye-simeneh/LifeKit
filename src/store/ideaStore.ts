@@ -59,7 +59,7 @@ export const useIdeaStore = create<IdeaStore>((set) => ({
   },
 
   fetchIdeas: async () => {
-    const response = await fetch("/api/ideas");
+    const response = await fetch("/api/ideas?user_id=${userId}");
     if (response.ok) {
       const ideas = await response.json();
       set({ ideas });
