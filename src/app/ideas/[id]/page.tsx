@@ -20,23 +20,32 @@ const EditIdeaPage = () => {
     title: "",
     description: "",
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // We set this to true to indicate the page is now client-side
+  }, []);
 
   useEffect(() => {
     const loadIdeaData = async () => {
       if (ideaId && fetchIdea) {
         try {
-          const ideaData = await fetchIdea();
-
+          const ideaData = await fetchIdea(ideaId);
           if (ideaData) {
             setInitialValues({
               title: ideaData.title || "",
               description: ideaData.description || "",
             });
           } else {
-            console.warn("No idea data found for the provided idea ID");
+            setError("Idea not found");
           }
         } catch (error) {
+          setError("Error fetching idea data");
           console.error("Error fetching idea data:", error);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -55,7 +64,7 @@ const EditIdeaPage = () => {
 
     const ideaData = {
       ...values,
-      id: ideaId,
+      id: ideaId, // Include the idea ID here
       user_id: session?.user?.id,
     };
 
@@ -77,6 +86,13 @@ const EditIdeaPage = () => {
     }
   };
 
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
+
+  if (!isClient) return null; // Prevent rendering of the form until client-side hydration is done
+
   return <IdeaForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };
+
 export default EditIdeaPage;

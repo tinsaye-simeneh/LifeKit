@@ -9,7 +9,7 @@ type IdeaStore = {
   addIdea: (idea: Idea) => void;
   updateIdea: (id: string, updates: Partial<Idea>) => void;
   deleteIdea: (id: string) => void;
-  fetchIdeas: () => void;
+  fetchIdeas: (userId: string) => Promise<void>;
   fetchIdea: (id?: string) => Promise<Idea | undefined>;
 };
 
@@ -58,8 +58,8 @@ export const useIdeaStore = create<IdeaStore>((set) => ({
     }
   },
 
-  fetchIdeas: async () => {
-    const response = await fetch("/api/ideas");
+  fetchIdeas: async (userId) => {
+    const response = await fetch(`/api/ideas?user_id=${userId}`);
     if (response.ok) {
       const ideas = await response.json();
       set({ ideas });

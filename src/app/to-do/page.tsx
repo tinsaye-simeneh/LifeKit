@@ -25,7 +25,7 @@ const TasksPage = () => {
       setLoading(false);
     };
     loadTasks();
-  }, [fetchTasks]);
+  }, [fetchTasks, loading, session?.user?.id]);
 
   const handleDelete = async (id: string) => {
     setLoading(true);
@@ -40,12 +40,20 @@ const TasksPage = () => {
         <h5 className="text-2xl font-semibold text-black text-center mt-2">
           Your Task List
         </h5>
-        <Button
-          onClick={() => window.open("/to-do/new", "_self")}
-          className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-        >
-          Add Task
-        </Button>
+        <div className="flex ml-auto">
+          <Button
+            onClick={() => setLoading(true)}
+            className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          >
+            Refresh
+          </Button>
+          <Button
+            onClick={() => window.open("/to-do/new", "_self")}
+            className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          >
+            Add Task
+          </Button>
+        </div>
       </Box>
 
       <EntityTable

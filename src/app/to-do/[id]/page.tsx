@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import TaskForm from "@/components/to-do/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useTaskStore } from "@/store/todoStore";
+import { notifications } from "@mantine/notifications";
 
 const EditTaskPage = () => {
   const router = useRouter();
@@ -22,14 +23,14 @@ const EditTaskPage = () => {
     due_date: new Date().toISOString().split("T")[0],
   });
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const loadTaskData = async () => {
       if (taskId && fetchTask) {
         try {
           const taskData = await fetchTask(taskId);
-
-          console.log("taskData", taskData);
-
           if (taskData) {
             setInitialValues({
               name: taskData.name || "",
@@ -39,10 +40,13 @@ const EditTaskPage = () => {
                 taskData.due_date || new Date().toISOString().split("T")[0],
             });
           } else {
-            console.warn("No task data found for the provided task ID");
+            setError("Task not found");
           }
         } catch (error) {
+          setError("Error fetching task data");
           console.error("Error fetching task data:", error);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -69,11 +73,25 @@ const EditTaskPage = () => {
 
     try {
       await updateTask(taskId, taskData);
-      router.push("/tasks");
+      notifications.show({
+        title: "Success",
+        message: "Task updated successfully.",
+        color: "green",
+      });
+      router.push("/to-do");
     } catch (error) {
+      notifications.show({
+        title: "Error",
+        message: "Failed to update task entry.",
+        color: "red",
+      });
       console.error("Error updating task entry:", error);
     }
   };
+
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
 
   return <TaskForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useIdeaStore } from "@/store/ideaStore";
+import { useSessionStore } from "@/store/sessionStore";
 
 const columns = [
   { label: "Title", accessor: "title" },
@@ -15,19 +16,20 @@ const columns = [
 const IdeasPage = () => {
   const [loading, setLoading] = useState(true);
   const { ideas, fetchIdeas, deleteIdea } = useIdeaStore();
+  const { session } = useSessionStore();
 
   useEffect(() => {
     const loadIdeas = async () => {
-      await fetchIdeas();
+      await fetchIdeas(session?.user?.id as string);
       setLoading(false);
     };
     loadIdeas();
-  }, [fetchIdeas]);
+  }, [fetchIdeas, session?.user?.id, loading]);
 
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteIdea(id);
-    await fetchIdeas();
+    await fetchIdeas(session?.user?.id as string);
     setLoading(false);
   };
 
@@ -37,12 +39,20 @@ const IdeasPage = () => {
         <h5 className="text-2xl font-semibold text-black text-center mt-2">
           Your Ideas
         </h5>
-        <Button
-          onClick={() => window.open("/ideas/new", "_self")}
-          className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-        >
-          Add Idea
-        </Button>
+        <div className="flex ml-auto">
+          <Button
+            onClick={() => setLoading(true)}
+            className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          >
+            Refresh
+          </Button>
+          <Button
+            onClick={() => window.open("/ideas/new", "_self")}
+            className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          >
+            Add Idea
+          </Button>
+        </div>
       </Box>
 
       <EntityTable

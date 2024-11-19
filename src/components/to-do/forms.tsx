@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 

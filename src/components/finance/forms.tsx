@@ -30,7 +30,7 @@ interface FinanceFormProps {
 }
 
 const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
-  console.log("initialValues", initialValues);
+  // Initialize the form with the passed initialValues
   const form = useForm({
     initialValues,
   });
