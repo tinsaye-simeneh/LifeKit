@@ -4,9 +4,13 @@ import { Finance } from "@/types/models";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: {
+    params: {
+      id: string;
+    };
+  }
 ) {
-  const { id } = params;
+  const { id } = context.params;
 
   const { data, error } = await supabase
     .from("finance")
