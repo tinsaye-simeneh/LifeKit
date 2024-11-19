@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import { Table, Button, Pagination, Loader } from "@mantine/core";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
 
 interface Column {
   label: string;

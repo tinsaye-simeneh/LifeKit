@@ -10,7 +10,7 @@ import { notifications } from "@mantine/notifications";
 const EditGoalPage = () => {
   const router = useRouter();
   const { id } = useParams();
-  const goalId = Array.isArray(id) ? id[0] : id;
+  const goalId = Array.isArray(id) ? id[0] : id; // Ensure goalId is properly extracted
 
   const session = useSessionStore((state) => state.session);
   const fetchGoal = useGoalStore((state) => state.fetchGoal);
@@ -23,20 +23,14 @@ const EditGoalPage = () => {
     end_date: string;
     category: "skill" | "project" | "finance" | "personal";
     status: "notStarted" | "onProgress" | "completed";
-  }>({
-    title: "",
-    description: "",
-    start_date: "",
-    end_date: "",
-    category: "skill",
-    status: "notStarted",
-  });
+  } | null>(null); // Initially null to ensure data is fetched before form renders
 
+  // Effect hook to load goal data from API
   useEffect(() => {
-    const loadGoalData = async () => {
-      if (goalId && fetchGoal) {
+    if (goalId && fetchGoal) {
+      const loadGoalData = async () => {
         try {
-          const goalData = await fetchGoal();
+          const goalData = await fetchGoal(goalId); // Fetch data with goalId
 
           if (goalData) {
             setInitialValues({
@@ -48,24 +42,35 @@ const EditGoalPage = () => {
               status: goalData.status || "notStarted",
             });
           } else {
-            console.warn("No goal data found for the provided goal ID");
+            notifications.show({
+              title: "Error",
+              message: "Goal not found.",
+              color: "red",
+            });
+            router.push("/goals");
           }
         } catch (error) {
           console.error("Error fetching goal data:", error);
+          notifications.show({
+            title: "Error",
+            message: "Failed to load goal data.",
+            color: "red",
+          });
         }
-      }
-    };
+      };
 
-    loadGoalData();
-  }, [goalId, fetchGoal]);
+      loadGoalData();
+    }
+  }, [goalId, fetchGoal, router]);
 
+  // Handle form submission and goal update
   const handleUpdate = async (values: {
-    title?: string;
-    description?: string;
-    start_date?: string;
-    end_date?: string;
-    category?: "skill" | "project" | "finance" | "personal";
-    status?: "notStarted" | "onProgress" | "completed";
+    title: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    category: "skill" | "project" | "finance" | "personal";
+    status: "notStarted" | "onProgress" | "completed";
   }) => {
     if (!goalId) {
       console.error("No goal ID provided");
@@ -78,28 +83,41 @@ const EditGoalPage = () => {
       user_id: session?.user?.id,
     };
 
+    // Validation: Ensure all required fields are filled
     if (
       !goalData.title ||
       !goalData.description ||
       !goalData.start_date ||
       !goalData.end_date
     ) {
-      console.error("Please fill all the fields");
       notifications.show({
         title: "Error",
         message: "Please fill all the fields",
         color: "red",
       });
       return;
-    } else {
-      try {
-        await updateGoal(goalId, goalData);
-        router.push("/goals");
-      } catch (error) {
-        console.error("Error updating goal:", error);
-      }
+    }
+
+    try {
+      await updateGoal(goalId, goalData); // Call updateGoal with goalId and goalData
+      notifications.show({
+        title: "Success",
+        message: "Goal updated successfully.",
+        color: "green",
+      });
+      router.push("/goals"); // Redirect to goals page after success
+    } catch (error) {
+      console.error("Error updating goal:", error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to update the goal.",
+        color: "red",
+      });
     }
   };
+  if (!initialValues) {
+    return <div>Loading...</div>;
+  }
 
   return <GoalForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };

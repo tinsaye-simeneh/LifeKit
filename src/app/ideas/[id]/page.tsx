@@ -21,11 +21,14 @@ const EditIdeaPage = () => {
     description: "",
   });
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const loadIdeaData = async () => {
       if (ideaId && fetchIdea) {
         try {
-          const ideaData = await fetchIdea();
+          const ideaData = await fetchIdea(ideaId);
 
           if (ideaData) {
             setInitialValues({
@@ -33,10 +36,13 @@ const EditIdeaPage = () => {
               description: ideaData.description || "",
             });
           } else {
-            console.warn("No idea data found for the provided idea ID");
+            setError("Idea not found");
           }
         } catch (error) {
+          setError("Error fetching idea data");
           console.error("Error fetching idea data:", error);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -77,6 +83,11 @@ const EditIdeaPage = () => {
     }
   };
 
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
+
   return <IdeaForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };
+
 export default EditIdeaPage;

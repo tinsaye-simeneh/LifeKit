@@ -6,32 +6,38 @@ import { useForm } from "@mantine/form";
 interface GoalFormProps {
   initialValues: {
     id?: string;
-    title?: string;
-    description?: string;
+    title: string;
+    description: string;
     category: "skill" | "project" | "finance" | "personal";
-    start_date?: string;
-    end_date?: string;
-    status?: "notStarted" | "onProgress" | "completed";
+    start_date: string;
+    end_date: string;
+    status: "notStarted" | "onProgress" | "completed";
   };
   onSubmit: (values: {
     id?: string;
-    title?: string;
-    description?: string;
-    category?: "skill" | "project" | "finance" | "personal";
-    start_date?: string;
-    end_date?: string;
-    status?: "notStarted" | "onProgress" | "completed";
+    title: string;
+    description: string;
+    category: "skill" | "project" | "finance" | "personal";
+    start_date: string;
+    end_date: string;
+    status: "notStarted" | "onProgress" | "completed";
   }) => void;
 }
 
 const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
   const form = useForm({
     initialValues,
+    validate: {
+      title: (value) => (value ? null : "Title is required"),
+      description: (value) => (value ? null : "Description is required"),
+      start_date: (value) => (value ? null : "Start date is required"),
+      end_date: (value) => (value ? null : "End date is required"),
+    },
   });
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg mt-10">
-      <h1 className="text-3xl font-bold text-black text-center">Goal</h1>
+      <h1 className="text-3xl font-bold text-black text-center">Edit Goal</h1>
 
       <form
         onSubmit={form.onSubmit(onSubmit)}
