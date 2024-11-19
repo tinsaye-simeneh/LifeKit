@@ -12,7 +12,7 @@ import {
   Anchor,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import { signUp } from "../api/auth/route";
+import { signUp } from "../api/auth/page";
 import { notifications } from "@mantine/notifications";
 
 const RegisterPage = () => {
