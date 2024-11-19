@@ -5,6 +5,7 @@ import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useFinanceStore } from "@/store/financeStore";
 import { useSessionStore } from "@/store/sessionStore";
+import { notifications } from "@mantine/notifications";
 
 const columns = [
   { label: "Amount", accessor: "amount" },
@@ -32,6 +33,11 @@ const FinancePage = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteFinance(id);
+    notifications.show({
+      title: "Success",
+      message: "Finance entry deleted successfully.",
+      color: "green",
+    });
     await fetchFinances(session?.user?.id as string); // Refresh the data after deletion
     setLoading(false);
   };
