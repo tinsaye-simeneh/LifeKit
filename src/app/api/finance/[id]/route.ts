@@ -8,13 +8,6 @@ export async function GET(
 ) {
   const { id } = params;
 
-  if (!id) {
-    return NextResponse.json(
-      { error: "Finance ID is required" },
-      { status: 400 }
-    );
-  }
-
   const { data, error } = await supabase
     .from("finance")
     .select("*")
@@ -23,6 +16,13 @@ export async function GET(
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  if (!data) {
+    return NextResponse.json(
+      { error: "No finance record found" },
+      { status: 404 }
+    );
   }
 
   return NextResponse.json(data);
