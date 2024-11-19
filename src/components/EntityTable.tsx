@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Button, Pagination, Loader, Input } from "@mantine/core";
 
 interface Column {
@@ -40,14 +40,24 @@ const EntityTable: React.FC<EntityTableProps> = ({
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    const filteredData = data.filter((row) =>
-      columns.some((column) =>
-        String(row[column.accessor]).toLowerCase().includes(query.toLowerCase())
-      )
-    );
-    setSortedData(filteredData);
-    setActivePage(1); // Reset to the first page after search
   };
+
+  // Debounced search effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const filteredData = data.filter((row) =>
+        columns.some((column) =>
+          String(row[column.accessor])
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        )
+      );
+      setSortedData(filteredData);
+      setActivePage(1); // Reset to the first page after search
+    }, 300); // Debounce delay
+
+    return () => clearTimeout(timeoutId); // Cleanup previous timeout on search change
+  }, [searchQuery, data, columns]);
 
   const handleSort = (column: string) => {
     const newDirection =
