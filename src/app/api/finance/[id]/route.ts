@@ -1,26 +1,16 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
 import { Finance } from "@/types/models";
-import type { NextApiRequest, NextApiResponse } from "next";
 
-type ResponseData = {
-  message?: string;
-  error?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
-};
-
-export default async function GET(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
-) {
-  const { id } = req.query;
-
-  if (typeof id !== "string") {
-    return res
-      .status(400)
-      .json({ error: "Finance ID is required and must be a string" });
+export async function GET(
+  req: Request,
+  context: {
+    params: {
+      id: string;
+    };
   }
+) {
+  const { id } = context.params;
 
   const { data, error } = await supabase
     .from("finance")
@@ -29,14 +19,17 @@ export default async function GET(
     .single();
 
   if (error) {
-    return res.status(500).json({ error: error.message });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   if (!data) {
-    return res.status(404).json({ error: "No finance record found" });
+    return NextResponse.json(
+      { error: "No finance record found" },
+      { status: 404 }
+    );
   }
 
-  return res.status(200).json({ data });
+  return NextResponse.json(data);
 }
 
 export async function PUT(
