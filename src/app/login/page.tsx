@@ -12,7 +12,7 @@ import {
   Anchor,
 } from "@mantine/core";
 import { useSessionStore } from "../../store/sessionStore";
-import CustomNotification from "../../components/Notification";
+import { notifications } from "@mantine/notifications";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -21,33 +21,37 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      CustomNotification({
-        color: "red",
+      notifications.show({
         title: "Error",
-        content: "Please fill in all fields.",
-        position: "top-right",
+        message: "Please fill in all fields.",
+        color: "red",
       });
       return;
     } else {
       try {
         await signInStore(email, password);
-        window.open("/", "_self");
-
-        CustomNotification({
-          color: "green",
+        notifications.show({
           title: "Success",
-          content: "Logged in successfully!",
-          position: "top-right",
+          message: "Logged in successfully.",
+          color: "green",
         });
+        window.open("/", "_self");
 
         //eslint-disable-next-line
       } catch (error: any) {
-        CustomNotification({
-          color: "red",
-          title: "Error",
-          content: error.message || "An error occurred.",
-          position: "top-right",
-        });
+        if (error.message === "Invalid credentials") {
+          notifications.show({
+            title: "Error",
+            message: "Invalid credentials.",
+            color: "red",
+          });
+        } else {
+          notifications.show({
+            title: "Error",
+            message: "An error occurred. Please try again.",
+            color: "red",
+          });
+        }
       }
     }
   };

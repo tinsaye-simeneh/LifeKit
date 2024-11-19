@@ -1,6 +1,6 @@
 "use client";
 
-import CustomNotification from "@/components/Notification";
+import { notifications } from "@mantine/notifications";
 import ToDoForm from "@/components/to-do/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useTaskStore } from "@/store/todoStore";
@@ -27,20 +27,18 @@ const ToDoPage = () => {
 
     try {
       await createToDo(toDoData);
-      CustomNotification({
+      notifications.show({
         title: "Success",
-        content: "To-do item created successfully.",
+        message: "To-do item created successfully.",
         color: "green",
-        position: "top-right",
       });
       window.open("/to-do", "_self"); // Redirect to the to-do list after success
     } catch (error) {
       console.error("Error creating to-do item:", error);
-      CustomNotification({
+      notifications.show({
         title: "Error",
-        content: "There was an error creating the to-do item.",
+        message: "Failed to create the to-do item.",
         color: "red",
-        position: "top-right",
       });
     }
   };

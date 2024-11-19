@@ -30,9 +30,19 @@ const AddIdeaPage = () => {
     } else {
       try {
         await createIdea(ideaData);
+        notifications.show({
+          title: "Success",
+          message: "Idea created successfully.",
+          color: "green",
+        });
         window.open("/ideas", "_self");
       } catch (error) {
         console.error("Error creating idea:", error);
+        notifications.show({
+          title: "Error",
+          message: "Failed to create the idea.",
+          color: "red",
+        });
       }
     }
   };

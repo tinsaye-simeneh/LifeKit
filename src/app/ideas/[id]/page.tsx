@@ -79,9 +79,19 @@ const EditIdeaPage = () => {
     } else {
       try {
         await updateIdea(ideaId, ideaData);
+        notifications.show({
+          title: "Success",
+          message: "Idea updated successfully.",
+          color: "green",
+        });
         router.push("/ideas");
       } catch (error) {
         console.error("Error updating idea:", error);
+        notifications.show({
+          title: "Error",
+          message: "Failed to update idea.",
+          color: "red",
+        });
       }
     }
   };
