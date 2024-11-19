@@ -9,7 +9,7 @@ type GoalStore = {
   addGoal: (goal: Goal) => void;
   updateGoal: (id: string, updates: Partial<Goal>) => void;
   deleteGoal: (id: string) => void;
-  fetchGoals: () => void;
+  fetchGoals: (userId: string) => Promise<void>;
   fetchGoal: (id?: string) => Promise<Goal | undefined>;
 };
 
@@ -58,8 +58,8 @@ export const useGoalStore = create<GoalStore>((set) => ({
     }
   },
 
-  fetchGoals: async () => {
-    const response = await fetch("/api/goals?user_id=${userId}");
+  fetchGoals: async (userId) => {
+    const response = await fetch(`/api/goals?user_id=${userId}`);
     if (response.ok) {
       const goals = await response.json();
       set({ goals });

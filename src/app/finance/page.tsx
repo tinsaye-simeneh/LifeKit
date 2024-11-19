@@ -27,7 +27,7 @@ const FinancePage = () => {
       setLoading(false);
     };
     loadFinances();
-  }, [fetchFinances]);
+  }, [fetchFinances, loading, session?.user?.id]);
 
   const handleDelete = async (id: string) => {
     setLoading(true);
@@ -42,12 +42,20 @@ const FinancePage = () => {
         <h5 className="text-2xl font-semibold text-black text-center mt-2">
           Your Finance Records
         </h5>
-        <Button
-          onClick={() => window.open("/finance/new", "_self")}
-          className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-        >
-          Add Finance
-        </Button>
+        <div className="flex ml-auto">
+          <Button
+            onClick={() => setLoading(true)}
+            className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          >
+            Refresh
+          </Button>
+          <Button
+            onClick={() => window.open("/finance/new", "_self")}
+            className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          >
+            Add Finance
+          </Button>
+        </div>
       </Box>
 
       <EntityTable
