@@ -5,14 +5,16 @@ import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useGoalStore } from "@/store/goalStore";
 import { useSessionStore } from "@/store/sessionStore";
+import { notifications } from "@mantine/notifications";
 
 const columns = [
   { label: "Title", accessor: "title" },
   { label: "Description", accessor: "description" },
   { label: "Status", accessor: "status" },
-  { label: "Created At", accessor: "created_at" },
   { label: "Start Date", accessor: "start_date" },
   { label: "End Date", accessor: "end_date" },
+  { label: "Created At", accessor: "created_at" },
+  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const GoalsPage = () => {
@@ -31,6 +33,11 @@ const GoalsPage = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteGoal(id);
+    notifications.show({
+      title: "Success",
+      message: "Goal deleted successfully.",
+      color: "green",
+    });
     await fetchGoals(session?.user?.id as string);
     setLoading(false);
   };

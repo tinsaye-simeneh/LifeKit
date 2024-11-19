@@ -5,6 +5,7 @@ import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useTaskStore } from "@/store/todoStore";
 import { useSessionStore } from "@/store/sessionStore";
+import { notifications } from "@mantine/notifications";
 
 const columns = [
   { label: "Task Name", accessor: "name" },
@@ -12,6 +13,7 @@ const columns = [
   { label: "Status", accessor: "status" },
   { label: "Due Date", accessor: "due_date" },
   { label: "Created At", accessor: "created_at" },
+  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const TasksPage = () => {
@@ -30,6 +32,12 @@ const TasksPage = () => {
   const handleDelete = async (id: string) => {
     setLoading(true);
     await deleteTask(id);
+    notifications.show({
+      title: "Success",
+      message: "Task deleted successfully.",
+      color: "green",
+    });
+
     await fetchTasks(session?.user?.id as string);
     setLoading(false);
   };

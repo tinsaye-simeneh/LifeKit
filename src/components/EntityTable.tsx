@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Table, Button, Pagination, Loader } from "@mantine/core";
+import React, { useState, useEffect } from "react";
+import { Table, Button, Pagination, Loader, Input } from "@mantine/core";
 
 interface Column {
   label: string;
@@ -27,19 +27,88 @@ const EntityTable: React.FC<EntityTableProps> = ({
   loading = false, // Default value for loading
 }) => {
   const [activePage, setActivePage] = useState(1);
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortedData, setSortedData] = useState(data);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortColumn, setSortColumn] = useState<string>("");
+
+  const totalPages = Math.ceil(sortedData.length / rowsPerPage);
 
   const handlePageChange = (page: number) => {
     setActivePage(page);
   };
 
-  const paginatedData = data.slice(
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  // Format date to UTC+3
+  const formatDate = (date: string | number | Date): string => {
+    const formattedDate = new Date(date).toLocaleString("en-US", {
+      timeZone: "Africa/Nairobi", // UTC+3 time zone
+      weekday: "short", // e.g., "Mon"
+      year: "numeric",
+      month: "short", // e.g., "Sep"
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    return formattedDate;
+  };
+
+  // Trim text to 20 characters and add "..."
+  const trimText = (text: string) => {
+    return text.length > 20 ? `${text.substring(0, 20)}...` : text;
+  };
+
+  // Debounced search effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const filteredData = data.filter((row) =>
+        columns.some((column) =>
+          String(row[column.accessor])
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        )
+      );
+      setSortedData(filteredData);
+      setActivePage(1); // Reset to the first page after search
+    }, 300); // Debounce delay
+
+    return () => clearTimeout(timeoutId); // Cleanup previous timeout on search change
+  }, [searchQuery, data, columns]);
+
+  const handleSort = (column: string) => {
+    const newDirection =
+      sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    setSortColumn(column);
+    setSortDirection(newDirection);
+
+    const sorted = [...sortedData].sort((a, b) => {
+      if (a[column] < b[column]) return newDirection === "asc" ? -1 : 1;
+      if (a[column] > b[column]) return newDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+    setSortedData(sorted);
+  };
+
+  const paginatedData = sortedData.slice(
     (activePage - 1) * rowsPerPage,
     activePage * rowsPerPage
   );
 
   return (
     <>
+      <div className="flex justify-between items-center mb-4">
+        <Input
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="w-1/2"
+        />
+      </div>
+
       <div className="overflow-x-auto bg-white rounded-lg shadow-lg mt-6 border border-gray-200">
         {loading ? (
           <div className="flex justify-center items-center h-48">
@@ -63,9 +132,17 @@ const EntityTable: React.FC<EntityTableProps> = ({
                     {columns.map((column) => (
                       <th
                         key={column.accessor}
-                        className="text-left p-4 font-semibold text-gray-700"
+                        className="text-left p-4 font-semibold text-gray-700 cursor-pointer"
+                        onClick={() => handleSort(column.accessor)}
                       >
-                        {column.label}
+                        {column.label}{" "}
+                        {sortColumn === column.accessor ? (
+                          sortDirection === "asc" ? (
+                            <span>↑</span>
+                          ) : (
+                            <span>↓</span>
+                          )
+                        ) : null}
                       </th>
                     ))}
                     <th className="text-left p-4 font-semibold text-gray-700">
@@ -86,7 +163,16 @@ const EntityTable: React.FC<EntityTableProps> = ({
                           key={column.accessor}
                           className="p-4 text-gray-700 text-sm whitespace-nowrap"
                         >
-                          {row[column.accessor]}
+                          {[
+                            "created_at",
+                            "start_date",
+                            "end_date",
+                            "updated_at",
+                          ].includes(column.accessor)
+                            ? formatDate(row[column.accessor])
+                            : typeof row[column.accessor] === "string"
+                            ? trimText(row[column.accessor])
+                            : row[column.accessor]}
                         </td>
                       ))}
                       <td className="p-4 space-y-2 lg:space-y-0 lg:space-x-2">
@@ -117,6 +203,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
           </>
         )}
       </div>
+
       {!loading && (
         <div className="flex justify-center mt-4">
           <Pagination
