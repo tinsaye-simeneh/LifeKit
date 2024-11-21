@@ -51,29 +51,3 @@ export async function DELETE(
 
   return NextResponse.json({ message: "Goal deleted successfully" });
 }
-
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-
-  if (!id) {
-    return NextResponse.json(
-      { error: "Finance ID is required" },
-      { status: 400 }
-    );
-  }
-
-  const { data, error } = await supabase
-    .from("goals")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json(data);
-}
