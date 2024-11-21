@@ -30,13 +30,7 @@ const LoginPage = () => {
     } else {
       try {
         await signInStore(email, password);
-        notifications.show({
-          title: "Success",
-          message: "Logged in successfully.",
-          color: "green",
-        });
-        window.open("/", "_self");
-
+        router.push("/");
         //eslint-disable-next-line
       } catch (error: any) {
         if (error.message === "Invalid credentials") {
