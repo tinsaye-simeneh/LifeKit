@@ -68,7 +68,7 @@ export const useFinanceStore = create<FinanceStore>((set) => ({
     }
   },
   fetchFinance: async (id: string) => {
-    const response = await fetch(`/api/finance/${id}`, {
+    const response = await fetch(`/api/finance/get-finance?id=${id}`, {
       method: "GET",
     });
     if (response.ok) {
