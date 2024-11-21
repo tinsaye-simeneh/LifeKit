@@ -32,7 +32,7 @@ export const useGoalStore = create<GoalStore>((set) => ({
   },
 
   updateGoal: async (id, updates) => {
-    const response = await fetch(`/api/goals/${id}`, {
+    const response = await fetch(`/api/goals/update-goal?id=${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updates),
@@ -47,7 +47,7 @@ export const useGoalStore = create<GoalStore>((set) => ({
   },
 
   deleteGoal: async (id) => {
-    const response = await fetch(`/api/goals/${id}`, {
+    const response = await fetch(`/api/goals/update-goal?id=${id}`, {
       method: "DELETE",
     });
 

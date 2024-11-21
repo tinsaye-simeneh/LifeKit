@@ -2,11 +2,17 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
 import { Finance } from "@/types/models";
 
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function PUT(req: Request) {
+  const url = new URL(req.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json(
+      { error: "Missing 'id' query parameter" },
+      { status: 400 }
+    );
+  }
+
   const {
     amount,
     type,
@@ -37,11 +43,16 @@ export async function PUT(
   return NextResponse.json(data);
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function DELETE(req: Request) {
+  const url = new URL(req.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json(
+      { error: "Missing 'id' query parameter" },
+      { status: 400 }
+    );
+  }
 
   const { error } = await supabase.from("finance").delete().eq("id", id);
 
