@@ -32,12 +32,6 @@ const RegisterPage = () => {
       try {
         await signUp(email, password);
 
-        notifications.show({
-          title: "Success",
-          message: "Account created successfully.",
-          color: "green",
-        });
-
         setTimeout(() => {
           router.push("/login");
         }, 1000);

@@ -13,11 +13,13 @@ import {
 } from "@mantine/core";
 import { useSessionStore } from "../../store/sessionStore";
 import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signInStore } = useSessionStore();
+  const router = useRouter();
 
   const handleLogin = async () => {
     if (!email || !password) {
