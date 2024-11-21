@@ -31,7 +31,7 @@ export const useTaskStore = create<TaskStore>((set) => ({
     }
   },
   updateTask: async (id, updates) => {
-    const response = await fetch(`/api/tasks/${id}`, {
+    const response = await fetch(`/api/tasks/update-task?id=${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export const useTaskStore = create<TaskStore>((set) => ({
     }
   },
   deleteTask: async (id) => {
-    const response = await fetch(`/api/tasks/${id}`, {
+    const response = await fetch(`/api/tasks/update-task?id=${id}`, {
       method: "DELETE",
     });
 

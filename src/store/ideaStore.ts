@@ -32,7 +32,7 @@ export const useIdeaStore = create<IdeaStore>((set) => ({
   },
 
   updateIdea: async (id, updates) => {
-    const response = await fetch(`/api/ideas/${id}`, {
+    const response = await fetch(`/api/ideas/update-idea?id=${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updates),
@@ -47,7 +47,7 @@ export const useIdeaStore = create<IdeaStore>((set) => ({
   },
 
   deleteIdea: async (id) => {
-    const response = await fetch(`/api/ideas/${id}`, {
+    const response = await fetch(`/api/ideas/update-idea?id=${id}`, {
       method: "DELETE",
     });
 
