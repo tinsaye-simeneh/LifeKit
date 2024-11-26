@@ -26,40 +26,7 @@ LifeKit is a simple life management application built with Next.js, TypeScript, 
 - **State Management**: React Context API or Zustand (optional for larger scale)
 - **Form Handling**: react-hook-form, yup (for validation)
 
-## Installation
+## contributors:
 
-1. **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/yourusername/lifekit.git
-   cd lifekit
-   ```
-
-2. **Install dependencies**:
-
-   ```bash
-   npm install
-   ```
-
-3. **Install additional packages if needed** (see [Tech Stack](#tech-stack)).
-
-## Environment Variables
-
-Create a `.env.local` file in the root of your project and add your Supabase credentials:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-
-Replace `your-supabase-url` and `your-anon-key` with the details from your Supabase project.
-
-## Usage
-
-To run the project locally, use:
-
-```bash
-npm run dev
-```
-
-This command starts the development server on `http://localhost:3000`.
+- Hikma Anwar [https://github.com/HikmaAnwar]
+- Tinsaye Simeneh [https://github.com/tinsaye-simeneh]
