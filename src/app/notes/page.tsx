@@ -64,7 +64,7 @@ const NotesPage = () => {
       <EntityTable
         columns={columns}
         data={notes}
-        onEdit={(id) => window.open(`/note/${id}`, "_self")}
+        onEdit={(id) => window.open(`/notes/${id}`, "_self")}
         onDelete={handleDelete}
         loading={loading}
       />
