@@ -37,7 +37,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg mt-10">
-      <h1 className="text-3xl font-bold text-black text-center">Edit Goal</h1>
+      <h1 className="text-3xl font-bold text-black text-center">Goal</h1>
 
       <form
         onSubmit={form.onSubmit(onSubmit)}
