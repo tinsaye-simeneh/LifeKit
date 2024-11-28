@@ -41,8 +41,46 @@ const EntityTable: React.FC<EntityTableProps> = ({
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortColumn, setSortColumn] = useState<string>("");
   const [selectedColumn, setSelectedColumn] = useState<string>("");
-
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const SimpleModal = ({
+    isOpen,
+    onClose,
+    content,
+  }: {
+    isOpen: boolean;
+    onClose: () => void;
+    content: string;
+  }) => {
+    if (!isOpen) return null;
+
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="bg-white w-11/12 max-w-md p-6 rounded-md shadow-lg">
+          <h2 className="text-lg font-bold mb-4">Details</h2>
+          <p className="text-gray-700">{content}</p>
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const handlePageChange = (page: number) => {
     setActivePage(page);
@@ -53,7 +91,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
   };
 
   const handleFilterChange = (value: string | null) => {
-    setSelectedColumn(value || ""); // If value is null, set an empty string
+    setSelectedColumn(value || "");
   };
 
   const handleSort = (column: string) => {
@@ -117,6 +155,11 @@ const EntityTable: React.FC<EntityTableProps> = ({
   return (
     <>
       <div className="md:flex justify-between items-center mb-4">
+        <SimpleModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          content={`Details for name}`}
+        />
         <Select
           placeholder="Filter by column"
           data={columns.map((col) => ({
@@ -219,9 +262,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                               </Button>
                             </Menu.Target>
                             <Menu.Dropdown>
-                              <Menu.Item
-                                onClick={() => console.log("View clicked")}
-                              >
+                              <Menu.Item onClick={handleViewClick}>
                                 View
                               </Menu.Item>
                               <Menu.Item
@@ -240,9 +281,13 @@ const EntityTable: React.FC<EntityTableProps> = ({
                           </Menu>
                         </div>
 
-                        {/* For larger screens: Standard buttons */}
                         <div className="hidden lg:flex space-x-2">
-                          <Button variant="light" size="xs" className="w-auto">
+                          <Button
+                            variant="light"
+                            size="xs"
+                            className="w-auto"
+                            onClick={handleViewClick}
+                          >
                             <FaEye className="text-lg" />
                           </Button>
                           <Button
