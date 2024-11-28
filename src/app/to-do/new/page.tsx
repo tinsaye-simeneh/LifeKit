@@ -9,7 +9,6 @@ const ToDoPage = () => {
   const session = useSessionStore((state) => state.session);
   const createToDo = useTaskStore((state) => state.addTask);
 
-  // Ensure the session is loaded before proceeding to avoid errors
   if (!session?.user?.id) {
     return <div>You need to be logged in to create tasks.</div>;
   }
@@ -32,7 +31,7 @@ const ToDoPage = () => {
         message: "To-do item created successfully.",
         color: "green",
       });
-      window.open("/to-do", "_self"); // Redirect to the to-do list after success
+      window.open("/to-do", "_self");
     } catch (error) {
       console.error("Error creating to-do item:", error);
       notifications.show({
