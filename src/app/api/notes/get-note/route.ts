@@ -13,13 +13,13 @@ export async function GET(req: Request) {
   }
 
   const { data, error } = await supabase
-    .from("tasks")
+    .from("personal_notes")
     .select("*")
     .eq("id", id)
     .single();
 
   if (error) {
-    console.error("Error fetching record:", error);
+    console.error("Error fetching the record:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
