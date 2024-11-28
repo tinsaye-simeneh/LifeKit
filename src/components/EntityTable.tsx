@@ -124,8 +124,12 @@ const EntityTable: React.FC<EntityTableProps> = ({
           value={selectedColumn}
           onChange={(value) => handleFilterChange(value)}
           className="md:w-1/4 w-full"
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
         />
-        ;
         <Input
           placeholder="Search..."
           value={searchQuery}
