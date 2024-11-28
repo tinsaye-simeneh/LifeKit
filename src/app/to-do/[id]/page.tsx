@@ -36,8 +36,7 @@ const EditTaskPage = () => {
               name: taskData.name || "",
               priority: taskData.priority || "low",
               status: taskData.status || "pending",
-              due_date:
-                taskData.due_date || new Date().toISOString().split("T")[0],
+              due_date: taskData.due_date || "",
             });
           } else {
             setError("Task not found");
