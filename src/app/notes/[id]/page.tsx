@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import NoteForm from "@/components/note/forms";
-import { useSessionStore } from "@/store/sessionStore";
 import { useNoteStore } from "@/store/noteStore";
 import { notifications } from "@mantine/notifications";
 

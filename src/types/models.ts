@@ -93,12 +93,12 @@ export interface Goal {
 }
 
 export interface PersonalNote {
-  id: UUID;
-  user_id: UUID;
-  title?: string;
+  id?: UUID;
+  user_id?: UUID;
+  title: string;
   content: string;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface UserProfile {

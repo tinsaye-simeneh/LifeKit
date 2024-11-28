@@ -13,12 +13,10 @@ const NewNotePage = () => {
     return <div>You need to be logged in to create Note.</div>;
   }
 
-  const handleCreate = async (values: {
-    title: string;
-    content: string;
-  }) => {
+  const handleCreate = async (values: { title: string; content: string }) => {
     const noteData = {
       ...values,
+      id: "",
       user_id: session?.user?.id,
     };
 
@@ -38,7 +36,7 @@ const NewNotePage = () => {
         color: "red",
       });
     }
-  
+  };
 
   return (
     <NoteForm
@@ -51,4 +49,4 @@ const NewNotePage = () => {
   );
 };
 
-export default ToDoPage;
+export default NewNotePage;

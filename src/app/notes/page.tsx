@@ -8,12 +8,9 @@ import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 
 const columns = [
-  { label: "Task Name", accessor: "name" },
-  { label: "Priority", accessor: "priority" },
-  { label: "Status", accessor: "status" },
-  { label: "Due Date", accessor: "due_date" },
-  { label: "Created At", accessor: "created_at" },
-  { label: "Updated At", accessor: "updated_at" },
+  { label: "title", accessor: "title" },
+  { label: "content", accessor: "content" },
+  { label: "created_at", accessor: "created_at" },
 ];
 
 const NotesPage = () => {
@@ -22,12 +19,12 @@ const NotesPage = () => {
   const { session } = useSessionStore();
 
   useEffect(() => {
-    const loadTasks = async () => {
+    const loadNotes = async () => {
       setLoading(true);
-      await fetchNotes(session?.user?.id as string);
+      // await fetchNotes(session?.user?.id as string);
       setLoading(false);
     };
-    loadTasks();
+    loadNotes();
   }, [fetchNotes, loading, session?.user?.id]);
 
   const handleDelete = async (id: string) => {
