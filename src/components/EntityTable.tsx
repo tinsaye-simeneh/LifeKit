@@ -56,7 +56,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const removeUnwantedFields = (rowData: Record<string, any>) => {
-    const unwantedFields = ["id", "user_id"];
+    const unwantedFields = ["id", "user_id", "created_at", "updated_at"];
     return Object.fromEntries(
       Object.entries(rowData).filter(([key]) => !unwantedFields.includes(key))
     );
@@ -84,9 +84,10 @@ const EntityTable: React.FC<EntityTableProps> = ({
                 key={key}
                 className="flex justify-between border-b border-gray-200 py-2"
               >
-                <span className="font-medium text-gray-700">{key}:</span>
-                <span className="text-gray-600">{String(value)}</span>{" "}
-                {/* Ensures value is a valid string */}
+                <span className=" text-gray-700 mr-3">{key}:</span>
+                <span className="text-gray-600 mr-auto">
+                  {String(value)}
+                </span>{" "}
               </div>
             ))}
           </div>
@@ -175,8 +176,8 @@ const EntityTable: React.FC<EntityTableProps> = ({
 
   return (
     <>
-      <SimpleModal isOpen={isModalOpen} onClose={handleCloseModal} />
       <div className="md:flex justify-between items-center mb-4">
+        <SimpleModal isOpen={isModalOpen} onClose={handleCloseModal} />
         <Select
           placeholder="Filter by column"
           data={columns.map((col) => ({
