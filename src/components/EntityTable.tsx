@@ -8,7 +8,9 @@ import {
   Loader,
   Input,
   Select,
+  Menu,
 } from "@mantine/core";
+import { FaEye, FaEllipsisV } from "react-icons/fa";
 
 interface Column {
   label: string;
@@ -204,25 +206,64 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             : row[column.accessor]}
                         </td>
                       ))}
-                      <td className="px-4 py-2 space-y-2 lg:space-y-0 lg:space-x-2">
-                        <Button
-                          size="xs"
-                          variant="filled"
-                          color="blue"
-                          onClick={() => onEdit(row.id)}
-                          className="hover:bg-blue-600 transition w-full lg:w-auto"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          size="xs"
-                          variant="filled"
-                          color="red"
-                          onClick={() => onDelete(row.id)}
-                          className="hover:bg-red-600 transition w-full lg:w-auto"
-                        >
-                          Delete
-                        </Button>
+                      <td className="px-4 py-2">
+                        <div className="lg:hidden">
+                          <Menu shadow="md" width={200}>
+                            <Menu.Target>
+                              <Button
+                                variant="subtle"
+                                size="xs"
+                                className="p-0"
+                              >
+                                <FaEllipsisV className="text-lg" />
+                              </Button>
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                              <Menu.Item
+                                onClick={() => console.log("View clicked")}
+                              >
+                                View
+                              </Menu.Item>
+                              <Menu.Item
+                                color="blue"
+                                onClick={() => onEdit(row.id)}
+                              >
+                                Edit
+                              </Menu.Item>
+                              <Menu.Item
+                                color="red"
+                                onClick={() => onDelete(row.id)}
+                              >
+                                Delete
+                              </Menu.Item>
+                            </Menu.Dropdown>
+                          </Menu>
+                        </div>
+
+                        {/* For larger screens: Standard buttons */}
+                        <div className="hidden lg:flex space-x-2">
+                          <Button variant="light" size="xs" className="w-auto">
+                            <FaEye className="text-lg" />
+                          </Button>
+                          <Button
+                            size="xs"
+                            variant="filled"
+                            color="blue"
+                            onClick={() => onEdit(row.id)}
+                            className="hover:bg-blue-600 transition"
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            size="xs"
+                            variant="filled"
+                            color="red"
+                            onClick={() => onDelete(row.id)}
+                            className="hover:bg-red-600 transition"
+                          >
+                            Delete
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
