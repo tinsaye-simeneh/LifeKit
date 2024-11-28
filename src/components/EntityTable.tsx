@@ -42,37 +42,58 @@ const EntityTable: React.FC<EntityTableProps> = ({
   const [sortColumn, setSortColumn] = useState<string>("");
   const [selectedColumn, setSelectedColumn] = useState<string>("");
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-
+  const [rowData, setRowData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleViewClick = () => {
+  const handleViewClick = (row: Record<string, unknown>) => {
     setIsModalOpen(true);
+    setRowData(row);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const removeUnwantedFields = (rowData: Record<string, any>) => {
+    const unwantedFields = ["id", "user_id"];
+    return Object.fromEntries(
+      Object.entries(rowData).filter(([key]) => !unwantedFields.includes(key))
+    );
+  };
+
   const SimpleModal = ({
     isOpen,
     onClose,
-    content,
   }: {
     isOpen: boolean;
     onClose: () => void;
-    content: string;
   }) => {
     if (!isOpen) return null;
+
+    const filteredRowData: Record<string, React.ReactNode> =
+      removeUnwantedFields(rowData);
 
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div className="bg-white w-11/12 max-w-md p-6 rounded-md shadow-lg">
-          <h2 className="text-lg font-bold mb-4">Details</h2>
-          <p className="text-gray-700">{content}</p>
-          <div className="flex justify-end mt-4">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Details</h2>
+          <div className="space-y-4">
+            {Object.entries(filteredRowData).map(([key, value]) => (
+              <div
+                key={key}
+                className="flex justify-between border-b border-gray-200 py-2"
+              >
+                <span className="font-medium text-gray-700">{key}:</span>
+                <span className="text-gray-600">{String(value)}</span>{" "}
+                {/* Ensures value is a valid string */}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end mt-6">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
             >
               Close
             </button>
@@ -154,12 +175,8 @@ const EntityTable: React.FC<EntityTableProps> = ({
 
   return (
     <>
+      <SimpleModal isOpen={isModalOpen} onClose={handleCloseModal} />
       <div className="md:flex justify-between items-center mb-4">
-        <SimpleModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          content={`Details for name}`}
-        />
         <Select
           placeholder="Filter by column"
           data={columns.map((col) => ({
@@ -262,7 +279,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                               </Button>
                             </Menu.Target>
                             <Menu.Dropdown>
-                              <Menu.Item onClick={handleViewClick}>
+                              <Menu.Item onClick={() => handleViewClick(row)}>
                                 View
                               </Menu.Item>
                               <Menu.Item
@@ -286,25 +303,25 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             variant="light"
                             size="xs"
                             className="w-auto"
-                            onClick={handleViewClick}
+                            onClick={() => handleViewClick(row)}
                           >
                             <FaEye className="text-lg" />
                           </Button>
                           <Button
                             size="xs"
-                            variant="filled"
+                            variant="outline"
                             color="blue"
                             onClick={() => onEdit(row.id)}
-                            className="hover:bg-blue-600 transition"
+                            className="hover:bg-blue-600 hover:text-white transition"
                           >
                             Edit
                           </Button>
                           <Button
                             size="xs"
-                            variant="filled"
+                            variant="outline"
                             color="red"
                             onClick={() => onDelete(row.id)}
-                            className="hover:bg-red-600 transition"
+                            className="hover:bg-red-600 hover:text-white transition"
                           >
                             Delete
                           </Button>
