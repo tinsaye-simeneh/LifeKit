@@ -114,7 +114,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
+      <div className="md:flex justify-between items-center mb-4">
         <Select
           placeholder="Filter by column"
           data={columns.map((col) => ({
@@ -123,7 +123,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
           }))}
           value={selectedColumn}
           onChange={(value) => handleFilterChange(value)}
-          className="md:w-1/4 w-full"
+          className="md:w-1/4 w-full my-3"
           classNames={{
             label: "text-black",
             input: "text-black",
@@ -190,7 +190,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                       {columns.map((column) => (
                         <td
                           key={column.accessor}
-                          className="p-4 text-gray-700 text-sm whitespace-nowrap"
+                          className="px-4 text-gray-700 text-sm whitespace-nowrap"
                         >
                           {[
                             "created_at",
@@ -204,7 +204,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             : row[column.accessor]}
                         </td>
                       ))}
-                      <td className="p-4 space-y-2 lg:space-y-0 lg:space-x-2">
+                      <td className="px-4 py-2 space-y-2 lg:space-y-0 lg:space-x-2">
                         <Button
                           size="xs"
                           variant="filled"
