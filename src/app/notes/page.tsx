@@ -10,7 +10,7 @@ import { notifications } from "@mantine/notifications";
 const columns = [
   { label: "Title", accessor: "title" },
   { label: "Content", accessor: "content" },
-  { label: "Created_at", accessor: "created_at" },
+  { label: "Created At", accessor: "created_at" },
 ];
 
 const NotesPage = () => {
