@@ -1,54 +1,50 @@
 "use client";
 
 import { notifications } from "@mantine/notifications";
-import TaskForm from "@/components/to-do/forms";
 import { useSessionStore } from "@/store/sessionStore";
-import { useTaskStore } from "@/store/todoStore";
+import { useNoteStore } from "@/store/noteStore";
+import NoteForm from "@/components/note/forms";
 
-const ToDoPage = () => {
+const NewNotePage = () => {
   const session = useSessionStore((state) => state.session);
-  const createToDo = useTaskStore((state) => state.addTask);
+  const { addNote } = useNoteStore();
 
   if (!session?.user?.id) {
-    return <div>You need to be logged in to create tasks.</div>;
+    return <div>You need to be logged in to create Note.</div>;
   }
 
   const handleCreate = async (values: {
-    name: string;
-    priority: "low" | "medium" | "high";
-    due_date: string;
-    status: "pending" | "onProgress" | "completed";
+    title: string;
+    content: string;
   }) => {
-    const toDoData = {
+    const noteData = {
       ...values,
       user_id: session?.user?.id,
     };
 
     try {
-      await createToDo(toDoData);
+      await addNote(noteData);
       notifications.show({
         title: "Success",
-        message: "To-do item created successfully.",
+        message: "Note created successfully.",
         color: "green",
       });
-      window.open("/to-do", "_self");
+      window.open("/note", "_self");
     } catch (error) {
-      console.error("Error creating to-do item:", error);
+      console.error("Error creating note:", error);
       notifications.show({
         title: "Error",
-        message: "Failed to create the to-do item.",
+        message: "Failed to create the note.",
         color: "red",
       });
     }
-  };
+  
 
   return (
-    <TaskForm
+    <NoteForm
       initialValues={{
-        name: "",
-        priority: "low",
-        due_date: new Date().toISOString().split("T")[0],
-        status: "pending",
+        title: "",
+        content: "",
       }}
       onSubmit={handleCreate}
     />

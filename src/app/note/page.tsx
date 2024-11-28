@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
-import { useTaskStore } from "@/store/todoStore";
+import { useNoteStore } from "@/store/noteStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 
@@ -16,29 +16,30 @@ const columns = [
   { label: "Updated At", accessor: "updated_at" },
 ];
 
-const TasksPage = () => {
+const NotesPage = () => {
   const [loading, setLoading] = useState(true);
-  const { tasks, fetchTasks, deleteTask } = useTaskStore();
+  const { notes, fetchNotes, deleteNote } = useNoteStore();
   const { session } = useSessionStore();
 
   useEffect(() => {
     const loadTasks = async () => {
-      await fetchTasks(session?.user?.id as string);
+      setLoading(true);
+      await fetchNotes(session?.user?.id as string);
       setLoading(false);
     };
     loadTasks();
-  }, [fetchTasks, loading, session?.user?.id]);
+  }, [fetchNotes, loading, session?.user?.id]);
 
   const handleDelete = async (id: string) => {
     setLoading(true);
-    await deleteTask(id);
+    await deleteNote(id);
     notifications.show({
       title: "Success",
       message: "Task deleted successfully.",
       color: "green",
     });
 
-    await fetchTasks(session?.user?.id as string);
+    await fetchNotes(session?.user?.id as string);
     setLoading(false);
   };
 
@@ -46,7 +47,7 @@ const TasksPage = () => {
     <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <Box className="flex mt-5">
         <h5 className="text-2xl font-semibold text-black text-center mt-2">
-          Tasks
+          Notes
         </h5>
         <div className="flex ml-auto">
           <Button
@@ -56,18 +57,18 @@ const TasksPage = () => {
             Refresh
           </Button>
           <Button
-            onClick={() => window.open("/to-do/new", "_self")}
+            onClick={() => window.open("/note/new", "_self")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
-            Add Task
+            Add Note
           </Button>
         </div>
       </Box>
 
       <EntityTable
         columns={columns}
-        data={tasks}
-        onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+        data={notes}
+        onEdit={(id) => window.open(`/note/${id}`, "_self")}
         onDelete={handleDelete}
         loading={loading}
       />
@@ -75,4 +76,4 @@ const TasksPage = () => {
   );
 };
 
-export default TasksPage;
+export default NotesPage;

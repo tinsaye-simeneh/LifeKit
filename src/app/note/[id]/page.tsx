@@ -2,89 +2,64 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import TaskForm from "@/components/to-do/forms";
+import NoteForm from "@/components/note/forms";
 import { useSessionStore } from "@/store/sessionStore";
-import { useTaskStore } from "@/store/todoStore";
+import { useNoteStore } from "@/store/noteStore";
 import { notifications } from "@mantine/notifications";
 
-const EditTaskPage = () => {
+const EditNotePage = () => {
   const router = useRouter();
   const { id } = useParams();
-  const taskId = Array.isArray(id) ? id[0] : id;
+  const noteId = id as string;
 
-  const session = useSessionStore((state) => state.session);
-  const fetchTask = useTaskStore((state) => state.fetchTask);
-  const updateTask = useTaskStore((state) => state.updateTask);
+  const { fetchNote, updateNote } = useNoteStore();
 
   const [initialValues, setInitialValues] = useState({
-    name: "",
-    priority: "low" as "high" | "medium" | "low",
-    status: "pending" as "pending" | "onProgress" | "completed",
-    due_date: new Date().toISOString().split("T")[0],
+    title: "",
+    content: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadTaskData = async () => {
-      if (taskId && fetchTask) {
-        try {
-          const taskData = await fetchTask(taskId);
-          if (taskData) {
-            setInitialValues({
-              name: taskData.name || "",
-              priority: taskData.priority || "low",
-              status: taskData.status || "pending",
-              due_date: taskData.due_date || "",
-            });
-          } else {
-            setError("Task not found");
-          }
-        } catch (error) {
-          setError("Error fetching task data");
-          console.error("Error fetching task data:", error);
-        } finally {
-          setLoading(false);
-        }
+    const loadNote = async () => {
+      setLoading(true);
+      const note = await fetchNote(noteId);
+
+      if (!note) {
+        setError("Note not found");
+        setLoading(false);
+        return;
       }
+
+      setInitialValues({
+        title: note.title,
+        content: note.content,
+      });
+
+      setLoading(false);
     };
 
-    loadTaskData();
-  }, [taskId, fetchTask]);
+    loadNote();
+  }, [fetchNote, noteId]);
 
-  const handleUpdate = async (values: {
-    name: string;
-    priority: "high" | "medium" | "low";
-    status: "pending" | "onProgress" | "completed";
-    due_date: string;
-  }) => {
-    if (!taskId) {
-      console.error("No task ID provided");
-      return;
-    }
-
-    const taskData = {
-      ...values,
-      id: taskId,
-      user_id: session?.user?.id,
-    };
-
+  const handleUpdate = async (values: { title: string; content: string }) => {
     try {
-      await updateTask(taskId, taskData);
+      await updateNote(noteId, values);
       notifications.show({
         title: "Success",
-        message: "Task updated successfully.",
+        message: "Note updated successfully.",
         color: "green",
       });
-      router.push("/to-do");
+      router.push("/note");
     } catch (error) {
+      console.error("Error updating note:", error);
       notifications.show({
         title: "Error",
-        message: "Failed to update task entry.",
+        message: "Failed to update the note.",
         color: "red",
       });
-      console.error("Error updating task entry:", error);
     }
   };
 
@@ -92,7 +67,7 @@ const EditTaskPage = () => {
 
   if (error) return <div>{error}</div>;
 
-  return <TaskForm initialValues={initialValues} onSubmit={handleUpdate} />;
+  return <NoteForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };
 
-export default EditTaskPage;
+export default EditNotePage;

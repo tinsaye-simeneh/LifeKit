@@ -21,6 +21,7 @@ const menuItems = [
   { label: "Goals", link: "/goals" },
   { label: "Finance", link: "/finance" },
   { label: "Ideas", link: "/ideas" },
+  { label: "Notes", link: "/notes" },
 ];
 
 const Navbar = () => {
