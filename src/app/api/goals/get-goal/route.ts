@@ -19,15 +19,12 @@ export async function GET(req: Request) {
     .single();
 
   if (error) {
-    console.error("Error fetching finance record:", error);
+    console.error("Error fetching record:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   if (!data) {
-    return NextResponse.json(
-      { error: "No finance record found" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "No record found" }, { status: 404 });
   }
 
   return NextResponse.json(data);
