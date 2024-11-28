@@ -39,20 +39,18 @@ const Navbar = () => {
           Life Kit
         </Title>
 
-        {session && (
-          <Group className="hidden md:flex">
-            {menuItems.map((item) => (
-              <Button
-                key={item.label}
-                variant="subtle"
-                className="text-gray-300 hover:text-white"
-                onClick={() => router.push(item.link)}
-              >
-                {item.label}
-              </Button>
-            ))}
-          </Group>
-        )}
+        <Group className="hidden md:flex">
+          {menuItems.map((item) => (
+            <Button
+              key={item.label}
+              variant="subtle"
+              className="text-gray-300 hover:text-white"
+              onClick={() => router.push(item.link)}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </Group>
 
         <Group>
           {session ? (
