@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Table, Button, Pagination, Loader, Input } from "@mantine/core";
+import {
+  Table,
+  Button,
+  Pagination,
+  Loader,
+  Input,
+  Select,
+} from "@mantine/core";
 
 interface Column {
   label: string;
@@ -14,8 +21,8 @@ interface EntityTableProps {
   data: any[];
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
-  rowsPerPage?: number; // Optional prop for items per page
-  loading?: boolean; // New loading prop
+  rowsPerPage?: number; // Items per page
+  loading?: boolean;
 }
 
 const EntityTable: React.FC<EntityTableProps> = ({
@@ -24,15 +31,16 @@ const EntityTable: React.FC<EntityTableProps> = ({
   onEdit,
   onDelete,
   rowsPerPage = 5,
-  loading = false, // Default value for loading
+  loading = false,
 }) => {
   const [activePage, setActivePage] = useState(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sortedData, setSortedData] = useState(data);
+  const [filteredData, setFilteredData] = useState(data);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortColumn, setSortColumn] = useState<string>("");
+  const [selectedColumn, setSelectedColumn] = useState<string>("");
 
-  const totalPages = Math.ceil(sortedData.length / rowsPerPage);
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
   const handlePageChange = (page: number) => {
     setActivePage(page);
@@ -42,42 +50,9 @@ const EntityTable: React.FC<EntityTableProps> = ({
     setSearchQuery(query);
   };
 
-  // Format date to UTC+3
-  const formatDate = (date: string | number | Date): string => {
-    const formattedDate = new Date(date).toLocaleString("en-US", {
-      timeZone: "Africa/Nairobi", // UTC+3 time zone
-      weekday: "short", // e.g., "Mon"
-      year: "numeric",
-      month: "short", // e.g., "Sep"
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
-    return formattedDate;
+  const handleFilterChange = (value: string | null) => {
+    setSelectedColumn(value || ""); // If value is null, set an empty string
   };
-
-  // Trim text to 20 characters and add "..."
-  const trimText = (text: string) => {
-    return text.length > 20 ? `${text.substring(0, 20)}...` : text;
-  };
-
-  // Debounced search effect
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const filteredData = data.filter((row) =>
-        columns.some((column) =>
-          String(row[column.accessor])
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        )
-      );
-      setSortedData(filteredData);
-      setActivePage(1); // Reset to the first page after search
-    }, 300); // Debounce delay
-
-    return () => clearTimeout(timeoutId); // Cleanup previous timeout on search change
-  }, [searchQuery, data, columns]);
 
   const handleSort = (column: string) => {
     const newDirection =
@@ -85,15 +60,54 @@ const EntityTable: React.FC<EntityTableProps> = ({
     setSortColumn(column);
     setSortDirection(newDirection);
 
-    const sorted = [...sortedData].sort((a, b) => {
+    const sorted = [...filteredData].sort((a, b) => {
       if (a[column] < b[column]) return newDirection === "asc" ? -1 : 1;
       if (a[column] > b[column]) return newDirection === "asc" ? 1 : -1;
       return 0;
     });
-    setSortedData(sorted);
+    setFilteredData(sorted);
   };
 
-  const paginatedData = sortedData.slice(
+  const formatDate = (date: string | number | Date): string => {
+    return new Date(date).toLocaleString("en-US", {
+      timeZone: "Africa/Nairobi", // UTC+3
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
+  const trimText = (text: string) => {
+    return text.length > 20 ? `${text.substring(0, 20)}...` : text;
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const filtered = data.filter((row) => {
+        if (selectedColumn) {
+          return String(row[selectedColumn])
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+        }
+
+        return columns.some((column) =>
+          String(row[column.accessor])
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        );
+      });
+      setFilteredData(filtered);
+      setActivePage(1);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery, selectedColumn, data, columns]);
+
+  const paginatedData = filteredData.slice(
     (activePage - 1) * rowsPerPage,
     activePage * rowsPerPage
   );
@@ -101,11 +115,22 @@ const EntityTable: React.FC<EntityTableProps> = ({
   return (
     <>
       <div className="flex justify-between items-center mb-4">
+        <Select
+          placeholder="Filter by column"
+          data={columns.map((col) => ({
+            value: col.accessor,
+            label: col.label,
+          }))}
+          value={selectedColumn}
+          onChange={(value) => handleFilterChange(value)}
+          className="md:w-1/4 w-full"
+        />
+        ;
         <Input
           placeholder="Search..."
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
-          className="w-1/2"
+          className="md:w-1/2 w-full"
         />
       </div>
 
