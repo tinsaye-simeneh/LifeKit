@@ -23,7 +23,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { user_id, name, priority, status }: Task = await req.json();
+  const { user_id, name, priority, status, due_date }: Task = await req.json();
 
   const { data, error } = await supabase
     .from("tasks")
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
         priority,
         status,
         created_at: new Date(),
+        due_date,
       },
     ])
     .single();

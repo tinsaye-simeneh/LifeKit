@@ -1,7 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Table, Button, Pagination, Loader, Input } from "@mantine/core";
+import {
+  Table,
+  Button,
+  Pagination,
+  Loader,
+  Input,
+  Select,
+  Menu,
+} from "@mantine/core";
+import { FaEye, FaEllipsisV } from "react-icons/fa";
 
 interface Column {
   label: string;
@@ -14,8 +23,8 @@ interface EntityTableProps {
   data: any[];
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
-  rowsPerPage?: number; // Optional prop for items per page
-  loading?: boolean; // New loading prop
+  rowsPerPage?: number; // Items per page
+  loading?: boolean;
 }
 
 const EntityTable: React.FC<EntityTableProps> = ({
@@ -24,15 +33,76 @@ const EntityTable: React.FC<EntityTableProps> = ({
   onEdit,
   onDelete,
   rowsPerPage = 5,
-  loading = false, // Default value for loading
+  loading = false,
 }) => {
   const [activePage, setActivePage] = useState(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sortedData, setSortedData] = useState(data);
+  const [filteredData, setFilteredData] = useState(data);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [sortColumn, setSortColumn] = useState<string>("");
+  const [selectedColumn, setSelectedColumn] = useState<string>("");
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+  const [rowData, setRowData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const totalPages = Math.ceil(sortedData.length / rowsPerPage);
+  const handleViewClick = (row: Record<string, unknown>) => {
+    setIsModalOpen(true);
+    setRowData(row);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const removeUnwantedFields = (rowData: Record<string, any>) => {
+    const unwantedFields = ["id", "user_id", "created_at", "updated_at"];
+    return Object.fromEntries(
+      Object.entries(rowData).filter(([key]) => !unwantedFields.includes(key))
+    );
+  };
+
+  const SimpleModal = ({
+    isOpen,
+    onClose,
+  }: {
+    isOpen: boolean;
+    onClose: () => void;
+  }) => {
+    if (!isOpen) return null;
+
+    const filteredRowData: Record<string, React.ReactNode> =
+      removeUnwantedFields(rowData);
+
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="bg-white w-11/12 max-w-md p-6 rounded-md shadow-lg">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Details</h2>
+          <div className="space-y-4">
+            {Object.entries(filteredRowData).map(([key, value]) => (
+              <div
+                key={key}
+                className="flex justify-between border-b border-gray-200 py-2"
+              >
+                <span className=" text-gray-700 mr-3">{key}:</span>
+                <span className="text-gray-600 mr-auto">
+                  {String(value)}
+                </span>{" "}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={onClose}
+              className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const handlePageChange = (page: number) => {
     setActivePage(page);
@@ -42,42 +112,9 @@ const EntityTable: React.FC<EntityTableProps> = ({
     setSearchQuery(query);
   };
 
-  // Format date to UTC+3
-  const formatDate = (date: string | number | Date): string => {
-    const formattedDate = new Date(date).toLocaleString("en-US", {
-      timeZone: "Africa/Nairobi", // UTC+3 time zone
-      weekday: "short", // e.g., "Mon"
-      year: "numeric",
-      month: "short", // e.g., "Sep"
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
-    return formattedDate;
+  const handleFilterChange = (value: string | null) => {
+    setSelectedColumn(value || "");
   };
-
-  // Trim text to 20 characters and add "..."
-  const trimText = (text: string) => {
-    return text.length > 20 ? `${text.substring(0, 20)}...` : text;
-  };
-
-  // Debounced search effect
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const filteredData = data.filter((row) =>
-        columns.some((column) =>
-          String(row[column.accessor])
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        )
-      );
-      setSortedData(filteredData);
-      setActivePage(1); // Reset to the first page after search
-    }, 300); // Debounce delay
-
-    return () => clearTimeout(timeoutId); // Cleanup previous timeout on search change
-  }, [searchQuery, data, columns]);
 
   const handleSort = (column: string) => {
     const newDirection =
@@ -85,27 +122,82 @@ const EntityTable: React.FC<EntityTableProps> = ({
     setSortColumn(column);
     setSortDirection(newDirection);
 
-    const sorted = [...sortedData].sort((a, b) => {
+    const sorted = [...filteredData].sort((a, b) => {
       if (a[column] < b[column]) return newDirection === "asc" ? -1 : 1;
       if (a[column] > b[column]) return newDirection === "asc" ? 1 : -1;
       return 0;
     });
-    setSortedData(sorted);
+    setFilteredData(sorted);
   };
 
-  const paginatedData = sortedData.slice(
+  const formatDate = (date: string | number | Date): string => {
+    return new Date(date).toLocaleString("en-US", {
+      timeZone: "Africa/Nairobi", // UTC+3
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
+  const trimText = (text: string) => {
+    return text.length > 20 ? `${text.substring(0, 20)}...` : text;
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const filtered = data.filter((row) => {
+        if (selectedColumn) {
+          return String(row[selectedColumn])
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+        }
+
+        return columns.some((column) =>
+          String(row[column.accessor])
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        );
+      });
+      setFilteredData(filtered);
+      setActivePage(1);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery, selectedColumn, data, columns]);
+
+  const paginatedData = filteredData.slice(
     (activePage - 1) * rowsPerPage,
     activePage * rowsPerPage
   );
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
+      <div className="md:flex justify-between items-center mb-4">
+        <SimpleModal isOpen={isModalOpen} onClose={handleCloseModal} />
+        <Select
+          placeholder="Filter by column"
+          data={columns.map((col) => ({
+            value: col.accessor,
+            label: col.label,
+          }))}
+          value={selectedColumn}
+          onChange={(value) => handleFilterChange(value)}
+          className="md:w-1/4 w-full my-3"
+          classNames={{
+            label: "text-black",
+            input: "text-black",
+            dropdown: "bg-white text-black",
+          }}
+        />
         <Input
           placeholder="Search..."
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
-          className="w-1/2"
+          className="md:w-1/2 w-full"
         />
       </div>
 
@@ -161,7 +253,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                       {columns.map((column) => (
                         <td
                           key={column.accessor}
-                          className="p-4 text-gray-700 text-sm whitespace-nowrap"
+                          className="px-4 text-gray-700 text-sm whitespace-nowrap"
                         >
                           {[
                             "created_at",
@@ -175,25 +267,66 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             : row[column.accessor]}
                         </td>
                       ))}
-                      <td className="p-4 space-y-2 lg:space-y-0 lg:space-x-2">
-                        <Button
-                          size="xs"
-                          variant="filled"
-                          color="blue"
-                          onClick={() => onEdit(row.id)}
-                          className="hover:bg-blue-600 transition w-full lg:w-auto"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          size="xs"
-                          variant="filled"
-                          color="red"
-                          onClick={() => onDelete(row.id)}
-                          className="hover:bg-red-600 transition w-full lg:w-auto"
-                        >
-                          Delete
-                        </Button>
+                      <td className="px-4 py-2">
+                        <div className="lg:hidden">
+                          <Menu shadow="md" width={200}>
+                            <Menu.Target>
+                              <Button
+                                variant="subtle"
+                                size="xs"
+                                className="p-0"
+                              >
+                                <FaEllipsisV className="text-lg" />
+                              </Button>
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                              <Menu.Item onClick={() => handleViewClick(row)}>
+                                View
+                              </Menu.Item>
+                              <Menu.Item
+                                color="blue"
+                                onClick={() => onEdit(row.id)}
+                              >
+                                Edit
+                              </Menu.Item>
+                              <Menu.Item
+                                color="red"
+                                onClick={() => onDelete(row.id)}
+                              >
+                                Delete
+                              </Menu.Item>
+                            </Menu.Dropdown>
+                          </Menu>
+                        </div>
+
+                        <div className="hidden lg:flex space-x-2">
+                          <Button
+                            variant="light"
+                            size="xs"
+                            className="w-auto"
+                            onClick={() => handleViewClick(row)}
+                          >
+                            <FaEye className="text-lg" />
+                          </Button>
+                          <Button
+                            size="xs"
+                            variant="outline"
+                            color="blue"
+                            onClick={() => onEdit(row.id)}
+                            className="hover:bg-blue-600 hover:text-white transition"
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            size="xs"
+                            variant="outline"
+                            color="red"
+                            onClick={() => onDelete(row.id)}
+                            className="hover:bg-red-600 hover:text-white transition"
+                          >
+                            Delete
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}

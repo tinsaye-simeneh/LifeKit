@@ -1,7 +1,7 @@
 "use client";
 
 import { notifications } from "@mantine/notifications";
-import ToDoForm from "@/components/to-do/forms";
+import TaskForm from "@/components/to-do/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useTaskStore } from "@/store/todoStore";
 
@@ -9,7 +9,6 @@ const ToDoPage = () => {
   const session = useSessionStore((state) => state.session);
   const createToDo = useTaskStore((state) => state.addTask);
 
-  // Ensure the session is loaded before proceeding to avoid errors
   if (!session?.user?.id) {
     return <div>You need to be logged in to create tasks.</div>;
   }
@@ -32,7 +31,7 @@ const ToDoPage = () => {
         message: "To-do item created successfully.",
         color: "green",
       });
-      window.open("/to-do", "_self"); // Redirect to the to-do list after success
+      window.open("/to-do", "_self");
     } catch (error) {
       console.error("Error creating to-do item:", error);
       notifications.show({
@@ -44,20 +43,15 @@ const ToDoPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg my-20">
-      <h1 className="text-3xl font-bold text-black mb-4 text-center">
-        Create a New Task
-      </h1>
-      <ToDoForm
-        initialValues={{
-          name: "",
-          priority: "low",
-          due_date: new Date().toISOString().split("T")[0],
-          status: "pending",
-        }}
-        onSubmit={handleCreate}
-      />
-    </div>
+    <TaskForm
+      initialValues={{
+        name: "",
+        priority: "low",
+        due_date: new Date().toISOString().split("T")[0],
+        status: "pending",
+      }}
+      onSubmit={handleCreate}
+    />
   );
 };
 

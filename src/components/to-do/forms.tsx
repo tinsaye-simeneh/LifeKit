@@ -28,7 +28,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
 
       <form
         onSubmit={form.onSubmit(onSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md"
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6"
       >
         <TextInput
           label="Task Name"
