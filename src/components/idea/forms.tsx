@@ -27,7 +27,7 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg mt-14">
-      <h1 className="text-3xl font-bold text-black text-center">Edit Idea</h1>
+      <h1 className="text-3xl font-bold text-black text-center">Idea</h1>
 
       <form
         onSubmit={form.onSubmit(onSubmit)}

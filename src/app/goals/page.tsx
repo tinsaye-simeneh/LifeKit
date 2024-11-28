@@ -46,7 +46,7 @@ const GoalsPage = () => {
     <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <Box className="flex mt-5">
         <h5 className="text-2xl font-semibold text-black text-center mt-2">
-          Your Goals
+          Goals
         </h5>
         <div className="flex ml-auto">
           <Button

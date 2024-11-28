@@ -2,7 +2,7 @@
 
 import "@mantine/core/styles.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSessionStore } from "@/store/sessionStore";
 import { usePathname, useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
@@ -14,22 +14,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
   const router = useRouter();
-  const isAuthRoute = pathname === "/login" || pathname === "/register";
+  const pathname = usePathname();
   const { session } = useSessionStore();
+  const [loading, setLoading] = useState(true);
+  const isAuthRoute = pathname === "/login" || pathname === "/register";
 
   useEffect(() => {
+    if (!loading) {
+      return;
+    }
+
     const timeout = setTimeout(() => {
       if (isAuthRoute && session) {
         router.push("/");
       } else if (!isAuthRoute && !session) {
         router.push("/login");
       }
+      setLoading(false);
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [isAuthRoute, session, router, pathname]);
+  }, [isAuthRoute, session, router, loading]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
