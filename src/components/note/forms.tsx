@@ -1,4 +1,4 @@
-import { Button, TextInput } from "@mantine/core";
+import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 interface NoteFormProps {
@@ -27,18 +27,28 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           placeholder="Enter note title"
           {...form.getInputProps("title")}
           classNames={{ label: "text-black", input: "text-black" }}
+          className="col-span-2"
+          required
         />
-        <TextInput
+        <Textarea
           label="Content"
-          placeholder="Enter content"
+          placeholder="Enter note content"
           {...form.getInputProps("content")}
           classNames={{ label: "text-black", input: "text-black" }}
+          className="col-span-2"
+          required
         />
         <Button
           type="submit"
-          className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+          className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-1"
         >
-          Save
+          Submit
+        </Button>
+        <Button
+          onClick={() => window.open("/notes", "_self")}
+          className="w-full col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
+        >
+          Cancel
         </Button>
       </form>
     </div>

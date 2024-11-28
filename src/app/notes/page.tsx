@@ -20,8 +20,7 @@ const NotesPage = () => {
 
   useEffect(() => {
     const loadNotes = async () => {
-      setLoading(true);
-      // await fetchNotes(session?.user?.id as string);
+      await fetchNotes(session?.user?.id as string);
       setLoading(false);
     };
     loadNotes();
@@ -54,7 +53,7 @@ const NotesPage = () => {
             Refresh
           </Button>
           <Button
-            onClick={() => window.open("/note/new", "_self")}
+            onClick={() => window.open("/notes/new", "_self")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
             Add Note

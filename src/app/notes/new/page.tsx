@@ -27,7 +27,7 @@ const NewNotePage = () => {
         message: "Note created successfully.",
         color: "green",
       });
-      window.open("/note", "_self");
+      window.open("/notes", "_self");
     } catch (error) {
       console.error("Error creating note:", error);
       notifications.show({
