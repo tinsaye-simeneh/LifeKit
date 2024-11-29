@@ -51,7 +51,7 @@ const EditNotePage = () => {
         message: "Note updated successfully.",
         color: "green",
       });
-      router.push("/note");
+      router.push("/notes");
     } catch (error) {
       console.error("Error updating note:", error);
       notifications.show({
