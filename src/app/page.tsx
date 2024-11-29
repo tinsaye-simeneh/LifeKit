@@ -68,9 +68,9 @@ const LandingPage = () => {
           <Button
             variant="filled"
             color="red"
-            onClick={() => (window.location.href = "/others")}
+            onClick={() => (window.location.href = "/notes")}
           >
-            Others
+            Notes
           </Button>
         </Group>
       </Card>
