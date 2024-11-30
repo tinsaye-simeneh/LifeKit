@@ -6,6 +6,7 @@ import EntityTable from "@/components/EntityTable";
 import { useIdeaStore } from "@/store/ideaStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
+import { FaPlus } from "react-icons/fa";
 
 const columns = [
   { label: "Title", accessor: "title" },
@@ -58,7 +59,7 @@ const IdeasPage = () => {
             onClick={() => window.open("/ideas/new", "_self")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
-            Add Idea
+            <FaPlus className="mr-2" /> Add
           </Button>
         </div>
       </Box>

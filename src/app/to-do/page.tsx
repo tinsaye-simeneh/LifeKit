@@ -6,6 +6,7 @@ import EntityTable from "@/components/EntityTable";
 import { useTaskStore } from "@/store/todoStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
+import { FaPlus } from "react-icons/fa";
 
 const columns = [
   { label: "Task Name", accessor: "name" },
@@ -59,7 +60,7 @@ const TasksPage = () => {
             onClick={() => window.open("/to-do/new", "_self")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
-            Add Task
+            <FaPlus className="mr-2" /> Add
           </Button>
         </div>
       </Box>
