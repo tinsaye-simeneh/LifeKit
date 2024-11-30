@@ -8,10 +8,11 @@ import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 
 const columns = [
+  { label: "Reason", accessor: "reason" },
   { label: "Amount", accessor: "amount" },
   { label: "Type", accessor: "type" },
-  { label: "Reason", accessor: "reason" },
   { label: "Payment Method", accessor: "payment_method" },
+  { label: "Bank", accessor: "bank_name" },
   { label: "Date", accessor: "date" },
   { label: "Created At", accessor: "created_at" },
   { label: "Updated At", accessor: "updated_at" },
