@@ -76,7 +76,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
 
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white w-11/12 max-w-md p-6 rounded-md shadow-lg">
+        <div className="bg-white w-11/12 max-w-md p-6 rounded-md shadow-lg overflow-y-auto max-h-[90vh]">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">Details</h2>
           <div className="space-y-4">
             {Object.entries(filteredRowData).map(([key, value]) => (
@@ -84,10 +84,8 @@ const EntityTable: React.FC<EntityTableProps> = ({
                 key={key}
                 className="flex justify-between border-b border-gray-200 py-2"
               >
-                <span className=" text-gray-700 mr-3">{key}:</span>
-                <span className="text-gray-600 mr-auto">
-                  {String(value)}
-                </span>{" "}
+                <span className="text-gray-700 mr-3">{key}:</span>
+                <span className="text-gray-600 mr-auto">{String(value)}</span>
               </div>
             ))}
           </div>
