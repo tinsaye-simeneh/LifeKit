@@ -6,6 +6,7 @@ import EntityTable from "@/components/EntityTable";
 import { useFinanceStore } from "@/store/financeStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
+import { FaPlus } from "react-icons/fa";
 
 const columns = [
   { label: "Reason", accessor: "reason" },
@@ -48,7 +49,7 @@ const FinancePage = () => {
   return (
     <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <Box className="flex mt-5">
-        <h5 className="text-2xl font-semibold text-black text-center mt-2">
+        <h5 className="text-2xl font-semibold text-black text-center">
           Finances ({finances.length})
         </h5>
         <div className="flex ml-auto">
@@ -62,7 +63,7 @@ const FinancePage = () => {
             onClick={() => window.open("/finance/new", "_self")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
-            Add Finance
+            <FaPlus className="mr-2" /> Add
           </Button>
         </div>
       </Box>
