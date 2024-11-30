@@ -21,6 +21,10 @@ const TasksPage = () => {
   const [loading, setLoading] = useState(true);
   const { tasks, fetchTasks, deleteTask } = useTaskStore();
   const { session } = useSessionStore();
+  const [taskStatus, setTaskStatus] = useState("pending");
+
+  const pendingTasks = tasks.filter((task) => task.status === taskStatus);
+  const completedTasks = tasks.filter((task) => task.status === "completed");
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -47,7 +51,13 @@ const TasksPage = () => {
     <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <Box className="flex mt-5">
         <h5 className="text-2xl font-semibold text-black text-center ">
-          Tasks ({tasks.length})
+          Tasks (
+          {taskStatus === "all"
+            ? tasks.length
+            : taskStatus === "pending"
+            ? pendingTasks.length
+            : completedTasks.length}
+          )
         </h5>
         <div className="flex ml-auto">
           <Button
@@ -65,13 +75,65 @@ const TasksPage = () => {
         </div>
       </Box>
 
-      <EntityTable
-        columns={columns}
-        data={tasks}
-        onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
-        onDelete={handleDelete}
-        loading={loading}
-      />
+      <Box>
+        <Button
+          className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${
+            taskStatus === "all" ? "bg-gray-500" : "bg-blue-600"
+          }`}
+          disabled={taskStatus === "all"}
+          onClick={() => setTaskStatus("all")}
+        >
+          All Tasks
+        </Button>
+        <Button
+          className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${
+            taskStatus === "pending" ? "bg-gray-500" : "bg-blue-600 "
+          }`}
+          disabled={taskStatus === "pending"}
+          onClick={() => setTaskStatus("pending")}
+        >
+          Pending
+        </Button>
+        <Button
+          className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${
+            taskStatus === "completed" ? "bg-gray-500 " : "bg-blue-600"
+          }`}
+          disabled={taskStatus === "completed"}
+          onClick={() => setTaskStatus("completed")}
+        >
+          Completed
+        </Button>
+      </Box>
+
+      {taskStatus === "all" && (
+        <EntityTable
+          columns={columns}
+          data={tasks}
+          onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+          onDelete={handleDelete}
+          loading={loading}
+        />
+      )}
+
+      {taskStatus === "pending" && (
+        <EntityTable
+          columns={columns}
+          data={pendingTasks}
+          onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+          onDelete={handleDelete}
+          loading={loading}
+        />
+      )}
+
+      {taskStatus === "completed" && (
+        <EntityTable
+          columns={columns}
+          data={completedTasks}
+          onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+          onDelete={handleDelete}
+          loading={loading}
+        />
+      )}
     </div>
   );
 };
