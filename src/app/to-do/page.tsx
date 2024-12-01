@@ -83,7 +83,7 @@ const TasksPage = () => {
           disabled={taskStatus === "all"}
           onClick={() => setTaskStatus("all")}
         >
-          All Tasks
+          All 
         </Button>
         <Button
           className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${
