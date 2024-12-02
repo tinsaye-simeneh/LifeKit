@@ -17,6 +17,7 @@ import { clearSession } from "@/utils/auth";
 import { useSessionStore } from "@/store/sessionStore";
 
 const menuItems = [
+  { label: "Home", link: "/" },
   { label: "To-Do", link: "/to-do" },
   { label: "Goals", link: "/goals" },
   { label: "Finance", link: "/finance" },
