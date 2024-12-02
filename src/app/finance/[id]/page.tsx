@@ -40,7 +40,7 @@ const EditFinancePage = () => {
               reason: financeData.reason || "",
               payment_method: financeData.payment_method || "cash",
               bank_name: financeData.bank_name || "",
-              date: financeData.date || new Date().toISOString().split("T")[0],
+              date: financeData.date || "",
             });
           } else {
             notifications.show({
