@@ -62,10 +62,7 @@ const FinancePage = () => {
           onChange={(value) => setSelectedOption(value as string)}
           data={[
             { value: "finance", label: `Finances (${finances.length})` },
-            {
-              value: "remaining",
-              label: `Remaining`,
-            },
+            { value: "remaining", label: `Remaining` },
           ]}
           placeholder="Select an option"
           className="w-40 mb-4"
@@ -75,6 +72,9 @@ const FinancePage = () => {
               fontSize: "1.125rem",
               color: "#000",
               border: "none",
+            },
+            dropdown: {
+              color: "#000",
             },
           }}
         />
