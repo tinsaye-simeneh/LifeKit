@@ -258,6 +258,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             "start_date",
                             "end_date",
                             "updated_at",
+                            "due_date",
                           ].includes(column.accessor)
                             ? formatDate(row[column.accessor])
                             : typeof row[column.accessor] === "string"
