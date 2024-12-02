@@ -24,7 +24,6 @@ export async function PUT(req: Request) {
         priority,
         status,
         description,
-        updated_at: new Date(),
         due_date,
       })
       .eq("id", id)

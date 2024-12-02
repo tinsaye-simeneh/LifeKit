@@ -32,7 +32,6 @@ export async function PUT(req: Request) {
         end_date,
         category,
         status,
-        updated_at: new Date(),
       })
       .eq("id", id)
       .single();
