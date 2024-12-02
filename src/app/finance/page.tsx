@@ -29,7 +29,6 @@ const FinancePage = () => {
   const { session } = useSessionStore();
   const [selectedOption, setSelectedOption] = useState("finance");
 
-  // Filter finances where reason is "Remaining"
   const remainingFinances = finances.filter(
     (finance) => finance.reason === "Remaining"
   );

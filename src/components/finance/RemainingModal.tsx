@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Text } from "@mantine/core";
+import { Badge, Button, Text } from "@mantine/core";
 
 type Finance = {
   id: string;
@@ -48,6 +48,14 @@ const RemainingMoneyModal: React.FC<RemainingMoneyModalProps> = ({ data }) => {
                   {item.date}
                 </Badge>
               </div>
+
+              <Button
+                color="red"
+                className="mt-4"
+                onClick={() => window.open(`/finance/${item.id}`, "_self")}
+              >
+                Edit
+              </Button>
             </>
           ))}
         </ul>
