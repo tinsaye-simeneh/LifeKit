@@ -21,6 +21,7 @@ const EditTaskPage = () => {
     priority: "low" as "high" | "medium" | "low",
     status: "pending" as "pending" | "onProgress" | "completed",
     due_date: new Date().toISOString().split("T")[0],
+    description: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ const EditTaskPage = () => {
               priority: taskData.priority || "low",
               status: taskData.status || "pending",
               due_date: taskData.due_date || "",
+              description: taskData.description || "",
             });
           } else {
             setError("Task not found");
@@ -58,6 +60,7 @@ const EditTaskPage = () => {
     priority: "high" | "medium" | "low";
     status: "pending" | "onProgress" | "completed";
     due_date: string;
+    description?: string;
   }) => {
     if (!taskId) {
       console.error("No task ID provided");

@@ -14,7 +14,8 @@ export async function PUT(req: Request) {
   }
 
   try {
-    const { name, priority, status }: Partial<Task> = await req.json();
+    const { name, priority, status, description }: Partial<Task> =
+      await req.json();
 
     const { data, error } = await supabase
       .from("tasks")
@@ -22,6 +23,7 @@ export async function PUT(req: Request) {
         name,
         priority,
         status,
+        description,
         updated_at: new Date(),
       })
       .eq("id", id)

@@ -18,6 +18,7 @@ const ToDoPage = () => {
     priority: "low" | "medium" | "high";
     due_date: string;
     status: "pending" | "onProgress" | "completed";
+    description?: string;
   }) => {
     const toDoData = {
       ...values,
@@ -49,6 +50,7 @@ const ToDoPage = () => {
         priority: "low",
         due_date: new Date().toISOString().split("T")[0],
         status: "pending",
+        description: "",
       }}
       onSubmit={handleCreate}
     />
