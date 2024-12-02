@@ -43,7 +43,7 @@ const EditTaskPage = () => {
               name: taskData.name || "",
               priority: taskData.priority || "low",
               status: taskData.status || "pending",
-              due_date: taskData.due_date || "",
+              due_date: taskData?.due_date || "",
               description: taskData.description || "",
             });
           } else {

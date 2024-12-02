@@ -43,7 +43,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           type="date"
           label="Due Date"
           placeholder="due date"
-          {...form.getInputProps("due")}
+          {...form.getInputProps("due_date")}
           classNames={{ label: "text-black", input: "text-black" }}
         />
 
