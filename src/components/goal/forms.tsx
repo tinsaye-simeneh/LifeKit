@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, TextInput } from "@mantine/core";
+import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 interface GoalFormProps {
@@ -51,7 +51,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           className="col-span-2"
         />
 
-        <TextInput
+        <Textarea
           label="Description"
           placeholder="Enter goal description"
           {...form.getInputProps("description")}
