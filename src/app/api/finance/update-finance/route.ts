@@ -30,7 +30,6 @@ export async function PUT(req: Request) {
       reason,
       payment_method,
       date,
-      updated_at: new Date().toISOString(),
       bank_name,
     })
     .eq("id", id)

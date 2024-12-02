@@ -1,4 +1,4 @@
-import { Button, Select, TextInput } from "@mantine/core";
+import { Button, Select, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 interface TaskFormProps {
@@ -7,6 +7,7 @@ interface TaskFormProps {
     priority: "high" | "medium" | "low";
     status: "pending" | "onProgress" | "completed";
     due_date: string;
+    description?: string;
   };
   onSubmit: (values: {
     id?: string;
@@ -14,6 +15,7 @@ interface TaskFormProps {
     priority: "high" | "medium" | "low";
     status: "pending" | "onProgress" | "completed";
     due_date: string;
+    description?: string;
   }) => void;
 }
 
@@ -36,10 +38,11 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           {...form.getInputProps("name")}
           classNames={{ label: "text-black", input: "text-black" }}
         />
+
         <TextInput
-          label="Due Date"
-          placeholder="Select due date"
           type="date"
+          label="Due Date"
+          placeholder="due date"
           {...form.getInputProps("due_date")}
           classNames={{ label: "text-black", input: "text-black" }}
         />
@@ -64,7 +67,13 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
             input: "text-black",
             dropdown: "bg-white text-black",
           }}
-          className="mb-10"
+        />
+        <Textarea
+          label="Description"
+          placeholder="Enter task description"
+          {...form.getInputProps("description")}
+          classNames={{ label: "text-black", input: "text-black" }}
+          className="col-span-2 mb-10"
         />
 
         <Button

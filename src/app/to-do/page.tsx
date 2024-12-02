@@ -14,7 +14,6 @@ const columns = [
   { label: "Status", accessor: "status" },
   { label: "Due Date", accessor: "due_date" },
   { label: "Created At", accessor: "created_at" },
-  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const TasksPage = () => {
@@ -83,7 +82,7 @@ const TasksPage = () => {
           disabled={taskStatus === "all"}
           onClick={() => setTaskStatus("all")}
         >
-          All 
+          All
         </Button>
         <Button
           className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${

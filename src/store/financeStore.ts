@@ -32,7 +32,7 @@ export const useFinanceStore = create<FinanceStore>((set) => ({
     }
   },
   updateFinance: async (id, updates) => {
-    const response = await fetch(`/api/finance/${id}`, {
+    const response = await fetch(`/api/finance/update-finance?id=${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

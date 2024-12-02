@@ -13,7 +13,6 @@ const columns = [
   { label: "Description", accessor: "description" },
   { label: "Status", accessor: "status" },
   { label: "Created At", accessor: "created_at" },
-  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const IdeasPage = () => {

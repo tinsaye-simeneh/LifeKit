@@ -50,6 +50,7 @@ export interface Task {
   status?: "pending" | "onProgress" | "completed";
   created_at?: string;
   due_date?: string;
+  description?: string;
 }
 
 export interface Finance {

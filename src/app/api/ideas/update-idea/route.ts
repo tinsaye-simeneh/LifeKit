@@ -21,7 +21,6 @@ export async function PUT(req: Request) {
       .update({
         title,
         description,
-        updated_at: new Date(),
       })
       .eq("id", id)
       .single();

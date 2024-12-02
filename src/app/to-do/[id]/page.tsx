@@ -16,15 +16,22 @@ const EditTaskPage = () => {
   const fetchTask = useTaskStore((state) => state.fetchTask);
   const updateTask = useTaskStore((state) => state.updateTask);
 
-  const [initialValues, setInitialValues] = useState({
-    name: "",
-    priority: "low" as "high" | "medium" | "low",
-    status: "pending" as "pending" | "onProgress" | "completed",
-    due_date: new Date().toISOString().split("T")[0],
-  });
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [initialValues, setInitialValues] = useState<{
+    name: string;
+    priority: "high" | "medium" | "low";
+    status: "pending" | "onProgress" | "completed";
+    due_date: string;
+    description?: string;
+  }>({
+    name: "",
+    priority: "low",
+    status: "pending",
+    due_date: "",
+    description: "",
+  });
 
   useEffect(() => {
     const loadTaskData = async () => {
@@ -36,7 +43,8 @@ const EditTaskPage = () => {
               name: taskData.name || "",
               priority: taskData.priority || "low",
               status: taskData.status || "pending",
-              due_date: taskData.due_date || "",
+              due_date: taskData?.due_date || "",
+              description: taskData.description || "",
             });
           } else {
             setError("Task not found");
@@ -58,6 +66,7 @@ const EditTaskPage = () => {
     priority: "high" | "medium" | "low";
     status: "pending" | "onProgress" | "completed";
     due_date: string;
+    description?: string;
   }) => {
     if (!taskId) {
       console.error("No task ID provided");
