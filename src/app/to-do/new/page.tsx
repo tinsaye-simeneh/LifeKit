@@ -48,7 +48,7 @@ const ToDoPage = () => {
       initialValues={{
         name: "",
         priority: "low",
-        due_date: new Date().toISOString().split("T")[0],
+        due_date: "",
         status: "pending",
         description: "",
       }}
