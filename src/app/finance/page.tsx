@@ -18,7 +18,6 @@ const columns = [
   { label: "Bank", accessor: "bank_name" },
   { label: "Date", accessor: "date" },
   { label: "Created At", accessor: "created_at" },
-  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const FinancePage = () => {

@@ -15,7 +15,6 @@ const columns = [
   { label: "Start Date", accessor: "start_date" },
   { label: "End Date", accessor: "end_date" },
   { label: "Created At", accessor: "created_at" },
-  { label: "Updated At", accessor: "updated_at" },
 ];
 
 const GoalsPage = () => {

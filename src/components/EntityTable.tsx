@@ -257,7 +257,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             "created_at",
                             "start_date",
                             "end_date",
-                            "updated_at",
+                            "date",
                             "due_date",
                           ].includes(column.accessor)
                             ? formatDate(row[column.accessor])
