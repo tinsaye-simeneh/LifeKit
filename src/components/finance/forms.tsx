@@ -71,7 +71,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           label="Reason"
           placeholder="Enter reason for transaction"
           {...form.getInputProps("reason")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{ label: "text-black", input: "text-black h-32" }}
         />
         <Select
           label="Payment Method"

@@ -76,7 +76,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           label="Description"
           placeholder="Enter task description"
           {...form.getInputProps("description")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{ label: "text-black", input: "text-black h-32" }}
           className="col-span-2 mb-10"
         />
 

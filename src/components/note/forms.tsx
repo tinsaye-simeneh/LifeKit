@@ -34,7 +34,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           label="Content"
           placeholder="Enter note content"
           {...form.getInputProps("content")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{ label: "text-black", input: "text-black h-32" }}
           className="col-span-2"
           required
         />

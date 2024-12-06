@@ -48,7 +48,7 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
           placeholder="Enter idea description"
           {...form.getInputProps("description")}
           error={form.errors.description}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{ label: "text-black", input: "text-black h-32" }}
           className="col-span-2"
           required
         />

@@ -55,7 +55,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           label="Description"
           placeholder="Enter goal description"
           {...form.getInputProps("description")}
-          classNames={{ label: "text-black", input: "text-black" }}
+          classNames={{ label: "text-black", input: "text-black h-32" }}
           className="col-span-2"
         />
 
