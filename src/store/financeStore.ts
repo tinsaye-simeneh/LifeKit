@@ -50,7 +50,7 @@ export const useFinanceStore = create<FinanceStore>((set) => ({
     }
   },
   deleteFinance: async (id) => {
-    const response = await fetch(`/api/finance/${id}`, {
+    const response = await fetch(`/api/finance/update-finance?id=${id}`, {
       method: "DELETE",
     });
 

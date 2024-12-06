@@ -53,7 +53,7 @@ const GoalsPage = () => {
             onClick={() => setLoading(true)}
             className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
-            Refresh
+            Reload
           </Button>
           <Button
             onClick={() => window.open("/goals/new", "_self")}
