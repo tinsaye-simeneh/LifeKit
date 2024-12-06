@@ -63,7 +63,7 @@ const FinancePage = () => {
             { value: "remaining", label: `Remaining` },
           ]}
           placeholder="Select an option"
-          className="w-40 mb-4"
+          className="w-44 mb-4"
           styles={{
             input: {
               fontWeight: "600",
@@ -82,7 +82,7 @@ const FinancePage = () => {
             onClick={() => setLoading(true)}
             className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
-            Refresh
+            Reload
           </Button>
           <Button
             onClick={() => window.open("/finance/new", "_self")}
