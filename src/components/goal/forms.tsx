@@ -102,13 +102,13 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
 
         <Button
           type="submit"
-          className="bg-blue-500 hover:bg-gray-600 text-white col-span-1 mt-4"
+          className="bg-blue-500 hover:bg-gray-600 text-white col-span-2 md:col-span-1 mt-4"
         >
           Submit
         </Button>
         <Button
           onClick={() => window.open("/goals", "_self")}
-          className="w-full col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
+          className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
         >
           Cancel
         </Button>
