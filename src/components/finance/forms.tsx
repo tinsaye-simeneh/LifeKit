@@ -93,13 +93,13 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
 
         <Button
           type="submit"
-          className="w-full col-span-1 bg-blue-500 hover:bg-blue-600 text-white"
+          className="w-full col-span-2 md:col-span-1 bg-blue-500 hover:bg-blue-600 text-white"
         >
           Submit
         </Button>
         <Button
           onClick={() => window.open("/finance", "_self")}
-          className="w-full col-span-1 bg-red-500 hover:bg-red-600 text-white"
+          className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white"
         >
           Cancel
         </Button>
