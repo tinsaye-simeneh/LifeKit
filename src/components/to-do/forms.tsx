@@ -82,14 +82,14 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
 
         <Button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white col-span-2 md:col-span-1"
         >
           Submit
         </Button>
 
         <Button
           onClick={() => window.open("/to-do", "_self")}
-          className="w-full bg-red-500 hover:bg-red-600 text-white"
+          className="w-full bg-red-500 hover:bg-red-600 text-white col-span-2 md:col-span-1"
         >
           Cancel
         </Button>
