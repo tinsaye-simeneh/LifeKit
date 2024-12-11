@@ -40,13 +40,13 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         />
         <Button
           type="submit"
-          className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-1"
+          className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-2 md:col-span-1"
         >
           Submit
         </Button>
         <Button
           onClick={() => window.open("/notes", "_self")}
-          className="w-full col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
+          className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
         >
           Cancel
         </Button>
