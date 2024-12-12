@@ -15,7 +15,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg my-20">
+    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg mb-20 mt-10">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">Notes</h1>
 
       <form
