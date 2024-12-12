@@ -64,6 +64,7 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
         <Button
           type="submit"
           className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-2 md:col-span-1 disabled:cursor-not-allowed disabled:bg-gray-300"
+          disabled={loading}
         >
           {loading ? "Loading..." : "Submit"}
         </Button>
