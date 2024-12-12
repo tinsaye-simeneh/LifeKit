@@ -64,7 +64,7 @@ const RegisterPage = () => {
         <Anchor
           size="sm"
           component="button"
-          onClick={() => window.open("/login", "_self")}
+          onClick={() => router.push("/login")}
         >
           Login
         </Anchor>

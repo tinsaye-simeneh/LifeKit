@@ -2,6 +2,7 @@
 
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 interface GoalFormProps {
   initialValues: {
@@ -25,6 +26,7 @@ interface GoalFormProps {
 }
 
 const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
+  const router = useRouter();
   const form = useForm({
     initialValues,
     validate: {
@@ -48,7 +50,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           placeholder="Enter goal title"
           {...form.getInputProps("title")}
           classNames={{ label: "text-black", input: "text-black" }}
-          className="col-span-2"
+          className="col-span-2 md:col-span-1"
         />
 
         <Textarea
@@ -56,7 +58,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           placeholder="Enter goal description"
           {...form.getInputProps("description")}
           classNames={{ label: "text-black", input: "text-black h-32" }}
-          className="col-span-2"
+          className="col-span-2 md:col-span-1"
         />
 
         <div className="col-span-1">
@@ -107,7 +109,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           Submit
         </Button>
         <Button
-          onClick={() => window.open("/goals", "_self")}
+          onClick={() => router.push("/goals")}
           className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
         >
           Cancel

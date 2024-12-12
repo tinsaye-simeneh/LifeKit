@@ -7,6 +7,7 @@ import { useIdeaStore } from "@/store/ideaStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const columns = [
   { label: "Title", accessor: "title" },
@@ -16,6 +17,7 @@ const columns = [
 ];
 
 const IdeasPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { ideas, fetchIdeas, deleteIdea } = useIdeaStore();
   const { session } = useSessionStore();
@@ -55,7 +57,7 @@ const IdeasPage = () => {
             Reload
           </Button>
           <Button
-            onClick={() => window.open("/ideas/new", "_self")}
+            onClick={() => router.push("/ideas/new")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
             <FaPlus className="mr-2" /> Add
@@ -66,7 +68,7 @@ const IdeasPage = () => {
       <EntityTable
         columns={columns}
         data={ideas}
-        onEdit={(id) => window.open(`/ideas/${id}`, "_self")}
+        onEdit={(id) => router.push(`/ideas/${id}`)}
         onDelete={handleDelete}
         loading={loading}
       />

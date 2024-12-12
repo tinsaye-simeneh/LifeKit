@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 interface FinanceFormProps {
   initialValues: {
@@ -30,12 +31,13 @@ interface FinanceFormProps {
 }
 
 const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
+  const router = useRouter();
   const form = useForm({
     initialValues,
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg my-20">
+    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg mb-20 mt-10">
       <h1 className="text-3xl font-bold text-black mb-4 text-center">
         Finance
       </h1>
@@ -50,12 +52,14 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           type="date"
           {...form.getInputProps("date")}
           classNames={{ label: "text-black", input: "text-black" }}
+          className="col-span-2 md:col-span-1"
         />
         <NumberInput
           label="Amount"
           placeholder="Enter amount"
           {...form.getInputProps("amount")}
           classNames={{ label: "text-black", input: "text-black" }}
+          className="col-span-2 md:col-span-1"
         />
         <Select
           label="Type"
@@ -66,12 +70,14 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             input: "text-black",
             dropdown: "bg-white text-black",
           }}
+          className="col-span-2 md:col-span-1"
         />
         <Textarea
           label="Reason"
           placeholder="Enter reason for transaction"
           {...form.getInputProps("reason")}
           classNames={{ label: "text-black", input: "text-black h-32" }}
+          className="col-span-2 md:col-span-1"
         />
         <Select
           label="Payment Method"
@@ -82,13 +88,14 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             input: "text-black",
             dropdown: "bg-white text-black",
           }}
+          className="col-span-2 md:col-span-1"
         />
         <TextInput
           label="Bank Name (optional)"
           placeholder="Enter bank name"
           {...form.getInputProps("bank_name")}
           classNames={{ label: "text-black", input: "text-black" }}
-          className="mb-10"
+          className="mb-10 col-span-2 md:col-span-1"
         />
 
         <Button
@@ -98,7 +105,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           Submit
         </Button>
         <Button
-          onClick={() => window.open("/finance", "_self")}
+          onClick={() => router.push("/finance")}
           className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white"
         >
           Cancel

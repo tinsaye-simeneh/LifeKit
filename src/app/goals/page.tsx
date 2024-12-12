@@ -7,6 +7,7 @@ import { useGoalStore } from "@/store/goalStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const columns = [
   { label: "Title", accessor: "title" },
@@ -18,6 +19,7 @@ const columns = [
 ];
 
 const GoalsPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { goals, fetchGoals, deleteGoal } = useGoalStore();
   const { session } = useSessionStore();
@@ -56,7 +58,7 @@ const GoalsPage = () => {
             Reload
           </Button>
           <Button
-            onClick={() => window.open("/goals/new", "_self")}
+            onClick={() => router.push("/goals/new")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
             <FaPlus className="mr-2" /> Add
@@ -67,7 +69,7 @@ const GoalsPage = () => {
       <EntityTable
         columns={columns}
         data={goals}
-        onEdit={(id) => window.open(`/goals/${id}`, "_self")}
+        onEdit={(id) => router.push(`/goals/${id}`)}
         onDelete={handleDelete}
         loading={loading}
       />

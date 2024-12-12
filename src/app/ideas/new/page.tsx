@@ -4,8 +4,10 @@ import IdeaForm from "@/components/idea/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useIdeaStore } from "@/store/ideaStore";
 import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 
 const AddIdeaPage = () => {
+  const router = useRouter();
   const session = useSessionStore((state) => state.session);
   const createIdea = useIdeaStore((state) => state.addIdea);
 
@@ -35,7 +37,7 @@ const AddIdeaPage = () => {
           message: "Idea created successfully.",
           color: "green",
         });
-        window.open("/ideas", "_self");
+        router.push("/ideas");
       } catch (error) {
         console.error("Error creating idea:", error);
         notifications.show({
