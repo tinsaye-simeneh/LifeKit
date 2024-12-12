@@ -50,12 +50,14 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           type="date"
           {...form.getInputProps("date")}
           classNames={{ label: "text-black", input: "text-black" }}
+          className="col-span-2 md:col-span-1"
         />
         <NumberInput
           label="Amount"
           placeholder="Enter amount"
           {...form.getInputProps("amount")}
           classNames={{ label: "text-black", input: "text-black" }}
+          className="col-span-2 md:col-span-1"
         />
         <Select
           label="Type"
@@ -66,12 +68,14 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             input: "text-black",
             dropdown: "bg-white text-black",
           }}
+          className="col-span-2 md:col-span-1"
         />
         <Textarea
           label="Reason"
           placeholder="Enter reason for transaction"
           {...form.getInputProps("reason")}
           classNames={{ label: "text-black", input: "text-black h-32" }}
+          className="col-span-2 md:col-span-1"
         />
         <Select
           label="Payment Method"
@@ -82,13 +86,14 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             input: "text-black",
             dropdown: "bg-white text-black",
           }}
+          className="col-span-2 md:col-span-1"
         />
         <TextInput
           label="Bank Name (optional)"
           placeholder="Enter bank name"
           {...form.getInputProps("bank_name")}
           classNames={{ label: "text-black", input: "text-black" }}
-          className="mb-10"
+          className="mb-10 col-span-2 md:col-span-1"
         />
 
         <Button
