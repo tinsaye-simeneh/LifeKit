@@ -34,6 +34,7 @@ const LoginPage = () => {
       try {
         setLoading(true);
         await signInStore(email, password);
+        setLoading(false);
         router.push("/");
         //eslint-disable-next-line
       } catch (error: any) {
