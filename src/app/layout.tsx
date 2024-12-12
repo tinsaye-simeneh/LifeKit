@@ -22,7 +22,6 @@ export default function RootLayout({
   const [isPageLoading, setIsPageLoading] = useState(false);
   const isAuthRoute = pathname === "/login" || pathname === "/register";
 
-  // Redirect logic for auth routes
   useEffect(() => {
     if (!loading) {
       return;
@@ -35,32 +34,29 @@ export default function RootLayout({
         router.push("/login");
       }
       setLoading(false);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, [isAuthRoute, session, router, loading]);
 
-  // Progress loader logic using pathname change
   useEffect(() => {
     const handleStart = () => {
       setIsPageLoading(true);
-      setProgress(20); // Start progress at 20%
+      setProgress(20);
     };
 
     const handleComplete = () => {
-      setProgress(100); // Complete progress
+      setProgress(100);
       setTimeout(() => {
         setIsPageLoading(false);
-        setProgress(0); // Reset progress after a short delay
-      }, 300); // Smooth transition
+        setProgress(0);
+      }, 300);
     };
 
-    // Simulate the "start" when pathname changes
     handleStart();
-    const timeout = setTimeout(handleComplete, 1000); // Adjust timeout duration for realistic progress
-
-    return () => clearTimeout(timeout); // Cleanup timeout
-  }, [pathname]); // Trigger when the pathname changes
+    const timeout = setTimeout(handleComplete, 1000);
+    return () => clearTimeout(timeout);
+  }, [pathname]);
 
   if (loading) {
     return null;
@@ -73,7 +69,6 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
-          {/* Progress Bar */}
           {isPageLoading && (
             <Progress
               value={progress}
