@@ -79,7 +79,23 @@ const LandingPage = () => {
 
       <footer className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-white py-6 my-12 border-gray-4 border">
         <Container size="lg" className="text-center">
-          <p>&copy; 2024 LifeKit. All rights reserved.</p>
+          <p>
+            &copy; 2024 LifeKit. Made with ❤️ by
+            <a
+              href="https://github.com/HikmaAnwar"
+              className="text-blue-500 underline"
+            >
+              {" "}
+              Hikma
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://github.com/tinsaye-simeneh"
+              className="text-blue-500 underline"
+            >
+              Tinsaye
+            </a>
+          </p>
         </Container>
       </footer>
     </div>

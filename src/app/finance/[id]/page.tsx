@@ -10,7 +10,7 @@ import { notifications } from "@mantine/notifications";
 const EditFinancePage = () => {
   const router = useRouter();
   const { id } = useParams();
-  const financeId = Array.isArray(id) ? id[0] : id; // Ensure financeId is properly extracted
+  const financeId = Array.isArray(id) ? id[0] : id;
 
   const session = useSessionStore((state) => state.session);
   const fetchFinance = useFinanceStore((state) => state.fetchFinance);
