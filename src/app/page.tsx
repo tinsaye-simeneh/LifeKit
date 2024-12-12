@@ -2,8 +2,10 @@
 
 import React from "react";
 import { Card, Group, Text, Button, Container } from "@mantine/core";
+import { useRouter } from "next/navigation";
 
 const LandingPage = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900">
       <section className=" text-white py-20 px-6 text-center">
@@ -17,7 +19,7 @@ const LandingPage = () => {
             variant="filled"
             color="yellow"
             size="lg"
-            onClick={() => (window.location.href = "/to-do")}
+            onClick={() => router.push("/to-do")}
           >
             Get Started
           </Button>
@@ -37,14 +39,14 @@ const LandingPage = () => {
           <Button
             variant="filled"
             color="blue"
-            onClick={() => (window.location.href = "/to-do")}
+            onClick={() => router.push("/to-do")}
           >
             Todo
           </Button>
           <Button
             variant="filled"
             color="green"
-            onClick={() => (window.location.href = "/finance")}
+            onClick={() => router.push("/finance")}
             px={10}
           >
             Finance
@@ -52,7 +54,7 @@ const LandingPage = () => {
           <Button
             variant="filled"
             color="yellow"
-            onClick={() => (window.location.href = "/goals")}
+            onClick={() => router.push("/goals")}
           >
             Goals
           </Button>
@@ -61,14 +63,14 @@ const LandingPage = () => {
           <Button
             variant="filled"
             color="purple"
-            onClick={() => (window.location.href = "/ideas")}
+            onClick={() => router.push("/ideas")}
           >
             Ideas
           </Button>
           <Button
             variant="filled"
             color="red"
-            onClick={() => (window.location.href = "/notes")}
+            onClick={() => router.push("/notes")}
           >
             Notes
           </Button>
