@@ -19,6 +19,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signInStore } = useSessionStore();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -31,6 +32,7 @@ const LoginPage = () => {
       return;
     } else {
       try {
+        setLoading(true);
         await signInStore(email, password);
         router.push("/");
         //eslint-disable-next-line
@@ -103,9 +105,10 @@ const LoginPage = () => {
           fullWidth
           mt="xl"
           onClick={handleLogin}
-          className="bg-blue-950 hover:bg-blue-900"
+          className="bg-blue-950 hover:bg-blue-900 disabled:bg-gray-400"
+          disabled={!email || !password || loading}
         >
-          Login
+          {loading ? "Loading..." : "Login"}
         </Button>
       </Paper>
     </Container>
