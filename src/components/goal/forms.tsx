@@ -48,7 +48,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           placeholder="Enter goal title"
           {...form.getInputProps("title")}
           classNames={{ label: "text-black", input: "text-black" }}
-          className="col-span-2"
+          className="col-span-2 md:col-span-1"
         />
 
         <Textarea
@@ -56,7 +56,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           placeholder="Enter goal description"
           {...form.getInputProps("description")}
           classNames={{ label: "text-black", input: "text-black h-32" }}
-          className="col-span-2"
+          className="col-span-2 md:col-span-1"
         />
 
         <div className="col-span-1">
