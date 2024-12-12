@@ -19,6 +19,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (!email || !password) {
@@ -30,11 +31,13 @@ const RegisterPage = () => {
       return;
     } else {
       try {
+        setLoading(true);
         await signUp(email, password);
 
         setTimeout(() => {
           router.push("/login");
         }, 1000);
+        setLoading(false);
         //eslint-disable-next-line
       } catch (error: any) {
         if (error.message === "Email already in use") {
@@ -105,9 +108,10 @@ const RegisterPage = () => {
           fullWidth
           mt="xl"
           onClick={handleSignUp}
-          className="bg-blue-950 hover:bg-blue-900"
+          className="bg-blue-950 hover:bg-blue-900 disabled:bg-gray-400"
+          disabled={!email || !password || loading}
         >
-          Register
+          {loading ? "Loading..." : "Sign Up"}
         </Button>
       </Paper>
     </Container>
