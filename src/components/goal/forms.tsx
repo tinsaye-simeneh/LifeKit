@@ -110,7 +110,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
 
         <Button
           type="submit"
-          className="bg-blue-500 hover:bg-gray-600 text-white col-span-2 md:col-span-1 mt-4 disabled:cursor-not-allowed disabled:bg-blue-200"
+          className="bg-blue-500 hover:bg-gray-600 text-white col-span-2 md:col-span-1 mt-4 disabled:cursor-not-allowed disabled:bg-gray-300"
           disabled={loading}
         >
           {loading ? "Loading..." : "Submit"}

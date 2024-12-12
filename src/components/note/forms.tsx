@@ -1,6 +1,7 @@
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface NoteFormProps {
   initialValues: {
@@ -11,6 +12,7 @@ interface NoteFormProps {
 }
 
 const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm({
     initialValues,
@@ -42,9 +44,9 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         />
         <Button
           type="submit"
-          className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-2 md:col-span-1"
+          className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-2 md:col-span-1 disabled:cursor-not-allowed disabled:bg-gray-300"
         >
-          Submit
+          {loading ? "Loading..." : "Submit"}
         </Button>
         <Button
           onClick={() => router.push("/notes")}

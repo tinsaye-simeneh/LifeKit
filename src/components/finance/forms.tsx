@@ -106,7 +106,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
 
         <Button
           type="submit"
-          className="w-full col-span-2 md:col-span-1 bg-blue-500 hover:bg-blue-600 text-white disabled:cursor-not-allowed disabled:bg-blue-200"
+          className="w-full col-span-2 md:col-span-1 bg-blue-500 hover:bg-blue-600 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
           disabled={loading}
         >
           {loading ? "Loading..." : "Submit"}

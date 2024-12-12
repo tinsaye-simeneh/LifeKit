@@ -108,7 +108,7 @@ const RegisterPage = () => {
           fullWidth
           mt="xl"
           onClick={handleSignUp}
-          className="bg-blue-950 hover:bg-blue-900 disabled:bg-gray-400"
+          className="bg-blue-950 hover:bg-blue-900 disabled:bg-gray-300  disabled:cursor-not-allowed"
           disabled={!email || !password || loading}
         >
           {loading ? "Loading..." : "Sign Up"}
