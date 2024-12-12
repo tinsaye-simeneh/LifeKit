@@ -2,6 +2,7 @@
 
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 interface IdeaFormProps {
   initialValues: {
@@ -16,6 +17,7 @@ interface IdeaFormProps {
 }
 
 const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
+  const router = useRouter();
   const form = useForm({
     initialValues,
     validate: {
@@ -60,7 +62,7 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
           Submit
         </Button>
         <Button
-          onClick={() => window.open("/ideas", "_self")}
+          onClick={() => router.push("/ideas")}
           className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
         >
           Cancel

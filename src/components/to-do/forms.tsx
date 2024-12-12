@@ -1,5 +1,6 @@
 import { Button, Select, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 interface TaskFormProps {
   initialValues: {
@@ -20,6 +21,7 @@ interface TaskFormProps {
 }
 
 const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
+  const router = useRouter();
   const form = useForm({
     initialValues,
   });
@@ -88,7 +90,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
         </Button>
 
         <Button
-          onClick={() => window.open("/to-do", "_self")}
+          onClick={() => router.push("/tasks")}
           className="w-full bg-red-500 hover:bg-red-600 text-white col-span-2 md:col-span-1"
         >
           Cancel

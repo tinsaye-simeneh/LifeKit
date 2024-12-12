@@ -7,6 +7,7 @@ import { useTaskStore } from "@/store/todoStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const columns = [
   { label: "Task Name", accessor: "name" },
@@ -17,6 +18,7 @@ const columns = [
 ];
 
 const TasksPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { tasks, fetchTasks, deleteTask } = useTaskStore();
   const { session } = useSessionStore();
@@ -66,7 +68,7 @@ const TasksPage = () => {
             Reload
           </Button>
           <Button
-            onClick={() => window.open("/to-do/new", "_self")}
+            onClick={() => router.push("/to-do/new")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
             <FaPlus className="mr-2" /> Add
@@ -108,7 +110,7 @@ const TasksPage = () => {
         <EntityTable
           columns={columns}
           data={tasks}
-          onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+          onEdit={(id) => router.push(`/to-do/${id}`)}
           onDelete={handleDelete}
           loading={loading}
         />
@@ -118,7 +120,7 @@ const TasksPage = () => {
         <EntityTable
           columns={columns}
           data={pendingTasks}
-          onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+          onEdit={(id) => router.push(`/to-do/${id}`)}
           onDelete={handleDelete}
           loading={loading}
         />
@@ -128,7 +130,7 @@ const TasksPage = () => {
         <EntityTable
           columns={columns}
           data={completedTasks}
-          onEdit={(id) => window.open(`/to-do/${id}`, "_self")}
+          onEdit={(id) => router.push(`/to-do/${id}`)}
           onDelete={handleDelete}
           loading={loading}
         />

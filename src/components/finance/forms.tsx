@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 interface FinanceFormProps {
   initialValues: {
@@ -30,6 +31,7 @@ interface FinanceFormProps {
 }
 
 const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
+  const router = useRouter();
   const form = useForm({
     initialValues,
   });
@@ -103,7 +105,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           Submit
         </Button>
         <Button
-          onClick={() => window.open("/finance", "_self")}
+          onClick={() => router.push("/finance")}
           className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white"
         >
           Cancel

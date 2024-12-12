@@ -7,6 +7,7 @@ import { useNoteStore } from "@/store/noteStore";
 import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const columns = [
   { label: "Title", accessor: "title" },
@@ -15,6 +16,7 @@ const columns = [
 ];
 
 const NotesPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { notes, fetchNotes, deleteNote } = useNoteStore();
   const { session } = useSessionStore();
@@ -54,7 +56,7 @@ const NotesPage = () => {
             Reload
           </Button>
           <Button
-            onClick={() => window.open("/notes/new", "_self")}
+            onClick={() => router.push("/notes/new")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
             <FaPlus className="mr-2" /> Add
@@ -65,7 +67,7 @@ const NotesPage = () => {
       <EntityTable
         columns={columns}
         data={notes}
-        onEdit={(id) => window.open(`/notes/${id}`, "_self")}
+        onEdit={(id) => router.push(`/notes/${id}`)}
         onDelete={handleDelete}
         loading={loading}
       />

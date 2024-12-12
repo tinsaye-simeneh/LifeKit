@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge, Button, Text } from "@mantine/core";
+import { useRouter } from "next/navigation";
 
 type Finance = {
   id: string;
@@ -16,6 +17,7 @@ type RemainingMoneyModalProps = {
 };
 
 const RemainingMoneyModal: React.FC<RemainingMoneyModalProps> = ({ data }) => {
+  const router = useRouter();
   return (
     <div className="p-6 bg-white rounded shadow-lg">
       {data.length > 0 ? (
@@ -52,7 +54,7 @@ const RemainingMoneyModal: React.FC<RemainingMoneyModalProps> = ({ data }) => {
               <Button
                 color="red"
                 className="mt-4"
-                onClick={() => window.open(`/finance/${item.id}`, "_self")}
+                onClick={() => router.push(`/finance/${item.id}`)}
               >
                 Edit
               </Button>

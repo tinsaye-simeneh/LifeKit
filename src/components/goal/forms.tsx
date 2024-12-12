@@ -2,6 +2,7 @@
 
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 interface GoalFormProps {
   initialValues: {
@@ -25,6 +26,7 @@ interface GoalFormProps {
 }
 
 const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
+  const router = useRouter();
   const form = useForm({
     initialValues,
     validate: {
@@ -107,7 +109,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           Submit
         </Button>
         <Button
-          onClick={() => window.open("/goals", "_self")}
+          onClick={() => router.push("/goals")}
           className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
         >
           Cancel
