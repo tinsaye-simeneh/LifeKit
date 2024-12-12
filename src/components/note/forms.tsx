@@ -23,7 +23,11 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
       <h1 className="text-3xl font-bold text-black mb-4 text-center">Notes</h1>
 
       <form
-        onSubmit={form.onSubmit(onSubmit)}
+        onSubmit={form.onSubmit(async (values) => {
+          setLoading(true);
+          await onSubmit(values);
+          setLoading(false);
+        })}
         className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6"
       >
         <TextInput
@@ -45,6 +49,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         <Button
           type="submit"
           className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-2 md:col-span-1 disabled:cursor-not-allowed disabled:bg-gray-300"
+          disabled={loading}
         >
           {loading ? "Loading..." : "Submit"}
         </Button>

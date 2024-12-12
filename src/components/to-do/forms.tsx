@@ -1,6 +1,7 @@
 import { Button, Select, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface TaskFormProps {
   initialValues: {
@@ -21,6 +22,7 @@ interface TaskFormProps {
 }
 
 const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm({
     initialValues,
@@ -31,7 +33,11 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
       <h1 className="text-3xl font-bold text-black mb-4 text-center">Tasks</h1>
 
       <form
-        onSubmit={form.onSubmit(onSubmit)}
+        onSubmit={form.onSubmit(async (values) => {
+          setLoading(true);
+          await onSubmit(values);
+          setLoading(false);
+        })}
         className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6"
       >
         <Textarea
@@ -84,9 +90,10 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
 
         <Button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white col-span-2 md:col-span-1"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white col-span-2 md:col-span-1 disabled:cursor-not-allowed disabled:bg-gray-300"
+          disabled={loading}
         >
-          Submit
+          {loading ? "Loading..." : "Submit"}
         </Button>
 
         <Button
