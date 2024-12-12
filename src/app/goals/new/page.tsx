@@ -4,8 +4,10 @@ import GoalForm from "@/components/goal/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useGoalStore } from "@/store/goalStore";
 import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 
 const AddGoalPage = () => {
+  const router = useRouter();
   const session = useSessionStore((state) => state.session);
   const addGoal = useGoalStore((state) => state.addGoal);
 
@@ -49,7 +51,7 @@ const AddGoalPage = () => {
         message: "Goal created successfully.",
         color: "green",
       });
-      window.open("/goals", "_self");
+      router.push("/goals");
     } catch (error) {
       console.error("Error creating goal:", error);
       notifications.show({

@@ -9,6 +9,7 @@ import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { Select } from "@mantine/core";
 import RemainingMoneyModal from "@/components/finance/RemainingModal";
+import { useRouter } from "next/navigation";
 
 const columns = [
   { label: "Reason", accessor: "reason" },
@@ -21,6 +22,7 @@ const columns = [
 ];
 
 const FinancePage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const fetchFinances = useFinanceStore((state) => state.fetchFinances);
   const finances = useFinanceStore((state) => state.finances);
@@ -85,7 +87,7 @@ const FinancePage = () => {
             Reload
           </Button>
           <Button
-            onClick={() => window.open("/finance/new", "_self")}
+            onClick={() => router.push("/finance/new")}
             className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
           >
             <FaPlus className="mr-2" /> Add
@@ -98,7 +100,7 @@ const FinancePage = () => {
         <EntityTable
           columns={columns}
           data={finances}
-          onEdit={(id) => window.open(`/finance/${id}`, "_self")}
+          onEdit={(id) => router.push(`/finance/${id}`)}
           onDelete={handleDelete}
           loading={loading}
         />
