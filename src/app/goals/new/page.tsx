@@ -51,7 +51,7 @@ const AddGoalPage = () => {
         message: "Goal created successfully.",
         color: "green",
       });
-      router.push("/goals");
+      setTimeout(() => router.push("/goals"), 1000);
     } catch (error) {
       console.error("Error creating goal:", error);
       notifications.show({
