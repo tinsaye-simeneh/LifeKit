@@ -32,7 +32,7 @@ const FinancePage = () => {
         message: "Finance entry created successfully.",
         color: "green",
       });
-      router.push("/finance");
+      setTimeout(() => router.push("/finance"), 1000);
     } catch (error) {
       console.error("Error creating finance entry:", error);
       notifications.show({

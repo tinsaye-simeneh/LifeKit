@@ -105,7 +105,7 @@ const EditGoalPage = () => {
         message: "Goal updated successfully.",
         color: "green",
       });
-      router.push("/goals"); // Redirect to goals page after success
+      setTimeout(() => router.push("/goals"), 1000);
     } catch (error) {
       console.error("Error updating goal:", error);
       notifications.show({

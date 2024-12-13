@@ -97,7 +97,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
         </Button>
 
         <Button
-          onClick={() => router.push("/tasks")}
+          onClick={() => router.push("/to-do")}
           className="w-full bg-red-500 hover:bg-red-600 text-white col-span-2 md:col-span-1"
         >
           Cancel

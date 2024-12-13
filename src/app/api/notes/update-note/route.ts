@@ -17,7 +17,7 @@ export async function PUT(req: Request) {
     const { title, content }: Partial<PersonalNote> = await req.json();
 
     const { data, error } = await supabase
-      .from("tasks")
+      .from("personal_notes")
       .update({
         title,
         content,

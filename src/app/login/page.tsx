@@ -35,7 +35,8 @@ const LoginPage = () => {
         setLoading(true);
         await signInStore(email, password);
         setLoading(false);
-        router.push("/");
+
+        setTimeout(() => router.push("/"), 1000);
         //eslint-disable-next-line
       } catch (error: any) {
         if (error.message === "Invalid credentials") {

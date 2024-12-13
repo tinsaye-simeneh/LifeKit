@@ -37,7 +37,7 @@ const AddIdeaPage = () => {
           message: "Idea created successfully.",
           color: "green",
         });
-        router.push("/ideas");
+        setTimeout(() => router.push("/ideas"), 1000);
       } catch (error) {
         console.error("Error creating idea:", error);
         notifications.show({
