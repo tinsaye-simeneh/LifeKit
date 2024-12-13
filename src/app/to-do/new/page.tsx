@@ -29,12 +29,12 @@ const ToDoPage = () => {
 
     try {
       await createToDo(toDoData);
+     router.push("/to-do");
       notifications.show({
         title: "Success",
         message: "To-do item created successfully.",
         color: "green",
       });
-      router.push("/to-do");
     } catch (error) {
       console.error("Error creating to-do item:", error);
       notifications.show({
