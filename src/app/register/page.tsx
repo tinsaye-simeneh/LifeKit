@@ -67,7 +67,11 @@ const RegisterPage = () => {
         <Anchor
           size="sm"
           component="button"
-          onClick={() => router.push("/login")}
+          onClick={() =>
+            setTimeout(() => {
+              router.push("/login");
+            }, 1000)
+          }
         >
           Login
         </Anchor>
