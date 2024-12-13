@@ -84,7 +84,8 @@ const EditIdeaPage = () => {
           message: "Idea updated successfully.",
           color: "green",
         });
-        router.push("/ideas");
+
+        setTimeout(() => router.push("/ideas"), 1000);
       } catch (error) {
         console.error("Error updating idea:", error);
         notifications.show({
