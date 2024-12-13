@@ -34,7 +34,7 @@ const ToDoPage = () => {
         message: "To-do item created successfully.",
         color: "green",
       });
-      router.push("/to-do");
+      setTimeout(() => router.push("/to-do"), 1000);
     } catch (error) {
       console.error("Error creating to-do item:", error);
       notifications.show({

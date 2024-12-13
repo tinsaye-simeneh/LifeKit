@@ -86,7 +86,7 @@ const EditTaskPage = () => {
         message: "Task updated successfully.",
         color: "green",
       });
-      router.push("/to-do");
+      setTimeout(() => router.push("/to-do"), 1000);
     } catch (error) {
       notifications.show({
         title: "Error",

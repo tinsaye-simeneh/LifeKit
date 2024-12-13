@@ -29,7 +29,7 @@ const NewNotePage = () => {
         message: "Note created successfully.",
         color: "green",
       });
-      router.push("/notes");
+      setTimeout(() => router.push("/notes"), 1000);
     } catch (error) {
       console.error("Error creating note:", error);
       notifications.show({
