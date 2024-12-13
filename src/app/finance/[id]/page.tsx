@@ -48,7 +48,7 @@ const EditFinancePage = () => {
               message: "Finance entry not found.",
               color: "red",
             });
-            router.push("/finance");
+            setTimeout(() => router.push("/finance"), 1000);
           }
         } catch (error) {
           console.error("Error fetching finance data:", error);
