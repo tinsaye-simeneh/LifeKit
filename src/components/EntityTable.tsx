@@ -11,6 +11,8 @@ import {
   Menu,
 } from "@mantine/core";
 import { FaEye, FaEllipsisV } from "react-icons/fa";
+import path from "path";
+import { useTaskStore } from "@/store/todoStore";
 
 interface Column {
   label: string;
@@ -44,6 +46,8 @@ const EntityTable: React.FC<EntityTableProps> = ({
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   const [rowData, setRowData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const updateTask = useTaskStore((state) => state.updateTask);
 
   const handleViewClick = (row: Record<string, unknown>) => {
     setIsModalOpen(true);
@@ -100,6 +104,10 @@ const EntityTable: React.FC<EntityTableProps> = ({
         </div>
       </div>
     );
+  };
+
+  const handleMarkAsDone = (id: string) => {
+    updateTask(id, { status: "completed" });
   };
 
   const handlePageChange = (page: number) => {
@@ -282,6 +290,14 @@ const EntityTable: React.FC<EntityTableProps> = ({
                               <Menu.Item onClick={() => handleViewClick(row)}>
                                 View
                               </Menu.Item>
+                              {path.basename(location.pathname) === "to-do" && (
+                                <Menu.Item
+                                  color="green"
+                                  onClick={() => handleMarkAsDone(row.id)}
+                                >
+                                  Mark as done
+                                </Menu.Item>
+                              )}
                               <Menu.Item
                                 color="blue"
                                 onClick={() => onEdit(row.id)}
