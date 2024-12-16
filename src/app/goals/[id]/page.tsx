@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import GoalForm from "@/components/goal/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useGoalStore } from "@/store/goalStore";
 import { notifications } from "@mantine/notifications";
 
 const EditGoalPage = () => {
-  const router = useRouter();
   const { id } = useParams();
   const goalId = Array.isArray(id) ? id[0] : id; // Ensure goalId is properly extracted
 
@@ -30,7 +29,7 @@ const EditGoalPage = () => {
     if (goalId && fetchGoal) {
       const loadGoalData = async () => {
         try {
-          const goalData = await fetchGoal(goalId); // Fetch data with goalId
+          const goalData = await fetchGoal(goalId);
 
           if (goalData) {
             setInitialValues({
@@ -47,7 +46,7 @@ const EditGoalPage = () => {
               message: "Goal not found.",
               color: "red",
             });
-            router.push("/goals");
+            setTimeout(() => window.open("/goals", "_self"), 500);
           }
         } catch (error) {
           console.error("Error fetching goal data:", error);
@@ -61,7 +60,7 @@ const EditGoalPage = () => {
 
       loadGoalData();
     }
-  }, [goalId, fetchGoal, router]);
+  }, [goalId, fetchGoal]);
 
   // Handle form submission and goal update
   const handleUpdate = async (values: {
@@ -105,7 +104,7 @@ const EditGoalPage = () => {
         message: "Goal updated successfully.",
         color: "green",
       });
-      setTimeout(() => router.push("/goals"), 1000);
+      setTimeout(() => window.open("/goals", "_self"), 500);
     } catch (error) {
       console.error("Error updating goal:", error);
       notifications.show({

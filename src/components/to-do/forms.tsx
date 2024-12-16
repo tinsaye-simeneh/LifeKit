@@ -46,6 +46,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           {...form.getInputProps("name")}
           classNames={{ label: "text-black", input: "text-black h-20" }}
           className="col-span-2 md:col-span-1"
+          required
         />
 
         <TextInput
@@ -55,6 +56,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           {...form.getInputProps("due_date")}
           classNames={{ label: "text-black", input: "text-black" }}
           className="col-span-2 md:col-span-1"
+          required
         />
 
         <Select
@@ -81,7 +83,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           className="col-span-2 md:col-span-1"
         />
         <Textarea
-          label="Description"
+          label="Description (optional)"
           placeholder="Enter task description"
           {...form.getInputProps("description")}
           classNames={{ label: "text-black", input: "text-black h-32" }}

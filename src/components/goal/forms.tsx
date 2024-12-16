@@ -57,6 +57,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           {...form.getInputProps("title")}
           classNames={{ label: "text-black", input: "text-black" }}
           className="col-span-2 md:col-span-1"
+          required
         />
 
         <Textarea
@@ -98,6 +99,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           placeholder="Start date"
           {...form.getInputProps("start_date")}
           classNames={{ label: "text-black", input: "text-black" }}
+          required
         />
 
         <TextInput
@@ -106,6 +108,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           placeholder="End date"
           {...form.getInputProps("end_date")}
           classNames={{ label: "text-black", input: "text-black" }}
+          required
         />
 
         <Button

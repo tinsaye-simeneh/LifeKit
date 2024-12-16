@@ -4,10 +4,8 @@ import { notifications } from "@mantine/notifications";
 import TaskForm from "@/components/to-do/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useTaskStore } from "@/store/todoStore";
-import { useRouter } from "next/navigation";
 
 const ToDoPage = () => {
-  const router = useRouter();
   const session = useSessionStore((state) => state.session);
   const createToDo = useTaskStore((state) => state.addTask);
 
@@ -29,13 +27,12 @@ const ToDoPage = () => {
 
     try {
       await createToDo(toDoData);
-     router.push("/to-do");
       notifications.show({
         title: "Success",
         message: "To-do item created successfully.",
         color: "green",
       });
-      setTimeout(() => router.push("/to-do"), 1000);
+      setTimeout(() => window.open("/to-do", "_self"), 500);
     } catch (error) {
       console.error("Error creating to-do item:", error);
       notifications.show({

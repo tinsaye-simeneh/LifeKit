@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import FinanceForm from "@/components/finance/forms"; // Assuming this form component exists
 import { useSessionStore } from "@/store/sessionStore";
 import { useFinanceStore } from "@/store/financeStore";
 import { notifications } from "@mantine/notifications";
 
 const EditFinancePage = () => {
-  const router = useRouter();
   const { id } = useParams();
   const financeId = Array.isArray(id) ? id[0] : id;
 
@@ -48,7 +47,7 @@ const EditFinancePage = () => {
               message: "Finance entry not found.",
               color: "red",
             });
-            setTimeout(() => router.push("/finance"), 1000);
+            setTimeout(() => window.open("/finance", "_self"), 500);
           }
         } catch (error) {
           console.error("Error fetching finance data:", error);
@@ -62,7 +61,7 @@ const EditFinancePage = () => {
 
       loadFinanceData();
     }
-  }, [financeId, fetchFinance, router]);
+  }, [financeId, fetchFinance]);
 
   // Handle form submission and finance update
   const handleUpdate = async (values: {
@@ -101,7 +100,7 @@ const EditFinancePage = () => {
         message: "Finance entry updated successfully.",
         color: "green",
       });
-      router.push("/finance"); // Redirect to finance page after success
+      setTimeout(() => window.open("/finance", "_self"), 500);
     } catch (error) {
       console.error("Error updating finance entry:", error);
       notifications.show({

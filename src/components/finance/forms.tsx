@@ -59,6 +59,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           {...form.getInputProps("date")}
           classNames={{ label: "text-black", input: "text-black" }}
           className="col-span-2 md:col-span-1"
+          required
         />
         <NumberInput
           label="Amount"
@@ -66,6 +67,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           {...form.getInputProps("amount")}
           classNames={{ label: "text-black", input: "text-black" }}
           className="col-span-2 md:col-span-1"
+          required
         />
         <Select
           label="Type"
@@ -84,6 +86,7 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
           {...form.getInputProps("reason")}
           classNames={{ label: "text-black", input: "text-black h-32" }}
           className="col-span-2 md:col-span-1"
+          required
         />
         <Select
           label="Payment Method"

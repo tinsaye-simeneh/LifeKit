@@ -39,12 +39,11 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           required
         />
         <Textarea
-          label="Content"
+          label="Content (optional)"
           placeholder="Enter note content"
           {...form.getInputProps("content")}
           classNames={{ label: "text-black", input: "text-black h-32" }}
           className="col-span-2"
-          required
         />
         <Button
           type="submit"

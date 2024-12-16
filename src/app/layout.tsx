@@ -5,7 +5,7 @@ import { ColorSchemeScript, MantineProvider, Progress } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 import { useSessionStore } from "@/store/sessionStore";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
 
@@ -14,7 +14,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const { session } = useSessionStore();
   const [loading, setLoading] = useState(true);
@@ -29,15 +28,15 @@ export default function RootLayout({
 
     const timeout = setTimeout(() => {
       if (isAuthRoute && session) {
-        router.push("/");
+        setTimeout(() => window.open("/", "_self"), 500);
       } else if (!isAuthRoute && !session) {
-        router.push("/login");
+        setTimeout(() => window.open("/login", "_self"), 500);
       }
       setLoading(false);
     }, 1000);
 
     return () => clearTimeout(timeout);
-  }, [isAuthRoute, session, router, loading]);
+  }, [isAuthRoute, session, loading]);
 
   useEffect(() => {
     const handleStart = () => {

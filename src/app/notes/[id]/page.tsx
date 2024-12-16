@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import NoteForm from "@/components/note/forms";
 import { useNoteStore } from "@/store/noteStore";
 import { notifications } from "@mantine/notifications";
 
 const EditNotePage = () => {
-  const router = useRouter();
   const { id } = useParams();
   const noteId = id as string;
 
@@ -51,7 +50,7 @@ const EditNotePage = () => {
         message: "Note updated successfully.",
         color: "green",
       });
-      setTimeout(() => router.push("/notes"), 1000);
+      setTimeout(() => window.open("/notes", "_self"), 500);
     } catch (error) {
       console.error("Error updating note:", error);
       notifications.show({

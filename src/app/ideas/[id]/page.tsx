@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import IdeaForm from "@/components/idea/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useIdeaStore } from "@/store/ideaStore";
 import { notifications } from "@mantine/notifications";
 
 const EditIdeaPage = () => {
-  const router = useRouter();
   const { id } = useParams();
   const ideaId = Array.isArray(id) ? id[0] : id;
 
@@ -85,7 +84,7 @@ const EditIdeaPage = () => {
           color: "green",
         });
 
-        setTimeout(() => router.push("/ideas"), 1000);
+        setTimeout(() => window.open("/ideas", "_self"), 500);
       } catch (error) {
         console.error("Error updating idea:", error);
         notifications.show({
