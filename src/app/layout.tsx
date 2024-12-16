@@ -8,6 +8,8 @@ import { useSessionStore } from "@/store/sessionStore";
 import { usePathname } from "next/navigation";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
+import Script from "next/script";
+import GoogleAnalytics from "./GoogleAnalytics";
 
 export default function RootLayout({
   children,
@@ -65,6 +67,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ColorSchemeScript />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=G-ZZYR54J0Q6`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `}
+        </Script>
       </head>
       <body>
         <MantineProvider>
@@ -84,6 +97,7 @@ export default function RootLayout({
           )}
           <Notifications position="top-right" zIndex={9999} />
           <Navbar />
+          <GoogleAnalytics measurementId="G-ZZYR54J0Q6" />
           {isAuthRoute && !session ? children : session ? children : null}
         </MantineProvider>
       </body>
