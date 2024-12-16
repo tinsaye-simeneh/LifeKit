@@ -77,9 +77,9 @@ const LandingPage = () => {
         </Group>
       </Card>
 
-      <footer className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-white py-6 mt-10 mb-7 border-gray-4 border-t-2">
+      <footer className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-white py-6 mt-6 border-gray-4 border-t-2">
         <Container size="lg" className="text-center">
-          <p>
+          <p className="mt-5>
             &copy; 2024 LifeKit. Made with ❤️ by
             <a
               href="https://github.com/HikmaAnwar"
