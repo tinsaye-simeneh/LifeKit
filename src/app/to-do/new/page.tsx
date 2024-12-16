@@ -29,7 +29,6 @@ const ToDoPage = () => {
 
     try {
       await createToDo(toDoData);
-     router.push("/to-do");
       notifications.show({
         title: "Success",
         message: "To-do item created successfully.",
