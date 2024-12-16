@@ -4,10 +4,8 @@ import { notifications } from "@mantine/notifications";
 import { useSessionStore } from "@/store/sessionStore";
 import { useNoteStore } from "@/store/noteStore";
 import NoteForm from "@/components/note/forms";
-import { useRouter } from "next/navigation";
 
 const NewNotePage = () => {
-  const router = useRouter();
   const session = useSessionStore((state) => state.session);
   const { addNote } = useNoteStore();
 
@@ -29,7 +27,7 @@ const NewNotePage = () => {
         message: "Note created successfully.",
         color: "green",
       });
-      setTimeout(() => router.push("/notes"), 1000);
+      setTimeout(() => window.open("/notes", "_self"), 500);
     } catch (error) {
       console.error("Error creating note:", error);
       notifications.show({
