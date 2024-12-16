@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import TaskForm from "@/components/to-do/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useTaskStore } from "@/store/todoStore";
 import { notifications } from "@mantine/notifications";
 
 const EditTaskPage = () => {
-  const router = useRouter();
   const { id } = useParams();
   const taskId = Array.isArray(id) ? id[0] : id;
 
@@ -86,7 +85,7 @@ const EditTaskPage = () => {
         message: "Task updated successfully.",
         color: "green",
       });
-      setTimeout(() => router.push("/to-do"), 1000);
+      setTimeout(() => window.open("/to-do", "_self"), 500);
     } catch (error) {
       notifications.show({
         title: "Error",

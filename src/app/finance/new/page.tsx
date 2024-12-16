@@ -4,10 +4,8 @@ import FinanceForm from "@/components/finance/forms";
 import { useSessionStore } from "@/store/sessionStore";
 import { useFinanceStore } from "@/store/financeStore";
 import { notifications } from "@mantine/notifications";
-import { useRouter } from "next/navigation";
 
 const FinancePage = () => {
-  const router = useRouter();
   const session = useSessionStore((state) => state.session);
   const createFinance = useFinanceStore((state) => state.addFinance);
 
@@ -32,7 +30,7 @@ const FinancePage = () => {
         message: "Finance entry created successfully.",
         color: "green",
       });
-      setTimeout(() => router.push("/finance"), 1000);
+      setTimeout(() => window.open("/finance", "_self"), 500);
     } catch (error) {
       console.error("Error creating finance entry:", error);
       notifications.show({
