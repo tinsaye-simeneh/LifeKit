@@ -4,11 +4,24 @@ import React from "react";
 import { Card, Group, Text, Button, Container } from "@mantine/core";
 import { useRouter } from "next/navigation";
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) => {
+        console.log("Service Worker registered: ", registration);
+      })
+      .catch((registrationError) => {
+        console.log("Service Worker registration failed: ", registrationError);
+      });
+  });
+}
+
 const LandingPage = () => {
   const router = useRouter();
   return (
     <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900">
-      <section className=" text-white py-20 px-6 text-center">
+      <section className="text-white py-20 px-6 text-center">
         <Container size="lg">
           <h1 className="text-4xl font-bold mb-4">Welcome to LifeKit</h1>
           <p className="text-lg mb-6">
