@@ -97,7 +97,7 @@ export default function RootLayout({
                 zIndex: 1000,
               }}
             />
-          )}
+          )}{" "}
           <Notifications position="top-right" zIndex={9999} />
           <Navbar />
           <GoogleAnalytics measurementId="G-ZZYR54J0Q6" />
