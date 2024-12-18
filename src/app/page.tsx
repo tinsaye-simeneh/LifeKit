@@ -21,30 +21,29 @@ if ("serviceWorker" in navigator) {
 const LandingPage = () => {
   const router = useRouter();
   return (
-    <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 h-screen">
-      <section className="text-white py-20 px-6 text-center">
-        <Container size="lg">
-          <h1 className="text-4xl font-bold mb-4">Welcome to LifeKit</h1>
-          <p className="text-lg mb-6">
-            Your ultimate toolkit for a balanced, healthy, and productive life.
-            Discover how LifeKit empowers you to live your best life.
-          </p>
-          <Button
-            variant="filled"
-            color="yellow"
-            size="lg"
-            onClick={() => router.push("/to-do")}
-          >
-            Get Started
-          </Button>
-        </Container>
-      </section>
-
+    <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 h-screen p-2">
+      <Container size="lg" className="text-center my-16">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+          Welcome to LifeKit
+        </h1>
+        <p className="text-base mb-6">
+          Your ultimate toolkit for a balanced, healthy, and productive life.
+          Discover how LifeKit empowers you to live your best life.
+        </p>
+        <Button
+          variant="filled"
+          color="yellow"
+          size="lg"
+          onClick={() => router.push("/to-do")}
+        >
+          Get Started
+        </Button>
+      </Container>
       <Card
         shadow="md"
         radius="md"
         withBorder
-        className="max-w-sm bg-gradient-to-r from-blue-50 to-blue-100 mx-auto"
+        className="max-w-xs md:max-w-sm bg-gradient-to-r from-blue-50 to-blue-100 mx-auto my-16"
       >
         <Text size="xl" className="mb-4">
           Select a Category
