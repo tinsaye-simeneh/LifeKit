@@ -65,7 +65,7 @@ const FinancePage = () => {
             { value: "remaining", label: `Remaining` },
           ]}
           placeholder="Select an option"
-          className="w-44 mb-4"
+          className="w-44 mb-4 text-sm"
           styles={{
             input: {
               fontWeight: "600",
