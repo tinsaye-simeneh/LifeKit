@@ -32,7 +32,7 @@ const Navbar = () => {
 
   return (
     <Box component="nav" className="bg-gray-900 shadow-md sticky top-0 z-10">
-      <Container className="flex items-center justify-between py-4">
+      <Container className="flex items-center justify-between py-4 relative">
         <Title
           order={2}
           className="text-white font-bold text-xl cursor-pointer"

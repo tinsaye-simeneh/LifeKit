@@ -78,6 +78,9 @@ export default function RootLayout({
             gtag('js', new Date());
           `}
         </Script>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body>
         <MantineProvider>
@@ -94,7 +97,7 @@ export default function RootLayout({
                 zIndex: 1000,
               }}
             />
-          )}
+          )}{" "}
           <Notifications position="top-right" zIndex={9999} />
           <Navbar />
           <GoogleAnalytics measurementId="G-ZZYR54J0Q6" />
