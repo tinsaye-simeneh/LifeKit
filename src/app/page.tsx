@@ -3,6 +3,7 @@
 import React from "react";
 import { Card, Group, Text, Button, Container } from "@mantine/core";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -20,7 +21,7 @@ if ("serviceWorker" in navigator) {
 const LandingPage = () => {
   const router = useRouter();
   return (
-    <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900">
+    <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 h-screen">
       <section className="text-white py-20 px-6 text-center">
         <Container size="lg">
           <h1 className="text-4xl font-bold mb-4">Welcome to LifeKit</h1>
@@ -90,27 +91,7 @@ const LandingPage = () => {
         </Group>
       </Card>
 
-      <footer className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-white py-6 mt-6 border-gray-4 border-t-2">
-        <Container size="lg" className="text-center">
-          <p className="mt-5">
-            &copy; 2024 LifeKit. Made with ❤️ by
-            <a
-              href="https://github.com/HikmaAnwar"
-              className="text-blue-500 underline"
-            >
-              {" "}
-              Hikma
-            </a>{" "}
-            and{" "}
-            <a
-              href="https://github.com/tinsaye-simeneh"
-              className="text-blue-500 underline"
-            >
-              Tinsaye
-            </a>
-          </p>
-        </Container>
-      </footer>
+      <Footer />
     </div>
   );
 };
