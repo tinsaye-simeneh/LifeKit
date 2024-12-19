@@ -323,6 +323,17 @@ const EntityTable: React.FC<EntityTableProps> = ({
                           >
                             <FaEye className="text-lg" />
                           </Button>
+                          {path.basename(location.pathname) === "to-do" && (
+                            <Button
+                              size="xs"
+                              variant="outline"
+                              className="hover:bg-green-600 hover:text-white transition"
+                              color="green"
+                              onClick={() => handleMarkAsDone(row.id)}
+                            >
+                              Mark as done
+                            </Button>
+                          )}
                           <Button
                             size="xs"
                             variant="outline"
