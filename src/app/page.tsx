@@ -43,7 +43,7 @@ const LandingPage = () => {
         shadow="md"
         radius="md"
         withBorder
-        className="max-w-xs py-6 md:max-w-sm bg-gradient-to-r from-blue-50 to-blue-100 mx-auto my-16"
+        className="max-w-xs md:max-w-sm bg-gradient-to-r from-blue-50 to-blue-100 mx-auto my-10"
       >
         <Text size="xl" className="mb-4">
           Select a Category
