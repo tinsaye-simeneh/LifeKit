@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, Textarea, TextInput } from "@mantine/core";
+import { Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import RichTextInput from "@/components/RichTextInput";
 
 interface GoalFormProps {
   initialValues: {
@@ -60,13 +61,14 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           required
         />
 
-        <Textarea
-          label="Description"
-          placeholder="Enter goal description"
-          {...form.getInputProps("description")}
-          classNames={{ label: "text-black", input: "text-black h-32" }}
-          className="col-span-2 md:col-span-1"
-        />
+        <div className="col-span-2 mb-10">
+          <RichTextInput
+            value={form.values.description || ""}
+            onChange={(value = "") =>
+              form.setFieldValue("description", value as string)
+            }
+          />
+        </div>
 
         <div className="col-span-1">
           <label className="text-black block mb-2">Category</label>
