@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, Textarea, TextInput } from "@mantine/core";
+import RichTextInput from "@/components/RichTextInput";
+import { Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -51,15 +52,14 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
           required
         />
 
-        <Textarea
-          label="Description"
-          placeholder="Enter idea description"
-          {...form.getInputProps("description")}
-          error={form.errors.description}
-          classNames={{ label: "text-black", input: "text-black h-32" }}
-          className="col-span-2"
-          required
-        />
+        <div className="col-span-2 mb-10">
+          <RichTextInput
+            value={form.values.description || ""}
+            onChange={(value = "") =>
+              form.setFieldValue("description", value as string)
+            }
+          />
+        </div>
 
         <Button
           type="submit"
