@@ -69,7 +69,7 @@ const FinancePage = () => {
           styles={{
             input: {
               fontWeight: "600",
-              fontSize: "1.125rem",
+              fontSize: "1rem",
               color: "#000",
               border: "none",
             },
