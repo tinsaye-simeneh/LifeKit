@@ -13,6 +13,7 @@ import {
 import { FaEye, FaEllipsisV } from "react-icons/fa";
 import path from "path";
 import { useTaskStore } from "@/store/todoStore";
+import parse from "html-react-parser";
 
 interface Column {
   label: string;
@@ -89,7 +90,9 @@ const EntityTable: React.FC<EntityTableProps> = ({
                 className="flex justify-between border-b border-gray-200 py-2"
               >
                 <span className="text-gray-700 mr-3">{key}:</span>
-                <span className="text-gray-600 mr-auto">{String(value)}</span>
+                <span className="text-gray-600 mr-auto">
+                  {parse(value as string)}
+                </span>
               </div>
             ))}
           </div>
@@ -323,17 +326,19 @@ const EntityTable: React.FC<EntityTableProps> = ({
                           >
                             <FaEye className="text-lg" />
                           </Button>
-                          {path.basename(location.pathname) === "to-do" && (
-                            <Button
-                              size="xs"
-                              variant="outline"
-                              className="hover:bg-green-600 hover:text-white transition"
-                              color="green"
-                              onClick={() => handleMarkAsDone(row.id)}
-                            >
-                              Mark as done
-                            </Button>
-                          )}
+                          {path.basename(location.pathname) === "to-do" &&
+                            row.status === "pending" && (
+                              <Button
+                                size="xs"
+                                variant="outline"
+                                className="hover:bg-green-600 hover:text-white transition"
+                                color="green"
+                                onClick={() => handleMarkAsDone(row.id)}
+                              >
+                                Mark as done
+                              </Button>
+                            )}
+
                           <Button
                             size="xs"
                             variant="outline"
