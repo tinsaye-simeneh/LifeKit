@@ -34,7 +34,7 @@ const RichTextInput = ({
   });
 
   return (
-    <RichTextEditor editor={editor}>
+    <RichTextEditor editor={editor} className="text-black p-4 rounded-lg">
       <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
