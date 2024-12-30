@@ -2,6 +2,7 @@ import { Button, Select, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import RichTextInput from "@/components/RichTextInput";
 
 interface TaskFormProps {
   initialValues: {
@@ -82,14 +83,14 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
           }}
           className="col-span-2 md:col-span-1"
         />
-        <Textarea
-          label="Description (optional)"
-          placeholder="Enter task description"
-          {...form.getInputProps("description")}
-          classNames={{ label: "text-black", input: "text-black h-32" }}
-          className="col-span-2 mb-10"
-        />
-
+        <div className="col-span-2 mb-10">
+          <RichTextInput
+            value={form.values.description || ""}
+            onChange={(value) =>
+              form.setFieldValue("description", value as string)
+            }
+          />
+        </div>
         <Button
           type="submit"
           className="w-full bg-blue-500 hover:bg-blue-600 text-white col-span-2 md:col-span-1 disabled:cursor-not-allowed disabled:bg-gray-300"

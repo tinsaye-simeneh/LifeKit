@@ -8,6 +8,7 @@ import { useSessionStore } from "@/store/sessionStore";
 import { usePathname } from "next/navigation";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
+import "@mantine/tiptap/styles.css";
 import Script from "next/script";
 import GoogleAnalytics from "./GoogleAnalytics";
 
