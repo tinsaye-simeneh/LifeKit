@@ -43,7 +43,7 @@ const LandingPage = () => {
         shadow="md"
         radius="md"
         withBorder
-        className="max-w-md md:max-w-md bg-gradient-to-r from-blue-50 to-blue-100 mx-auto my-10"
+        className="max-w-md md:w-full w-80 bg-white mx-auto my-10"
       >
         <Text size="xl" className="mb-4">
           Select a Category
@@ -53,6 +53,7 @@ const LandingPage = () => {
             variant="filled"
             color="blue"
             onClick={() => router.push("/to-do")}
+            px={4}
           >
             Todo
           </Button>
@@ -60,7 +61,7 @@ const LandingPage = () => {
             variant="filled"
             color="green"
             onClick={() => router.push("/finance")}
-            px={10}
+            px={4}
           >
             Finance
           </Button>
@@ -68,7 +69,7 @@ const LandingPage = () => {
             variant="filled"
             color="yellow"
             onClick={() => router.push("/goals")}
-            className="px-4"
+            className="px-2"
           >
             Goals
           </Button>
