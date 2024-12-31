@@ -43,7 +43,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           <RichTextInput
             value={form.values.content || ""}
             onChange={(value = "") =>
-              form.setFieldValue("description", value as string)
+              form.setFieldValue("content", value as string)
             }
           />
         </div>
