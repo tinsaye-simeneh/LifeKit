@@ -293,7 +293,9 @@ const EntityTable: React.FC<EntityTableProps> = ({
                               <Menu.Item onClick={() => handleViewClick(row)}>
                                 View
                               </Menu.Item>
-                              {path.basename(location.pathname) === "to-do" && (
+                              {((path.basename(location.pathname) === "to-do" &&
+                                row.status === "pending") ||
+                                row.status === "onProgress") && (
                                 <Menu.Item
                                   color="green"
                                   onClick={() => handleMarkAsDone(row.id)}
@@ -326,18 +328,19 @@ const EntityTable: React.FC<EntityTableProps> = ({
                           >
                             <FaEye className="text-lg" />
                           </Button>
-                          {path.basename(location.pathname) === "to-do" &&
-                            row.status === "pending" && (
-                              <Button
-                                size="xs"
-                                variant="outline"
-                                className="hover:bg-green-600 hover:text-white transition"
-                                color="green"
-                                onClick={() => handleMarkAsDone(row.id)}
-                              >
-                                Mark as done
-                              </Button>
-                            )}
+                          {((path.basename(location.pathname) === "to-do" &&
+                            row.status === "pending") ||
+                            row.status === "onProgress") && (
+                            <Button
+                              size="xs"
+                              variant="outline"
+                              className="hover:bg-green-600 hover:text-white transition"
+                              color="green"
+                              onClick={() => handleMarkAsDone(row.id)}
+                            >
+                              Mark as done
+                            </Button>
+                          )}
 
                           <Button
                             size="xs"

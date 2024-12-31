@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Button } from "@mantine/core";
+import { Box, Button, Select } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useTaskStore } from "@/store/todoStore";
 import { useSessionStore } from "@/store/sessionStore";
@@ -22,10 +22,28 @@ const TasksPage = () => {
   const [loading, setLoading] = useState(true);
   const { tasks, fetchTasks, deleteTask } = useTaskStore();
   const { session } = useSessionStore();
-  const [taskStatus, setTaskStatus] = useState("pending");
+  const [taskStatus, setTaskStatus] = useState("all");
 
   const pendingTasks = tasks.filter((task) => task.status === taskStatus);
   const completedTasks = tasks.filter((task) => task.status === "completed");
+  const onprogressTasks = tasks.filter((task) => task.status === "onProgress");
+
+  const taskOptions = [
+    { value: "all", label: `All (${tasks.length})` },
+    { value: "pending", label: `Pending (${pendingTasks.length})` },
+    {
+      value: "onProgress",
+      label: `On Progress (${onprogressTasks.length})`,
+    },
+    { value: "completed", label: `Completed (${completedTasks.length})` },
+  ];
+
+  const taskDataMap = {
+    all: tasks,
+    pending: pendingTasks,
+    completed: completedTasks,
+    onProgress: onprogressTasks,
+  };
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -51,15 +69,19 @@ const TasksPage = () => {
   return (
     <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
       <Box className="flex mt-5">
-        <h5 className="text-2xl font-semibold text-black text-center ">
-          Tasks (
-          {taskStatus === "all"
-            ? tasks.length
-            : taskStatus === "pending"
-            ? pendingTasks.length
-            : completedTasks.length}
-          )
-        </h5>
+        <div className="md:w-1/6 w-1/2">
+          <Select
+            placeholder="Pick a status"
+            value={taskStatus}
+            onChange={(value) => setTaskStatus(value as string)}
+            data={taskOptions}
+            classNames={{
+              label: "text-black",
+              input: "text-black border-none outline-none text-lg",
+              dropdown: "bg-white text-black",
+            }}
+          />
+        </div>
         <div className="flex ml-auto">
           <Button
             onClick={() => setLoading(true)}
@@ -76,65 +98,17 @@ const TasksPage = () => {
         </div>
       </Box>
 
-      <Box>
-        <Button
-          className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${
-            taskStatus === "all" ? "bg-gray-500" : "bg-blue-600"
-          }`}
-          disabled={taskStatus === "all"}
-          onClick={() => setTaskStatus("all")}
-        >
-          All
-        </Button>
-        <Button
-          className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${
-            taskStatus === "pending" ? "bg-gray-500" : "bg-blue-600 "
-          }`}
-          disabled={taskStatus === "pending"}
-          onClick={() => setTaskStatus("pending")}
-        >
-          Pending
-        </Button>
-        <Button
-          className={`mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto ${
-            taskStatus === "completed" ? "bg-gray-500 " : "bg-blue-600"
-          }`}
-          disabled={taskStatus === "completed"}
-          onClick={() => setTaskStatus("completed")}
-        >
-          Completed
-        </Button>
-      </Box>
-
-      {taskStatus === "all" && (
-        <EntityTable
-          columns={columns}
-          data={tasks}
-          onEdit={(id) => router.push(`/to-do/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
-
-      {taskStatus === "pending" && (
-        <EntityTable
-          columns={columns}
-          data={pendingTasks}
-          onEdit={(id) => router.push(`/to-do/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
-
-      {taskStatus === "completed" && (
-        <EntityTable
-          columns={columns}
-          data={completedTasks}
-          onEdit={(id) => router.push(`/to-do/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
+      <EntityTable
+        columns={columns}
+        data={
+          taskDataMap[
+            taskStatus as "all" | "pending" | "completed" | "onProgress"
+          ]
+        }
+        onEdit={(id) => router.push(`/to-do/${id}`)}
+        onDelete={handleDelete}
+        loading={loading}
+      />
     </div>
   );
 };
