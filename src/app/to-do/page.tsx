@@ -22,7 +22,7 @@ const TasksPage = () => {
   const [loading, setLoading] = useState(true);
   const { tasks, fetchTasks, deleteTask } = useTaskStore();
   const { session } = useSessionStore();
-  const [taskStatus, setTaskStatus] = useState("all");
+  const [taskStatus, setTaskStatus] = useState("pending");
 
   const pendingTasks = tasks.filter((task) => task.status === taskStatus);
   const completedTasks = tasks.filter((task) => task.status === "completed");
