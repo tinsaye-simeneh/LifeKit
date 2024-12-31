@@ -38,6 +38,13 @@ const TasksPage = () => {
     { value: "completed", label: `Completed (${completedTasks.length})` },
   ];
 
+  const taskDataMap = {
+    all: tasks,
+    pending: pendingTasks,
+    completed: completedTasks,
+    onProgress: onprogressTasks,
+  };
+
   useEffect(() => {
     const loadTasks = async () => {
       await fetchTasks(session?.user?.id as string);
@@ -91,45 +98,17 @@ const TasksPage = () => {
         </div>
       </Box>
 
-      {taskStatus === "all" && (
-        <EntityTable
-          columns={columns}
-          data={tasks}
-          onEdit={(id) => router.push(`/to-do/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
-
-      {taskStatus === "pending" && (
-        <EntityTable
-          columns={columns}
-          data={pendingTasks}
-          onEdit={(id) => router.push(`/to-do/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
-
-      {taskStatus === "completed" && (
-        <EntityTable
-          columns={columns}
-          data={completedTasks}
-          onEdit={(id) => router.push(`/to-do/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
-
-      {taskStatus === "onProgress" && (
-        <EntityTable
-          columns={columns}
-          data={tasks.filter((task) => task.status === "onProgress")}
-          onEdit={(id) => router.push(`/to-do/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
+      <EntityTable
+        columns={columns}
+        data={
+          taskDataMap[
+            taskStatus as "all" | "pending" | "completed" | "onProgress"
+          ]
+        }
+        onEdit={(id) => router.push(`/to-do/${id}`)}
+        onDelete={handleDelete}
+        loading={loading}
+      />
     </div>
   );
 };
