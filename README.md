@@ -1,4 +1,4 @@
-# LifeKit
+# LifeKit:
 
 LifeKit is a simple life and task, finance management application built with Next.js, TypeScript, Supabase, and Mantine UI. It helps users organize various aspects of their life including tasks, finances, ideas, goals, and personal notes.
 
