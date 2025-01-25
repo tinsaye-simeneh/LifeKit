@@ -102,6 +102,13 @@ export interface PersonalNote {
   updated_at?: string;
 }
 
+export interface Temp {
+  id: UUID;
+  user_id?: string;
+  content: string;
+  created_at?: string;
+}
+
 export interface UserProfile {
   user_id: UUID;
   bio: string;

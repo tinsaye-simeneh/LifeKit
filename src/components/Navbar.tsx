@@ -23,6 +23,7 @@ const menuItems = [
   { label: "Finance", link: "/finance" },
   { label: "Ideas", link: "/ideas" },
   { label: "Notes", link: "/notes" },
+  { label: "Temp", link: "/temp" },
 ];
 
 const Navbar = () => {
