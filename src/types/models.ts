@@ -106,9 +106,7 @@ export interface Temp {
   id: UUID;
   user_id?: string;
   content: string;
-  date?: string;
   created_at?: string;
-  updated_at?: string;
 }
 
 export interface UserProfile {
