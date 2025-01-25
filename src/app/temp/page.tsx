@@ -18,7 +18,7 @@ const columns = [
 const TempsPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const { temps, fetchTemps, deleteTemp } = useTempStore();
+  const { temp, fetchTemps, deleteTemp } = useTempStore();
   const { session } = useSessionStore();
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const TempsPage = () => {
 
       <EntityTable
         columns={columns}
-        data={temps}
+        data={temp}
         onEdit={(id) => router.push(`/temp/${id}`)}
         onDelete={handleDelete}
         loading={loading}

@@ -13,7 +13,7 @@ const NewTempPage = () => {
     return <div>You need to be logged in to create Temp.</div>;
   }
 
-  const handleCreate = async (values: { title: string; content: string }) => {
+  const handleCreate = async (values: { content: string }) => {
     const TempData = {
       ...values,
       id: "",

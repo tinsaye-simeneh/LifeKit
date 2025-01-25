@@ -40,7 +40,7 @@ const EditTempPage = () => {
     loadTemp();
   }, [fetchTemp, TempId]);
 
-  const handleUpdate = async (values: { title: string; content: string }) => {
+  const handleUpdate = async (values: { content: string }) => {
     try {
       await updateTemp(TempId, values);
       notifications.show({
