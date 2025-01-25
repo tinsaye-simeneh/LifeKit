@@ -9,10 +9,7 @@ import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
-const columns = [
-  { label: "Content", accessor: "content" },
-  { label: "Date", accessor: "date" },
-];
+const columns = [{ label: "Content", accessor: "content" }];
 
 const TempsPage = () => {
   const router = useRouter();
@@ -40,6 +37,8 @@ const TempsPage = () => {
     await fetchTemps(session?.user?.id as string);
     setLoading(false);
   };
+
+  console.log(temp);
 
   return (
     <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">

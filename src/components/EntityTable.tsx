@@ -273,7 +273,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
                           ].includes(column.accessor)
                             ? formatDate(row[column.accessor])
                             : typeof row[column.accessor] === "string"
-                            ? trimText(row[column.accessor])
+                            ? parse(trimText(row[column.accessor]))
                             : row[column.accessor]}
                         </td>
                       ))}
