@@ -2,18 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import NoteForm from "@/components/note/forms";
-import { useNoteStore } from "@/store/noteStore";
+import TempForm from "@/components/temp/forms";
+import { useTempStore } from "@/store/tempStore";
 import { notifications } from "@mantine/notifications";
 
-const EditNotePage = () => {
+const EditTempPage = () => {
   const { id } = useParams();
-  const noteId = id as string;
+  const TempId = id as string;
 
-  const { fetchNote, updateNote } = useNoteStore();
+  const { fetchTemp, updateTemp } = useTempStore();
 
   const [initialValues, setInitialValues] = useState({
-    title: "",
     content: "",
   });
 
@@ -21,41 +20,40 @@ const EditNotePage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadNote = async () => {
+    const loadTemp = async () => {
       setLoading(true);
-      const note = await fetchNote(noteId);
+      const temp = await fetchTemp(TempId);
 
-      if (!note) {
-        setError("Note not found");
+      if (!temp) {
+        setError("Temp not found");
         setLoading(false);
         return;
       }
 
       setInitialValues({
-        title: note.title,
-        content: note.content,
+        content: temp.content,
       });
 
       setLoading(false);
     };
 
-    loadNote();
-  }, [fetchNote, noteId]);
+    loadTemp();
+  }, [fetchTemp, TempId]);
 
   const handleUpdate = async (values: { title: string; content: string }) => {
     try {
-      await updateNote(noteId, values);
+      await updateTemp(TempId, values);
       notifications.show({
         title: "Success",
-        message: "Note updated successfully.",
+        message: "Temp updated successfully.",
         color: "green",
       });
-      setTimeout(() => window.open("/notes", "_self"), 500);
+      setTimeout(() => window.open("/temp", "_self"), 500);
     } catch (error) {
-      console.error("Error updating note:", error);
+      console.error("Error updating temp:", error);
       notifications.show({
         title: "Error",
-        message: "Failed to update the note.",
+        message: "Failed to update the temp.",
         color: "red",
       });
     }
@@ -65,7 +63,7 @@ const EditNotePage = () => {
 
   if (error) return <div>{error}</div>;
 
-  return <NoteForm initialValues={initialValues} onSubmit={handleUpdate} />;
+  return <TempForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };
 
-export default EditNotePage;
+export default EditTempPage;

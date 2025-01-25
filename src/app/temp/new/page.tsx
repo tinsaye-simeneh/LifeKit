@@ -2,46 +2,45 @@
 
 import { notifications } from "@mantine/notifications";
 import { useSessionStore } from "@/store/sessionStore";
-import { useNoteStore } from "@/store/noteStore";
-import NoteForm from "@/components/note/forms";
+import { useTempStore } from "@/store/tempStore";
+import TempForm from "@/components/temp/forms";
 
-const NewNotePage = () => {
+const NewTempPage = () => {
   const session = useSessionStore((state) => state.session);
-  const { addNote } = useNoteStore();
+  const { addTemp } = useTempStore();
 
   if (!session?.user?.id) {
-    return <div>You need to be logged in to create Note.</div>;
+    return <div>You need to be logged in to create Temp.</div>;
   }
 
   const handleCreate = async (values: { title: string; content: string }) => {
-    const noteData = {
+    const TempData = {
       ...values,
       id: "",
       user_id: session?.user?.id,
     };
 
     try {
-      await addNote(noteData);
+      await addTemp(TempData);
       notifications.show({
         title: "Success",
-        message: "Note created successfully.",
+        message: "Temp created successfully.",
         color: "green",
       });
-      setTimeout(() => window.open("/notes", "_self"), 500);
+      setTimeout(() => window.open("/temp", "_self"), 500);
     } catch (error) {
-      console.error("Error creating note:", error);
+      console.error("Error creating temp:", error);
       notifications.show({
         title: "Error",
-        message: "Failed to create the note.",
+        message: "Failed to create the temp.",
         color: "red",
       });
     }
   };
 
   return (
-    <NoteForm
+    <TempForm
       initialValues={{
-        title: "",
         content: "",
       }}
       onSubmit={handleCreate}
@@ -49,4 +48,4 @@ const NewNotePage = () => {
   );
 };
 
-export default NewNotePage;
+export default NewTempPage;
