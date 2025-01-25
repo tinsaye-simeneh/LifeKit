@@ -89,6 +89,13 @@ const LandingPage = () => {
           >
             Notes
           </Button>
+            <Button
+            variant="filled"
+            color="green"
+            onClick={() => router.push("/temp")}
+          >
+            Temp
+          </Button>
         </Group>
       </Card>
 
