@@ -10,9 +10,8 @@ import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
 const columns = [
-  { label: "Title", accessor: "title" },
   { label: "Content", accessor: "content" },
-  { label: "Created At", accessor: "created_at" },
+  { label: "Date", accessor: "date" },
 ];
 
 const TempsPage = () => {
