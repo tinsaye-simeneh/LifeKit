@@ -12,9 +12,9 @@ import {
   Drawer,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { clearSession } from "@/utils/auth";
-import { useSessionStore } from "@/store/sessionStore";
+import { useState, useEffect } from "react";
+import { supabase } from "@/utils/supabase";
+import { Session } from "@supabase/supabase-js";
 
 const menuItems = [
   { label: "Home", link: "/" },
@@ -28,8 +28,35 @@ const menuItems = [
 
 const Navbar = () => {
   const router = useRouter();
-  const { session } = useSessionStore();
   const [drawerOpened, setDrawerOpened] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setSession(session);
+    };
+
+    fetchSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, newSession) => {
+        setSession(newSession);
+      }
+    );
+
+    return () => {
+      authListener.subscription?.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    router.push("/login");
+  };
 
   return (
     <Box component="nav" className="bg-gray-900 shadow-md sticky top-0 z-10">
@@ -55,48 +82,49 @@ const Navbar = () => {
           ))}
         </Group>
 
-        <Group>
-          {session ? (
-            <>
-              <Menu shadow="md" width={200} position="bottom-end">
-                <Menu.Target>
-                  <Avatar
-                    radius="xl"
-                    src={""}
-                    alt="Profile"
-                    className="cursor-pointer"
-                  />
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Account</Menu.Label>
-                  <Menu.Item onClick={() => router.push("/profile")}>
-                    Profile
-                  </Menu.Item>
-                  <Menu.Item
-                    onClick={clearSession}
-                    className="text-red-500 hover:bg-red-100"
-                  >
-                    Logout
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          ) : (
-            <Button
-              className="bg-blue-500 hover:bg-blue-600 text-white shadow"
-              onClick={() => router.push("/login")}
-            >
-              Login
+        <Menu
+          position="bottom"
+          withArrow
+          transitionProps={{
+            transition: "slide-up",
+            duration: 100,
+            timingFunction: "ease",
+          }}
+        >
+          <Menu.Target>
+            <Button variant="subtle" className="text-gray-300 hover:text-white">
+              {session ? (
+                <Avatar
+                  src={session.user?.user_metadata.avatar_url}
+                  alt={session.user?.email}
+                  radius="xl"
+                />
+              ) : (
+                "Account"
+              )}
             </Button>
-          )}
+          </Menu.Target>
 
-          <Burger
-            opened={drawerOpened}
-            onClick={() => setDrawerOpened(!drawerOpened)}
-            className="md:hidden"
-            color="white"
-          />
-        </Group>
+          <Menu.Dropdown>
+            {session ? (
+              <>
+                <Menu.Item onClick={() => router.push("/profile")}>
+                  Profile
+                </Menu.Item>
+                <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
+              </>
+            ) : (
+              <Menu.Item onClick={() => router.push("/login")}>Login</Menu.Item>
+            )}
+          </Menu.Dropdown>
+        </Menu>
+
+        <Burger
+          opened={drawerOpened}
+          onClick={() => setDrawerOpened(!drawerOpened)}
+          aria-label="Toggle navigation"
+          className="md:hidden"
+        />
       </Container>
 
       <Drawer
