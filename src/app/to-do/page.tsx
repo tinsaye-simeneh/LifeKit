@@ -8,6 +8,7 @@ import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const columns = [
   { label: "Task Name", accessor: "name" },
@@ -67,49 +68,51 @@ const TasksPage = () => {
   };
 
   return (
-    <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
-      <Box className="flex mt-5">
-        <div className="md:w-1/6 w-1/2">
-          <Select
-            placeholder="Pick a status"
-            value={taskStatus}
-            onChange={(value) => setTaskStatus(value as string)}
-            data={taskOptions}
-            classNames={{
-              label: "text-black",
-              input: "text-black border-none outline-none text-lg",
-              dropdown: "bg-white text-black",
-            }}
-          />
-        </div>
-        <div className="flex ml-auto">
-          <Button
-            onClick={() => setLoading(true)}
-            className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-          >
-            Reload
-          </Button>
-          <Button
-            onClick={() => router.push("/to-do/new")}
-            className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-          >
-            <FaPlus className="mr-2" /> Add
-          </Button>
-        </div>
-      </Box>
+    <ProtectedRoute>
+      <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+        <Box className="flex mt-5">
+          <div className="md:w-1/6 w-1/2">
+            <Select
+              placeholder="Pick a status"
+              value={taskStatus}
+              onChange={(value) => setTaskStatus(value as string)}
+              data={taskOptions}
+              classNames={{
+                label: "text-black",
+                input: "text-black border-none outline-none text-lg",
+                dropdown: "bg-white text-black",
+              }}
+            />
+          </div>
+          <div className="flex ml-auto">
+            <Button
+              onClick={() => setLoading(true)}
+              className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+            >
+              Reload
+            </Button>
+            <Button
+              onClick={() => router.push("/to-do/new")}
+              className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+            >
+              <FaPlus className="mr-2" /> Add
+            </Button>
+          </div>
+        </Box>
 
-      <EntityTable
-        columns={columns}
-        data={
-          taskDataMap[
-            taskStatus as "all" | "pending" | "completed" | "onProgress"
-          ]
-        }
-        onEdit={(id) => router.push(`/to-do/${id}`)}
-        onDelete={handleDelete}
-        loading={loading}
-      />
-    </div>
+        <EntityTable
+          columns={columns}
+          data={
+            taskDataMap[
+              taskStatus as "all" | "pending" | "completed" | "onProgress"
+            ]
+          }
+          onEdit={(id) => router.push(`/to-do/${id}`)}
+          onDelete={handleDelete}
+          loading={loading}
+        />
+      </div>
+    </ProtectedRoute>
   );
 };
 
