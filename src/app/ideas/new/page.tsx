@@ -1,12 +1,12 @@
 "use client";
 
 import IdeaForm from "@/components/idea/forms";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useIdeaStore } from "@/store/ideaStore";
 import { notifications } from "@mantine/notifications";
 
 const AddIdeaPage = () => {
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const createIdea = useIdeaStore((state) => state.addIdea);
 
   const handleCreate = async (values: {

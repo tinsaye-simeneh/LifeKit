@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useFinanceStore } from "@/store/financeStore";
-import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { Select } from "@mantine/core";
 import RemainingMoneyModal from "@/components/finance/RemainingModal";
 import { useRouter } from "next/navigation";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAuth } from "@/context/AuthContext";
 
 const columns = [
   { label: "Reason", accessor: "reason" },
@@ -27,7 +28,7 @@ const FinancePage = () => {
   const fetchFinances = useFinanceStore((state) => state.fetchFinances);
   const finances = useFinanceStore((state) => state.finances);
   const deleteFinance = useFinanceStore((state) => state.deleteFinance);
-  const { session } = useSessionStore();
+  const { session } = useAuth();
   const [selectedOption, setSelectedOption] = useState("finance");
 
   const remainingFinances = finances.filter(
@@ -55,57 +56,59 @@ const FinancePage = () => {
   };
 
   return (
-    <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
-      <Box className="flex mt-5">
-        <Select
-          value={selectedOption}
-          onChange={(value) => setSelectedOption(value as string)}
-          data={[
-            { value: "finance", label: `Finances (${finances.length})` },
-            { value: "remaining", label: `Remaining` },
-          ]}
-          placeholder="Select an option"
-          className="w-44 mb-4 text-sm"
-          styles={{
-            input: {
-              fontWeight: "600",
-              fontSize: "1rem",
-              color: "#000",
-              border: "none",
-            },
-            dropdown: {
-              color: "#000",
-            },
-          }}
-        />
+    <ProtectedRoute>
+      <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+        <Box className="flex mt-5">
+          <Select
+            value={selectedOption}
+            onChange={(value) => setSelectedOption(value as string)}
+            data={[
+              { value: "finance", label: `Finances (${finances.length})` },
+              { value: "remaining", label: `Remaining` },
+            ]}
+            placeholder="Select an option"
+            className="w-44 mb-4 text-sm"
+            styles={{
+              input: {
+                fontWeight: "600",
+                fontSize: "1rem",
+                color: "#000",
+                border: "none",
+              },
+              dropdown: {
+                color: "#000",
+              },
+            }}
+          />
 
-        <div className="flex ml-auto">
-          <Button
-            onClick={() => setLoading(true)}
-            className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-          >
-            Reload
-          </Button>
-          <Button
-            onClick={() => router.push("/finance/new")}
-            className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-          >
-            <FaPlus className="mr-2" /> Add
-          </Button>
-        </div>
-      </Box>
-      {selectedOption === "remaining" ? (
-        <RemainingMoneyModal data={remainingFinances} />
-      ) : (
-        <EntityTable
-          columns={columns}
-          data={finances}
-          onEdit={(id) => router.push(`/finance/${id}`)}
-          onDelete={handleDelete}
-          loading={loading}
-        />
-      )}
-    </div>
+          <div className="flex ml-auto">
+            <Button
+              onClick={() => setLoading(true)}
+              className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+            >
+              Reload
+            </Button>
+            <Button
+              onClick={() => router.push("/finance/new")}
+              className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+            >
+              <FaPlus className="mr-2" /> Add
+            </Button>
+          </div>
+        </Box>
+        {selectedOption === "remaining" ? (
+          <RemainingMoneyModal data={remainingFinances} />
+        ) : (
+          <EntityTable
+            columns={columns}
+            data={finances}
+            onEdit={(id) => router.push(`/finance/${id}`)}
+            onDelete={handleDelete}
+            loading={loading}
+          />
+        )}
+      </div>
+    </ProtectedRoute>
   );
 };
 

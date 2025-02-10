@@ -4,13 +4,13 @@ import "@mantine/core/styles.css";
 import { ColorSchemeScript, MantineProvider, Progress } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
-import { useSessionStore } from "@/store/sessionStore";
 import { usePathname } from "next/navigation";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
 import "@mantine/tiptap/styles.css";
 import Script from "next/script";
 import GoogleAnalytics from "./GoogleAnalytics";
+import { AuthProvider } from "@/context/AuthContext";
 
 export default function RootLayout({
   children,
@@ -18,28 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { session } = useSessionStore();
-  const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const isAuthRoute = pathname === "/login" || pathname === "/register";
-
-  useEffect(() => {
-    if (!loading) {
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      if (isAuthRoute && session) {
-        setTimeout(() => window.open("/", "_self"), 500);
-      } else if (!isAuthRoute && !session) {
-        setTimeout(() => window.open("/login", "_self"), 500);
-      }
-      setLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timeout);
-  }, [isAuthRoute, session, loading]);
 
   useEffect(() => {
     const handleStart = () => {
@@ -59,10 +39,6 @@ export default function RootLayout({
     const timeout = setTimeout(handleComplete, 1000);
     return () => clearTimeout(timeout);
   }, [pathname]);
-
-  if (loading) {
-    return null;
-  }
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -102,7 +78,7 @@ export default function RootLayout({
           <Notifications position="top-right" zIndex={9999} />
           <Navbar />
           <GoogleAnalytics measurementId="G-ZZYR54J0Q6" />
-          {isAuthRoute && !session ? children : session ? children : null}
+          <AuthProvider>{children}</AuthProvider>
         </MantineProvider>
       </body>
     </html>

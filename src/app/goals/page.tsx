@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useGoalStore } from "@/store/goalStore";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const columns = [
   { label: "Title", accessor: "title" },
@@ -22,7 +23,7 @@ const GoalsPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { goals, fetchGoals, deleteGoal } = useGoalStore();
-  const { session } = useSessionStore();
+  const { session } = useAuth();
 
   useEffect(() => {
     const loadGoals = async () => {
@@ -45,35 +46,37 @@ const GoalsPage = () => {
   };
 
   return (
-    <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
-      <Box className="flex mt-5">
-        <h5 className="text-2xl font-semibold text-black text-center">
-          Goals ({goals.length})
-        </h5>
-        <div className="flex ml-auto">
-          <Button
-            onClick={() => setLoading(true)}
-            className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-          >
-            Reload
-          </Button>
-          <Button
-            onClick={() => router.push("/goals/new")}
-            className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
-          >
-            <FaPlus className="mr-2" /> Add
-          </Button>
-        </div>
-      </Box>
+    <ProtectedRoute>
+      <div className="mx-auto p-6 space-y-6 bg-gray-50 rounded-lg shadow-lg">
+        <Box className="flex mt-5">
+          <h5 className="text-2xl font-semibold text-black text-center">
+            Goals ({goals.length})
+          </h5>
+          <div className="flex ml-auto">
+            <Button
+              onClick={() => setLoading(true)}
+              className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+            >
+              Reload
+            </Button>
+            <Button
+              onClick={() => router.push("/goals/new")}
+              className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
+            >
+              <FaPlus className="mr-2" /> Add
+            </Button>
+          </div>
+        </Box>
 
-      <EntityTable
-        columns={columns}
-        data={goals}
-        onEdit={(id) => router.push(`/goals/${id}`)}
-        onDelete={handleDelete}
-        loading={loading}
-      />
-    </div>
+        <EntityTable
+          columns={columns}
+          data={goals}
+          onEdit={(id) => router.push(`/goals/${id}`)}
+          onDelete={handleDelete}
+          loading={loading}
+        />
+      </div>
+    </ProtectedRoute>
   );
 };
 
