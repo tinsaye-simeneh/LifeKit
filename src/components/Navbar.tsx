@@ -92,13 +92,14 @@ const Navbar = () => {
           }}
         >
           <Menu.Target>
-            <Button variant="subtle" className="text-gray-300 hover:text-white">
+            <Button variant="subtle" className="text-gray-300 hover:text-white hover:bg-transparent">
               {session ? (
-                <Avatar
-                  src={session.user?.user_metadata.avatar_url}
-                  alt={session.user?.email}
-                  radius="xl"
-                />
+               sx={{
+    '&:hover': {
+      borderColor: '#fff', 
+      cursor: 'pointer',
+    },
+  }}
               ) : (
                 "Account"
               )}
