@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useFinanceStore } from "@/store/financeStore";
-import { useSessionStore } from "@/store/sessionStore";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { Select } from "@mantine/core";
 import RemainingMoneyModal from "@/components/finance/RemainingModal";
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAuth } from "@/context/AuthContext";
 
 const columns = [
   { label: "Reason", accessor: "reason" },
@@ -28,7 +28,7 @@ const FinancePage = () => {
   const fetchFinances = useFinanceStore((state) => state.fetchFinances);
   const finances = useFinanceStore((state) => state.finances);
   const deleteFinance = useFinanceStore((state) => state.deleteFinance);
-  const { session } = useSessionStore();
+  const { session } = useAuth();
   const [selectedOption, setSelectedOption] = useState("finance");
 
   const remainingFinances = finances.filter(

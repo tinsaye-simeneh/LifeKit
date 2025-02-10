@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useTempStore } from "@/store/tempStore";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ const TempsPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { temp, fetchTemps, deleteTemp } = useTempStore();
-  const { session } = useSessionStore();
+  const { session } = useAuth();
 
   useEffect(() => {
     const loadTemps = async () => {

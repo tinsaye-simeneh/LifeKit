@@ -16,7 +16,7 @@ export default function ProtectedRoute({
   useEffect(() => {
     if (!loading) {
       if (!session) {
-        router.replace("/auth/login");
+        router.replace("/login");
       } else {
         setAuthChecked(true);
       }

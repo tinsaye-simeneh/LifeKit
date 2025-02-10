@@ -1,12 +1,12 @@
 "use client";
 
 import FinanceForm from "@/components/finance/forms";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useFinanceStore } from "@/store/financeStore";
 import { notifications } from "@mantine/notifications";
 
 const FinancePage = () => {
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const createFinance = useFinanceStore((state) => state.addFinance);
 
   const handleCreate = async (values: {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import IdeaForm from "@/components/idea/forms";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useIdeaStore } from "@/store/ideaStore";
 import { notifications } from "@mantine/notifications";
 
@@ -11,7 +11,7 @@ const EditIdeaPage = () => {
   const { id } = useParams();
   const ideaId = Array.isArray(id) ? id[0] : id;
 
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const fetchIdea = useIdeaStore((state) => state.fetchIdea);
   const updateIdea = useIdeaStore((state) => state.updateIdea);
 

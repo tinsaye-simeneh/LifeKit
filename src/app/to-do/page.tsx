@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Button, Select } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useTaskStore } from "@/store/todoStore";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ const TasksPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { tasks, fetchTasks, deleteTask } = useTaskStore();
-  const { session } = useSessionStore();
+  const { session } = useAuth();
   const [taskStatus, setTaskStatus] = useState("pending");
 
   const pendingTasks = tasks.filter((task) => task.status === taskStatus);

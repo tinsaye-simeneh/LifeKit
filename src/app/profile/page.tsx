@@ -1,13 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
-import { useSessionStore } from "@/store/sessionStore";
+import React from "react";
+import { useAuth } from "@/context/AuthContext";
 
 const ProfilePage: React.FC = () => {
-  const { session, fetchSession } = useSessionStore();
-
-  useEffect(() => {
-    fetchSession();
-  }, [fetchSession]);
+  const { session } = useAuth();
 
   if (!session) {
     return <p className="text-center text-gray-500">Loading...</p>;
@@ -21,7 +17,7 @@ const ProfilePage: React.FC = () => {
         </h1>
         {session ? (
           <div className="user-info space-y-4">
-            <div>
+            {/* <div>
               <label
                 htmlFor="username"
                 className="block text-gray-600 font-semibold mb-1"
@@ -31,11 +27,11 @@ const ProfilePage: React.FC = () => {
               <input
                 type="text"
                 id="username"
-                value={session.user?.username || ""}
+                value={session.user?.email || ""}
                 disabled
                 className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 cursor-not-allowed"
               />
-            </div>
+            </div> */}
             <div>
               <label
                 htmlFor="email"

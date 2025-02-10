@@ -1,12 +1,12 @@
 "use client";
 
 import { notifications } from "@mantine/notifications";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useNoteStore } from "@/store/noteStore";
 import NoteForm from "@/components/note/forms";
 
 const NewNotePage = () => {
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const { addNote } = useNoteStore();
 
   if (!session?.user?.id) {

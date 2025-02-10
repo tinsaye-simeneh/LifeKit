@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase";
 import {
   Button,
-  Input,
-  Label,
-  Field,
-  Fieldset,
-  Legend,
-} from "@headlessui/react";
+  TextInput,
+  PasswordInput,
+  Paper,
+  Title,
+  Text,
+  Anchor,
+  LoadingOverlay,
+} from "@mantine/core";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -32,7 +34,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {},
   } = useForm<FieldValues>({
     resolver: zodResolver(schema),
   });
@@ -55,7 +57,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       }
 
       const { error } = response;
-
       if (error) {
         setError(error.message);
       } else {
@@ -71,88 +72,53 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
 
   return (
     <div className="flex items-center justify-center bg-gray-800 h-[calc(100vh-4.2rem)]">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+      <Paper
+        shadow="md"
+        radius="md"
+        p="lg"
+        withBorder
+        className="max-w-sm w-full relative"
+      >
+        <LoadingOverlay visible={loading} />
+        <Title order={2} className="text-center text-sky-500 mb-4">
+          {type === "login" ? "Login" : "Sign Up"}
+        </Title>
 
-        <Fieldset className="space-y-4">
-          <Legend className="text-2xl font-bold text-center mb-6 text-sky-500">
+        {error && (
+          <Text color="red" size="sm" mb="sm">
+            {error}
+          </Text>
+        )}
+
+        <form onSubmit={handleSubmit(handleAuthSubmit)} className="space-y-4">
+          <TextInput
+            label="Email"
+            placeholder="Enter your email"
+            {...register("email")}
+            required
+          />
+
+          <PasswordInput
+            label="Password"
+            placeholder="Enter your password"
+            {...register("password")}
+            required
+          />
+
+          <Button type="submit" fullWidth loading={loading} color="blue">
             {type === "login" ? "Login" : "Sign Up"}
-          </Legend>
-
-          <Field className="mb-4">
-            <Label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Email
-            </Label>
-            <Input
-              type="email"
-              id="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none text-sm focus:ring-2 focus:ring-indigo-500 text-black"
-              placeholder="Enter your email"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">
-                {(errors.email as { message?: string }).message ||
-                  "Invalid email"}
-              </p>
-            )}
-          </Field>
-
-          <Field className="mb-6">
-            <Label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Password
-            </Label>
-            <Input
-              type="password"
-              id="password"
-              className="mt-1 block w-full px-3 py-2 text-black border text-sm border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="Enter your password"
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm">
-                {(errors.password as { message?: string }).message ||
-                  "Invalid password"}
-              </p>
-            )}
-          </Field>
-
-          <Button
-            type="submit"
-            className={`rounded bg-sky-600 py-2 w-full px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700 ${
-              loading ? "opacity-50" : ""
-            }`}
-            onClick={handleSubmit(handleAuthSubmit)}
-            disabled={loading}
-          >
-            {loading
-              ? type === "login"
-                ? "Logging in..."
-                : "Signing up..."
-              : type === "login"
-              ? "Login"
-              : "Sign Up"}
           </Button>
-        </Fieldset>
+        </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600">
+        <Text size="sm" mt="md">
           {type === "login"
-            ? "Don't have an account? "
-            : "Already have an account? "}
-          <a
-            href={type === "login" ? "/auth/signup" : "/auth/login"}
-            className="text-blue-700 hover:underline"
-          >
+            ? "Don't have an account?"
+            : "Already have an account?"}{" "}
+          <Anchor href={type === "login" ? "/auth/signup" : "/auth/login"}>
             {type === "login" ? "Sign up" : "Login"}
-          </a>
-        </p>
-      </div>
+          </Anchor>
+        </Text>
+      </Paper>
     </div>
   );
 };

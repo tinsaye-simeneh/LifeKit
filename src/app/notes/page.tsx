@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useNoteStore } from "@/store/noteStore";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,7 @@ const NotesPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { notes, fetchNotes, deleteNote } = useNoteStore();
-  const { session } = useSessionStore();
+  const { session } = useAuth();
 
   useEffect(() => {
     const loadNotes = async () => {

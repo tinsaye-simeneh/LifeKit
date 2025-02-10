@@ -2,11 +2,11 @@
 
 import { notifications } from "@mantine/notifications";
 import TaskForm from "@/components/to-do/forms";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useTaskStore } from "@/store/todoStore";
 
 const ToDoPage = () => {
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const createToDo = useTaskStore((state) => state.addTask);
 
   if (!session?.user?.id) {

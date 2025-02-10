@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import TaskForm from "@/components/to-do/forms";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useTaskStore } from "@/store/todoStore";
 import { notifications } from "@mantine/notifications";
 
@@ -11,7 +11,7 @@ const EditTaskPage = () => {
   const { id } = useParams();
   const taskId = Array.isArray(id) ? id[0] : id;
 
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const fetchTask = useTaskStore((state) => state.fetchTask);
   const updateTask = useTaskStore((state) => state.updateTask);
 

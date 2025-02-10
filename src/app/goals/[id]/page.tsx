@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import GoalForm from "@/components/goal/forms";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useGoalStore } from "@/store/goalStore";
 import { notifications } from "@mantine/notifications";
 
 const EditGoalPage = () => {
   const { id } = useParams();
-  const goalId = Array.isArray(id) ? id[0] : id; // Ensure goalId is properly extracted
+  const goalId = Array.isArray(id) ? id[0] : id;
 
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const fetchGoal = useGoalStore((state) => state.fetchGoal);
   const updateGoal = useGoalStore((state) => state.updateGoal);
 

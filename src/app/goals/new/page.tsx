@@ -1,14 +1,14 @@
 "use client";
 
 import GoalForm from "@/components/goal/forms";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useGoalStore } from "@/store/goalStore";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 
 const AddGoalPage = () => {
   const router = useRouter();
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const addGoal = useGoalStore((state) => state.addGoal);
 
   const handleCreate = async (values: {

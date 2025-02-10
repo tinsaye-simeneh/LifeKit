@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Button } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useIdeaStore } from "@/store/ideaStore";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ const IdeasPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { ideas, fetchIdeas, deleteIdea } = useIdeaStore();
-  const { session } = useSessionStore();
+  const { session } = useAuth();
 
   useEffect(() => {
     const loadIdeas = async () => {

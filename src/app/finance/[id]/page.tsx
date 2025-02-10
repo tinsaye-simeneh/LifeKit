@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import FinanceForm from "@/components/finance/forms"; // Assuming this form component exists
-import { useSessionStore } from "@/store/sessionStore";
+import FinanceForm from "@/components/finance/forms";
 import { useFinanceStore } from "@/store/financeStore";
 import { notifications } from "@mantine/notifications";
+import { useAuth } from "@/context/AuthContext";
 
 const EditFinancePage = () => {
   const { id } = useParams();
   const financeId = Array.isArray(id) ? id[0] : id;
 
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const fetchFinance = useFinanceStore((state) => state.fetchFinance);
   const updateFinance = useFinanceStore((state) => state.updateFinance);
 

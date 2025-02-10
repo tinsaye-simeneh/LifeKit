@@ -1,12 +1,12 @@
 "use client";
 
 import { notifications } from "@mantine/notifications";
-import { useSessionStore } from "@/store/sessionStore";
+import { useAuth } from "@/context/AuthContext";
 import { useTempStore } from "@/store/tempStore";
 import TempForm from "@/components/temp/forms";
 
 const NewTempPage = () => {
-  const session = useSessionStore((state) => state.session);
+  const { session } = useAuth();
   const { addTemp } = useTempStore();
 
   if (!session?.user?.id) {
