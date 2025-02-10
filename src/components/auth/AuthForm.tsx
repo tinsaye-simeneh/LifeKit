@@ -85,7 +85,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
         </Title>
 
         {error && (
-          <Text color="red" size="sm" mb="sm">
+          <Text size="sm" mb="sm" className="text-red-500">
             {error}
           </Text>
         )}
@@ -96,6 +96,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             placeholder="Enter your email"
             {...register("email")}
             required
+            className="text-black"
           />
 
           <PasswordInput
@@ -103,6 +104,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             placeholder="Enter your password"
             {...register("password")}
             required
+            className="text-black"
           />
 
           <Button type="submit" fullWidth loading={loading} color="blue">
@@ -110,11 +112,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           </Button>
         </form>
 
-        <Text size="sm" mt="md">
+        <Text size="sm" mt="md" className="text-center text-black">
           {type === "login"
             ? "Don't have an account?"
             : "Already have an account?"}{" "}
-          <Anchor href={type === "login" ? "/auth/signup" : "/auth/login"}>
+          <Anchor href={type === "login" ? "/signup" : "/login"}>
             {type === "login" ? "Sign up" : "Login"}
           </Anchor>
         </Text>
