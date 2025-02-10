@@ -3,7 +3,7 @@
 import "@mantine/core/styles.css";
 import { ColorSchemeScript, MantineProvider, Progress } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { usePathname } from "next/navigation";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
@@ -77,8 +77,10 @@ export default function RootLayout({
           )}{" "}
           <Notifications position="top-right" zIndex={9999} />
           <Navbar />
-          <GoogleAnalytics measurementId="G-ZZYR54J0Q6" />
-          <AuthProvider>{children}</AuthProvider>
+          <Suspense fallback={<div>Loading...</div>}>
+            <GoogleAnalytics measurementId="G-ZZYR54J0Q6" />
+            <AuthProvider>{children}</AuthProvider>
+          </Suspense>
         </MantineProvider>
       </body>
     </html>
