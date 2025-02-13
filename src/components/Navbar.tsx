@@ -92,7 +92,10 @@ const Navbar = () => {
           }}
         >
           <Menu.Target>
-            <Button variant="subtle" className="text-gray-300 hover:text-white">
+            <Button
+              variant="subtle"
+              className="text-gray-300 hover:text-white ml-auto hover:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center mr-5"
+            >
               {session ? (
                 <Avatar
                   src={session.user?.user_metadata.avatar_url}
@@ -124,6 +127,7 @@ const Navbar = () => {
           onClick={() => setDrawerOpened(!drawerOpened)}
           aria-label="Toggle navigation"
           className="md:hidden"
+          color="gray"
         />
       </Container>
 
