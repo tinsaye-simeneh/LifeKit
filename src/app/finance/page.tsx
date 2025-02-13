@@ -115,7 +115,7 @@ const FinancePage = () => {
           <Text size="md" className="font-bold text-gray-600">
             Financial Summary (Last 30 Days)
           </Text>
-          <div className="flex justify-between mt-2">
+          <div className="md:flex justify-between mt-2">
             <Text size="md" c="green">
               Total Income (including loans): Br. {totalIncome.toFixed(2)}
             </Text>
