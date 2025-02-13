@@ -100,6 +100,11 @@ const TasksPage = () => {
           </div>
         </Box>
 
+        <span className="text-gray-400 text-sm">
+          This page is dedicated for managing your daily or planned tasks with
+          different filters.
+        </span>
+
         <EntityTable
           columns={columns}
           data={
