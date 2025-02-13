@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Button } from "@mantine/core";
+import { Box, Button, Text } from "@mantine/core";
 import EntityTable from "@/components/EntityTable";
 import { useFinanceStore } from "@/store/financeStore";
 import { notifications } from "@mantine/notifications";
@@ -42,6 +42,24 @@ const FinancePage = () => {
     };
     loadFinances();
   }, [fetchFinances, loading, session?.user?.id]);
+
+  const last30DaysFinances = finances.filter((finance) => {
+    const financeDate = new Date(finance.date);
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    return financeDate >= thirtyDaysAgo && financeDate <= today;
+  });
+
+  const totalIncome = last30DaysFinances
+    .filter((finance) => finance.type === "income")
+    .reduce((acc, curr) => acc + curr.amount, 0);
+
+  const totalExpenses = last30DaysFinances
+    .filter((finance) => finance.type === "expense")
+    .reduce((acc, curr) => acc + curr.amount, 0);
+
+  const total = totalIncome - totalExpenses;
 
   const handleDelete = async (id: string) => {
     setLoading(true);
@@ -96,6 +114,28 @@ const FinancePage = () => {
             </Button>
           </div>
         </Box>
+        <span className="text-gray-400 text-sm">
+          This page is dedicated for managing your finances including incomes,
+          loans and expenses.
+        </span>
+
+        <div className="mt-6 p-4 bg-white rounded-lg shadow-md border border-gray-300">
+          <Text size="md" className="font-bold text-gray-600">
+            Financial Summary (Last 30 Days)
+          </Text>
+          <div className="md:flex justify-between mt-2">
+            <Text size="md" c="green">
+              Total Income (including loans): Br. {totalIncome.toFixed(2)}
+            </Text>
+            <Text size="md" c="red">
+              Total Expenses: Br. {totalExpenses.toFixed(2)}
+            </Text>
+            <Text size="md" c={total >= 0 ? "green" : "red"}>
+              Total: Br. {total.toFixed(2)}
+            </Text>
+          </div>
+        </div>
+
         {selectedOption === "remaining" ? (
           <RemainingMoneyModal data={remainingFinances} />
         ) : (

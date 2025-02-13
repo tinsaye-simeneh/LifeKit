@@ -63,6 +63,9 @@ const TempsPage = () => {
             </Button>
           </div>
         </Box>
+        <span className="text-gray-400 text-sm">
+          This page is dedicated for managing your daily or temporary notes.
+        </span>
 
         <EntityTable
           columns={columns}
