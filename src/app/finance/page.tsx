@@ -31,6 +31,10 @@ const FinancePage = () => {
   const { session } = useAuth();
   const [selectedOption, setSelectedOption] = useState("finance");
 
+  const remainingFinances = finances.filter(
+    (finance) => finance.reason === "Remaining"
+  );
+
   useEffect(() => {
     const loadFinances = async () => {
       await fetchFinances(session?.user?.id as string);
@@ -98,13 +102,13 @@ const FinancePage = () => {
           <div className="flex ml-auto">
             <Button
               onClick={() => setLoading(true)}
-              className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white"
+              className="mb-6 mx-4 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
             >
               Reload
             </Button>
             <Button
               onClick={() => router.push("/finance/new")}
-              className="mb-6 bg-blue-500 hover:bg-gray-600 text-white"
+              className="mb-6 bg-blue-500 hover:bg-gray-600 text-white ml-auto"
             >
               <FaPlus className="mr-2" /> Add
             </Button>
@@ -129,11 +133,11 @@ const FinancePage = () => {
         </div>
 
         {selectedOption === "remaining" ? (
-          <RemainingMoneyModal data={last30DaysFinances} />
+          <RemainingMoneyModal data={remainingFinances} />
         ) : (
           <EntityTable
             columns={columns}
-            data={last30DaysFinances}
+            data={finances}
             onEdit={(id) => router.push(`/finance/${id}`)}
             onDelete={handleDelete}
             loading={loading}
