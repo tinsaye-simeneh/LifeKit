@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase";
 import {
@@ -69,6 +69,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const handleLogout = async () => {
+      await supabase.auth.signOut();
+    };
+
+    handleLogout();
+  }, []);
 
   return (
     <div className="flex items-center justify-center bg-gray-800 h-[calc(100vh-4.2rem)]">
