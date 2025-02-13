@@ -1,9 +1,18 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Card, Group, Text, Button, Container } from "@mantine/core";
+import { Card, Text, Button, Container } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
+
+const menuItems = [
+  { label: "Todo", color: "blue", path: "/to-do" },
+  { label: "Finance", color: "green", path: "/finance" },
+  { label: "Goals", color: "yellow", path: "/goals" },
+  { label: "Ideas", color: "purple", path: "/ideas" },
+  { label: "Notes", color: "red", path: "/notes" },
+  { label: "Temp", color: "gray", path: "/temp" },
+];
 
 const LandingPage = () => {
   const router = useRouter();
@@ -45,6 +54,7 @@ const LandingPage = () => {
           Get Started
         </Button>
       </Container>
+
       <Card
         shadow="md"
         radius="md"
@@ -54,52 +64,18 @@ const LandingPage = () => {
         <Text size="xl" className="mb-4">
           Select a Category
         </Text>
-        <Group grow>
-          <Button
-            variant="filled"
-            color="blue"
-            onClick={() => router.push("/to-do")}
-          >
-            Todo
-          </Button>
-          <Button
-            variant="filled"
-            color="green"
-            onClick={() => router.push("/finance")}
-          >
-            Finance
-          </Button>
-          <Button
-            variant="filled"
-            color="yellow"
-            onClick={() => router.push("/goals")}
-          >
-            Goals
-          </Button>
-        </Group>
-        <Group grow className="mt-4">
-          <Button
-            variant="filled"
-            color="purple"
-            onClick={() => router.push("/ideas")}
-          >
-            Ideas
-          </Button>
-          <Button
-            variant="filled"
-            color="red"
-            onClick={() => router.push("/notes")}
-          >
-            Notes
-          </Button>
-          <Button
-            variant="filled"
-            color="green"
-            onClick={() => router.push("/temp")}
-          >
-            Temp
-          </Button>
-        </Group>
+        <div className="grid grid-cols-3 gap-2">
+          {menuItems.map((item) => (
+            <Button
+              key={item.label}
+              variant="filled"
+              color={item.color}
+              onClick={() => router.push(item.path)}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </div>
       </Card>
 
       <Footer />
