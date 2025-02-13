@@ -66,6 +66,9 @@ const IdeasPage = () => {
             </Button>
           </div>
         </Box>
+        <span className="text-gray-400 text-sm">
+          This page is dedicated for managing your ideas.
+        </span>
 
         <EntityTable
           columns={columns}
