@@ -65,6 +65,9 @@ const NotesPage = () => {
             </Button>
           </div>
         </Box>
+        <span className="text-gray-400 text-sm">
+          This page is dedicated for managing your short and permanent notes.
+        </span>
 
         <EntityTable
           columns={columns}
