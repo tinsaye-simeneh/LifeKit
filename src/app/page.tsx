@@ -1,25 +1,31 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Group, Text, Button, Container } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then((registration) => {
-        console.log("Service Worker registered: ", registration);
-      })
-      .catch((registrationError) => {
-        console.log("Service Worker registration failed: ", registrationError);
-      });
-  });
-}
-
 const LandingPage = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .then((registration) => {
+            console.log("Service Worker registered: ", registration);
+          })
+          .catch((registrationError) => {
+            console.log(
+              "Service Worker registration failed: ",
+              registrationError
+            );
+          });
+      });
+    }
+  }, []);
+
   return (
     <div className="flex flex-col bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 h-screen p-2">
       <Container size="lg" className="text-center my-16">
@@ -53,7 +59,6 @@ const LandingPage = () => {
             variant="filled"
             color="blue"
             onClick={() => router.push("/to-do")}
-            px={4}
           >
             Todo
           </Button>
@@ -61,7 +66,6 @@ const LandingPage = () => {
             variant="filled"
             color="green"
             onClick={() => router.push("/finance")}
-            px={4}
           >
             Finance
           </Button>
@@ -69,7 +73,6 @@ const LandingPage = () => {
             variant="filled"
             color="yellow"
             onClick={() => router.push("/goals")}
-            className="px-2"
           >
             Goals
           </Button>
@@ -89,7 +92,7 @@ const LandingPage = () => {
           >
             Notes
           </Button>
-            <Button
+          <Button
             variant="filled"
             color="green"
             onClick={() => router.push("/temp")}

@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import { Session } from "@supabase/supabase-js";
+import { MdManageAccounts } from "react-icons/md";
 
 const menuItems = [
   { label: "Home", link: "/" },
@@ -69,7 +70,7 @@ const Navbar = () => {
           Life Kit
         </Title>
 
-        <Group className="hidden md:flex">
+        <Group className="hidden md:flex ml-auto gap-4">
           {menuItems.map((item) => (
             <Button
               key={item.label}
@@ -92,7 +93,12 @@ const Navbar = () => {
           }}
         >
           <Menu.Target>
-            <Button variant="subtle" className="text-gray-300 hover:text-white">
+            <Button
+              variant="subtle"
+              className={`text-gray-300 hover:text-white ml-auto hover:bg-gray-800 h-10 rounded-full flex items-center justify-center mr-5 ${
+                session ? "w-10" : "border border-gray-500 rounded-full px-5"
+              }`}
+            >
               {session ? (
                 <Avatar
                   src={session.user?.user_metadata.avatar_url}
@@ -100,7 +106,10 @@ const Navbar = () => {
                   radius="xl"
                 />
               ) : (
-                "Account"
+                <span className="text-sm flex items-center justify-center gap-1 ">
+                  <MdManageAccounts />
+                  Account
+                </span>
               )}
             </Button>
           </Menu.Target>
@@ -114,7 +123,14 @@ const Navbar = () => {
                 <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
               </>
             ) : (
-              <Menu.Item onClick={() => router.push("/login")}>Login</Menu.Item>
+              <>
+                <Menu.Item onClick={() => router.push("/login")}>
+                  Login
+                </Menu.Item>
+                <Menu.Item onClick={() => router.push("/signup")}>
+                  Signup
+                </Menu.Item>
+              </>
             )}
           </Menu.Dropdown>
         </Menu>
@@ -124,6 +140,7 @@ const Navbar = () => {
           onClick={() => setDrawerOpened(!drawerOpened)}
           aria-label="Toggle navigation"
           className="md:hidden"
+          color="gray"
         />
       </Container>
 
