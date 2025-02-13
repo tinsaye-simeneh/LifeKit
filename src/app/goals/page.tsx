@@ -67,6 +67,10 @@ const GoalsPage = () => {
             </Button>
           </div>
         </Box>
+        <span className="text-gray-400 text-sm">
+          This page is dedicated for setting your daily, monthly or yearly
+          goals.
+        </span>
 
         <EntityTable
           columns={columns}

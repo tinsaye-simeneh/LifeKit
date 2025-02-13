@@ -114,6 +114,10 @@ const FinancePage = () => {
             </Button>
           </div>
         </Box>
+        <span className="text-gray-400 text-sm">
+          This page is dedicated for managing your finances including incomes,
+          loans and expenses.
+        </span>
 
         <div className="mt-6 p-4 bg-white rounded-lg shadow-md border border-gray-300">
           <Text size="md" className="font-bold text-gray-600">
