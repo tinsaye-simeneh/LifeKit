@@ -17,7 +17,7 @@ const EditGoalPage = () => {
 
   const [initialValues, setInitialValues] = useState<{
     title: string;
-    description: string;
+    description?: string;
     start_date: string;
     end_date: string;
     category: "skill" | "project" | "finance" | "personal";
@@ -65,7 +65,7 @@ const EditGoalPage = () => {
   // Handle form submission and goal update
   const handleUpdate = async (values: {
     title: string;
-    description: string;
+    description?: string;
     start_date: string;
     end_date: string;
     category: "skill" | "project" | "finance" | "personal";
