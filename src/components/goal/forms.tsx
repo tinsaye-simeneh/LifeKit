@@ -11,7 +11,7 @@ interface GoalFormProps {
   initialValues: {
     id?: string;
     title: string;
-    description: string;
+    description?: string;
     category: "skill" | "project" | "finance" | "personal";
     start_date: string;
     end_date: string;
@@ -20,7 +20,7 @@ interface GoalFormProps {
   onSubmit: (values: {
     id?: string;
     title: string;
-    description: string;
+    description?: string;
     category: "skill" | "project" | "finance" | "personal";
     start_date: string;
     end_date: string;
@@ -34,7 +34,6 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
     initialValues,
     validate: {
       title: (value) => (value ? null : "Title is required"),
-      description: (value) => (value ? null : "Description is required"),
       start_date: (value) => (value ? null : "Start date is required"),
       end_date: (value) => (value ? null : "End date is required"),
     },
@@ -59,7 +58,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
             placeholder="Enter goal title"
             {...form.getInputProps("title")}
             classNames={{ label: "text-black", input: "text-black" }}
-            className="col-span-2 md:col-span-1"
+            className="col-span-2 md:col-span-2"
             required
           />
 

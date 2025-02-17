@@ -11,7 +11,7 @@ const AddIdeaPage = () => {
 
   const handleCreate = async (values: {
     title: string;
-    description: string;
+    description?: string;
   }) => {
     const ideaData = {
       ...values,
@@ -19,11 +19,11 @@ const AddIdeaPage = () => {
       user_id: session?.user?.id,
     };
 
-    if (!ideaData.title || !ideaData.description) {
-      console.error("Please fill all the fields");
+    if (!ideaData.title) {
+      console.error("Please fill the title Field");
       notifications.show({
         title: "Error",
-        message: "Please fill all the fields",
+        message: "Please fill the title Field",
         color: "red",
       });
       return;

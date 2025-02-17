@@ -54,7 +54,7 @@ const EditIdeaPage = () => {
 
   const handleUpdate = async (values: {
     title: string;
-    description: string;
+    description?: string;
   }) => {
     if (!ideaId) {
       console.error("No idea ID provided");
@@ -67,11 +67,11 @@ const EditIdeaPage = () => {
       user_id: session?.user?.id,
     };
 
-    if (!ideaData.title || !ideaData.description) {
-      console.error("Please fill all the fields");
+    if (!ideaData.title) {
+      console.error("Please fill the title field");
       notifications.show({
         title: "Error",
-        message: "Please fill all the fields",
+        message: "Please fill the title field",
         color: "red",
       });
       return;
@@ -100,7 +100,7 @@ const EditIdeaPage = () => {
 
   if (error) return <div>{error}</div>;
 
-  if (!isClient) return null; // Prevent rendering of the form until client-side hydration is done
+  if (!isClient) return null;
 
   return <IdeaForm initialValues={initialValues} onSubmit={handleUpdate} />;
 };

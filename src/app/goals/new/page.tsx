@@ -19,20 +19,12 @@ const AddGoalPage = () => {
     category?: "skill" | "project" | "finance" | "personal";
     status?: "notStarted" | "onProgress" | "completed";
   }) => {
-    const { title, description, start_date, end_date, category, status } =
-      values;
+    const { title, start_date, end_date, category, status } = values;
 
-    if (
-      !title ||
-      !description ||
-      !start_date ||
-      !end_date ||
-      !category ||
-      !status
-    ) {
+    if (!title || !start_date || !end_date || !category || !status) {
       notifications.show({
         title: "Error",
-        message: "Please fill all the fields",
+        message: "Please fill all required the fields",
         color: "red",
       });
       return;
