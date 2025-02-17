@@ -91,7 +91,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
               >
                 <span className="text-gray-700 mr-3">{key}:</span>
                 <span className="text-gray-600 mr-auto">
-                  {parse(value as string)}
+                  {typeof value === "string" ? parse(value) : value}
                 </span>
               </div>
             ))}
