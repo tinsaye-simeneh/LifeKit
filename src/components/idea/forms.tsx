@@ -10,12 +10,12 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 interface IdeaFormProps {
   initialValues: {
     title: string;
-    description: string;
+    description?: string;
   };
   onSubmit: (values: {
     id?: string;
     title: string;
-    description: string;
+    description?: string;
   }) => void;
 }
 
@@ -25,8 +25,6 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
     initialValues,
     validate: {
       title: (value) => (value.trim() === "" ? "Title is required" : null),
-      description: (value) =>
-        value.trim() === "" ? "Description is required" : null,
     },
   });
   const [loading, setLoading] = useState(false);
