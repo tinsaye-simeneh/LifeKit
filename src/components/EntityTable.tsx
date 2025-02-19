@@ -9,6 +9,7 @@ import {
   Input,
   Select,
   Menu,
+  Text,
 } from "@mantine/core";
 import { FaEye, FaEllipsisV, FaCopy } from "react-icons/fa";
 import path from "path";
@@ -47,6 +48,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   const [rowData, setRowData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [textCopied, setTextCopied] = useState(false);
 
   const updateTask = useTaskStore((state) => state.updateTask);
 
@@ -89,7 +91,8 @@ const EntityTable: React.FC<EntityTableProps> = ({
         .join("\n");
 
       navigator.clipboard.writeText(formattedText).then(() => {
-        alert("Text copied to clipboard!");
+        setTextCopied(true);
+        setTimeout(() => setTextCopied(false), 2000);
       });
     };
 
@@ -102,8 +105,16 @@ const EntityTable: React.FC<EntityTableProps> = ({
               onClick={handleCopy}
               className="text-blue-500 hover:text-blue-700 flex"
             >
-              <FaCopy className="mt-1" />
-              <span className="ml-2">Copy</span>
+              <FaCopy color={`${textCopied ? "green" : "blue"}`} />
+              <Text
+                size="sm"
+                className={`
+                ml-1
+                ${textCopied ? "text-green-500" : "text-blue-500"}
+              `}
+              >
+                {`${textCopied ? "Details Copied" : "Copy Details"}`}
+              </Text>
             </button>
           </div>
 
