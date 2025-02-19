@@ -64,14 +64,18 @@ export interface Finance {
   bank_name?: string;
 }
 
-export interface MonthlyExpense {
+export interface BankDetails {
   id: UUID;
-  user_id: UUID;
-  month: string;
-  year: number;
-  total_expense: number;
-  total_income: number;
-  net_savings: number;
+  user_id?: UUID;
+  bank_name: string;
+  account_number: string;
+  account_name: string;
+  atm_number?: string;
+  username?: string;
+  password?: string;
+  data_type?: string;
+  created_at: string;
+  updated_at?: string;
 }
 
 export interface Idea {
