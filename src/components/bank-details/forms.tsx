@@ -42,7 +42,20 @@ const BankDetailsForm = ({ initialValues, onSubmit }: BankDetailsFormProps) => {
         >
           <Select
             label="Data Type"
-            data={["bank_account", "atm", "online_banking"]}
+            data={[
+              {
+                value: "bank_account",
+                label: "Bank Account",
+              },
+              {
+                value: "atm",
+                label: "ATM",
+              },
+              {
+                value: "online_banking",
+                label: "Online Banking",
+              },
+            ]}
             {...form.getInputProps("data_type")}
             classNames={{
               label: "text-black",
@@ -82,18 +95,37 @@ const BankDetailsForm = ({ initialValues, onSubmit }: BankDetailsFormProps) => {
           )}
 
           {form.values.data_type === "atm" && (
-            <TextInput
-              label="ATM Number"
-              placeholder="Enter ATM number"
-              {...form.getInputProps("atm_number")}
-              classNames={{ label: "text-black", input: "text-black" }}
-              className="col-span-2 md:col-span-1"
-              required
-            />
+            <>
+              <TextInput
+                label="Bank Name"
+                placeholder="Enter bank name"
+                {...form.getInputProps("bank_name")}
+                classNames={{ label: "text-black", input: "text-black" }}
+                className="col-span-2 md:col-span-1"
+                required
+              />
+              <TextInput
+                label="ATM Number"
+                placeholder="Enter ATM number"
+                {...form.getInputProps("atm_number")}
+                classNames={{ label: "text-black", input: "text-black" }}
+                className="col-span-2 md:col-span-1"
+                required
+              />
+              <span className="md:col-span-1"></span>
+            </>
           )}
 
           {form.values.data_type === "online_banking" && (
             <>
+              <TextInput
+                label="Bank Name"
+                placeholder="Enter bank name"
+                {...form.getInputProps("bank_name")}
+                classNames={{ label: "text-black", input: "text-black" }}
+                className="col-span-2 md:col-span-1"
+                required
+              />
               <TextInput
                 label="Username"
                 placeholder="Enter username"
