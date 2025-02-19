@@ -11,6 +11,7 @@ import RemainingMoneyModal from "@/components/finance/RemainingModal";
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 const columns = [
   { label: "Reason", accessor: "reason" },
@@ -116,7 +117,11 @@ const FinancePage = () => {
         </Box>
         <span className="text-gray-400 text-sm">
           This page is dedicated for managing your finances including incomes,
-          loans and expenses.
+          loans and expenses.{" "}
+          <span className="text-gray-600">For Bank Details go to</span>{" "}
+          <Link href="/bank-details" className="text-blue-500">
+            Bank Details
+          </Link>
         </span>
 
         <div className="mt-6 p-4 bg-white rounded-lg shadow-md border border-gray-300">
