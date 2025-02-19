@@ -34,7 +34,7 @@ export const useBankDetailsStore = create<BankDetailsStore>((set) => ({
 
   updateBankDetail: async (id, updates) => {
     const response = await fetch(
-      `/api/bank-details/update-bankdetails?id=${id}`,
+      `/api/bank-details/update-bankdetail?id=${id}`,
       {
         method: "PUT",
         headers: {
@@ -56,7 +56,7 @@ export const useBankDetailsStore = create<BankDetailsStore>((set) => ({
 
   deleteBankDetail: async (id) => {
     const response = await fetch(
-      `/api/bank-details/update-bankdetails?id=${id}`,
+      `/api/bank-details/update-bankdetail?id=${id}`,
       {
         method: "DELETE",
       }
