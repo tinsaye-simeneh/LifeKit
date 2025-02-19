@@ -8,6 +8,7 @@ import { notifications } from "@mantine/notifications";
 import { FaPlus } from "react-icons/fa";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useBankDetailsStore } from "@/store/bankdetailsStore";
+import { useAuth } from "@/context/AuthContext";
 
 const columns = [
   { label: "Bank Name", accessor: "bank_name" },
@@ -19,6 +20,7 @@ const columns = [
 ];
 
 const BankDetailsPage = () => {
+  const { session } = useAuth();
   const router = useRouter();
   const { bankDetails, fetchBankDetails, deleteBankDetail } =
     useBankDetailsStore();
@@ -27,7 +29,7 @@ const BankDetailsPage = () => {
   useEffect(() => {
     const loadBankDetails = async () => {
       try {
-        await fetchBankDetails();
+        await fetchBankDetails(session?.user?.id as string);
       } catch (error) {
         console.error("Error loading bank details:", error);
         notifications.show({
