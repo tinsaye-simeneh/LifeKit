@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 import BankDetailsForm from "@/components/bank-details/forms";
 import { useBankDetailsStore } from "@/store/bankdetailsStore";
 import { notifications } from "@mantine/notifications";
 import { useAuth } from "@/context/AuthContext";
 
 const BankDetailsEditPage = () => {
-  const { query } = useRouter();
-  const { id } = query;
+  const { id } = useParams();
   const bankId = Array.isArray(id) ? id[0] : id;
 
   const { session } = useAuth();
