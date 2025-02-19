@@ -271,10 +271,14 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             "date",
                             "due_date",
                           ].includes(column.accessor)
-                            ? formatDate(row[column.accessor])
+                            ? row[column.accessor]
+                              ? formatDate(row[column.accessor])
+                              : "-"
                             : typeof row[column.accessor] === "string"
-                            ? parse(trimText(row[column.accessor]))
-                            : row[column.accessor]}
+                            ? row[column.accessor]
+                              ? parse(trimText(row[column.accessor]))
+                              : "-"
+                            : row[column.accessor] ?? "-"}
                         </td>
                       ))}
                       <td className="px-4 py-2">
