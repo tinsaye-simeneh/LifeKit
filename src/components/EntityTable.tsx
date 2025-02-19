@@ -10,7 +10,7 @@ import {
   Select,
   Menu,
 } from "@mantine/core";
-import { FaEye, FaEllipsisV } from "react-icons/fa";
+import { FaEye, FaEllipsisV, FaCopy } from "react-icons/fa";
 import path from "path";
 import { useTaskStore } from "@/store/todoStore";
 import parse from "html-react-parser";
@@ -79,23 +79,51 @@ const EntityTable: React.FC<EntityTableProps> = ({
     const filteredRowData: Record<string, React.ReactNode> =
       removeUnwantedFields(rowData);
 
+    const handleCopy = () => {
+      const formattedText = Object.entries(filteredRowData)
+        .filter(([value]) => value)
+        .map(
+          ([key, value]) =>
+            `${key}: ${typeof value === "string" ? value : String(value)}`
+        )
+        .join("\n");
+
+      navigator.clipboard.writeText(formattedText).then(() => {
+        alert("Text copied to clipboard!");
+      });
+    };
+
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div className="bg-white w-11/12 max-w-md p-6 rounded-md shadow-lg overflow-y-auto max-h-[90vh]">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Details</h2>
-          <div className="space-y-4">
-            {Object.entries(filteredRowData).map(([key, value]) => (
-              <div
-                key={key}
-                className="flex justify-between border-b border-gray-200 py-2"
-              >
-                <span className="text-gray-700 mr-3">{key}:</span>
-                <span className="text-gray-600 mr-auto">
-                  {typeof value === "string" ? parse(value) : value}
-                </span>
-              </div>
-            ))}
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold text-gray-800">Details</h2>
+            <button
+              onClick={handleCopy}
+              className="text-blue-500 hover:text-blue-700 flex"
+            >
+              <FaCopy className="mt-1" />
+              <span className="ml-2">Copy</span>
+            </button>
           </div>
+
+          <div className="space-y-4">
+            {Object.entries(filteredRowData).map(
+              ([key, value]) =>
+                value && (
+                  <div
+                    key={key}
+                    className="flex justify-between border-b border-gray-200 py-2"
+                  >
+                    <span className="text-gray-700 mr-3">{key}:</span>
+                    <span className="text-gray-600 mr-auto">
+                      {typeof value === "string" ? parse(value) : value}
+                    </span>
+                  </div>
+                )
+            )}
+          </div>
+
           <div className="flex justify-end mt-6">
             <button
               onClick={onClose}
