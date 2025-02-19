@@ -14,7 +14,7 @@ interface BankDetailsFormProps {
     atm_number?: string;
     username?: string;
     password?: string;
-    data_type: "bank_account" | "atm" | "online_banking";
+    data_type: string;
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit: (values: any) => void;

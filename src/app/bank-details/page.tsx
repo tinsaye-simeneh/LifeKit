@@ -42,7 +42,7 @@ const BankDetailsPage = () => {
     };
 
     loadBankDetails();
-  }, [fetchBankDetails]);
+  }, [fetchBankDetails, session?.user?.id]);
 
   const handleDelete = async (id: string) => {
     setLoading(true);

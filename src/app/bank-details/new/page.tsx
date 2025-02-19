@@ -13,7 +13,6 @@ const BankDetailsPage = () => {
   const handleCreate = async (values: any) => {
     const bankDetailsData = {
       ...values,
-      id: "",
       user_id: session?.user?.id,
     };
 
