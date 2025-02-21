@@ -37,7 +37,7 @@ const Navbar = () => {
   const router = useRouter();
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
-  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null); // Track the open dropdown by label
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null); 
 
   useEffect(() => {
     const fetchSession = async () => {
