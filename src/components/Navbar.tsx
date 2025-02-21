@@ -37,7 +37,7 @@ const Navbar = () => {
   const router = useRouter();
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
-  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null); 
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -66,12 +66,12 @@ const Navbar = () => {
     router.push("/login");
   };
 
-  // Handle mobile dropdown toggle
   const handleMobileDropdown = (item: (typeof menuItems)[0]) => {
     if (item.isDropdown) {
-      setDropdownOpen(dropdownOpen === item.label ? null : item.label); // Toggle the dropdown for Finance
+      setDropdownOpen(dropdownOpen === item.label ? null : item.label);
     } else {
-      router.push(item.link!); // Navigate if it's not a dropdown
+      setDrawerOpened(false);
+      router.push(item.link!);
     }
   };
 
@@ -125,7 +125,9 @@ const Navbar = () => {
                 variant="subtle"
                 className="text-gray-300 hover:text-white"
                 onClick={() => {
-                  if (item.link) router.push(item.link);
+                  if (item.link) {
+                    router.push(item.link);
+                  }
                 }}
               >
                 {item.label}
