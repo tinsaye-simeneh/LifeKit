@@ -69,7 +69,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
     }
   };
 
-  // 🔹 Handle Google OAuth Sign-in
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setError("");
@@ -78,7 +77,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo:
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3001"
+              : "https://your-deployed-app.com",
         },
       });
 
