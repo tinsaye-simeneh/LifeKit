@@ -80,7 +80,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           redirectTo:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3001"
-              : "https://your-deployed-app.com",
+              : "https://life-kit-gamma.vercel.app",
         },
       });
 
