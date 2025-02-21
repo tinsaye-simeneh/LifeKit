@@ -32,7 +32,7 @@ const ToDoPage = () => {
         message: "To-do item created successfully.",
         color: "green",
       });
-      // setTimeout(() => window.open("/to-do", "_self"), 500);
+      setTimeout(() => window.open("/to-do", "_self"), 500);
     } catch (error) {
       console.error("Error creating to-do item:", error);
       notifications.show({
