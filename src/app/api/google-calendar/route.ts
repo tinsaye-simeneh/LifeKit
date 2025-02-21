@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       summary: task.name,
       description: task.description || "",
       start: {
-        dateTime: startDateTime, // Midnight UTC for start
+        dateTime: startDateTime,
         timeZone: "UTC",
       },
       end: {

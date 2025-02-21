@@ -36,6 +36,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
 
   const { session } = useAuth();
 
+  console.log("session", session);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFormSubmit = async (values: any) => {
     setLoading(true);
@@ -43,7 +44,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
 
     if (session?.access_token) {
       try {
-        await createGoogleCalendarEvent(session.access_token, values);
+        await createGoogleCalendarEvent(session?.provider_token || "", values);
       } catch (error) {
         console.error("Google Calendar event creation failed:", error);
       }
