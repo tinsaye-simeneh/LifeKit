@@ -64,6 +64,16 @@ const EntityTable: React.FC<EntityTableProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const removeUnwantedFields = (rowData: Record<string, any>) => {
     const unwantedFields = ["id", "user_id", "created_at", "updated_at"];
+    if (path.basename(location.pathname) === "bank-details") {
+      if (rowData.type === "bank_account") {
+        unwantedFields.push("atm_number", "username");
+      } else if (rowData.type === "atm") {
+        unwantedFields.push("account_name", "account_number");
+      } else if (rowData.type === "online_banking") {
+        unwantedFields.push("atm_number", "account_name", "account_number");
+      }
+    }
+
     return Object.fromEntries(
       Object.entries(rowData).filter(([key]) => !unwantedFields.includes(key))
     );
