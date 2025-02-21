@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase";
 import {
@@ -16,6 +16,7 @@ import {
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { FcGoogle } from "react-icons/fc"; // Google Icon
 
 interface AuthFormProps {
   type: "login" | "signup";
@@ -31,16 +32,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: {},
-  } = useForm<FieldValues>({
+  const { register, handleSubmit } = useForm<FieldValues>({
     resolver: zodResolver(schema),
   });
 
+  // 🔹 Handle Email & Password Auth
   const handleAuthSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
+    setError("");
 
     try {
       let response;
@@ -70,13 +69,29 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
     }
   };
 
-  useEffect(() => {
-    const handleLogout = async () => {
-      await supabase.auth.signOut();
-    };
+  // 🔹 Handle Google OAuth Sign-in
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError("");
 
-    handleLogout();
-  }, []);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        setError(error.message);
+      }
+    } catch (error) {
+      setError("Google sign-in failed. Try again.");
+      console.error("Google Auth Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center bg-gray-800 h-[calc(100vh-4.2rem)]">
@@ -119,6 +134,18 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             {type === "login" ? "Login" : "Sign Up"}
           </Button>
         </form>
+
+        <div className="flex items-center justify-center mt-4">
+          <Button
+            variant="default"
+            fullWidth
+            onClick={handleGoogleSignIn}
+            className="mt-2"
+          >
+            <FcGoogle size={20} className="mr-2" />
+            Continue with Google
+          </Button>
+        </div>
 
         <Text size="sm" mt="md" className="text-center text-black">
           {type === "login"
