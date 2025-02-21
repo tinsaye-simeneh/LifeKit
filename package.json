@@ -30,6 +30,7 @@
     "@tiptap/starter-kit": "^2.11.0",
     "@vercel/analytics": "^1.4.1",
     "date-fns": "^4.1.0",
+    "googleapis": "^144.0.0",
     "html-react-parser": "^5.2.2",
     "next": "15.0.3",
     "next-auth": "^4.24.10",
