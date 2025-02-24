@@ -75,7 +75,6 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           })}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6"
         >
-          {/* Title Input */}
           <TextInput
             label="Note Title"
             placeholder="Enter note title"
