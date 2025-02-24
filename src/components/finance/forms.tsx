@@ -73,17 +73,6 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             className="col-span-2 md:col-span-1"
             required
           />
-          <Select
-            label="Type"
-            data={["income", "expense"]}
-            {...form.getInputProps("type")}
-            classNames={{
-              label: "text-black",
-              input: "text-black",
-              dropdown: "bg-white text-black",
-            }}
-            className="col-span-2 md:col-span-1"
-          />
           <Textarea
             label="Reason"
             placeholder="Enter reason for transaction"
@@ -92,6 +81,31 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             className="col-span-2 md:col-span-1"
             required
           />
+          <div className="md:flex">
+            <Select
+              label="Category"
+              data={["food", "transport", "clothing", "rent", "others"]}
+              {...form.getInputProps("category")}
+              classNames={{
+                label: "text-black",
+                input: "text-black",
+                dropdown: "bg-white text-black",
+              }}
+              className="col-span-2 md:w-1/2"
+            />
+            <Select
+              label="Type"
+              data={["income", "expense"]}
+              {...form.getInputProps("type")}
+              classNames={{
+                label: "text-black",
+                input: "text-black",
+                dropdown: "bg-white text-black",
+              }}
+              className="col-span-2 md:w-1/2 md:mx-1"
+            />
+          </div>
+
           <Select
             label="Payment Method"
             data={["cash", "bank"]}
@@ -109,17 +123,6 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             {...form.getInputProps("bank_name")}
             classNames={{ label: "text-black", input: "text-black" }}
             className="mb-10 col-span-2 md:col-span-1"
-          />
-          <Select
-            label="Category"
-            data={["food", "transport", "clothing", "rent", "others"]}
-            {...form.getInputProps("category")}
-            classNames={{
-              label: "text-black",
-              input: "text-black",
-              dropdown: "bg-white text-black",
-            }}
-            className="col-span-2 md:col-span-1"
           />
 
           <Button
