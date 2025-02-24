@@ -88,7 +88,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           <Button
             onClick={generateContent}
             loading={aiLoading}
-            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 mt-7"
+            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 md:mt-7"
           >
             Generate Content with AI
           </Button>
