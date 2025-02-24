@@ -20,6 +20,7 @@ interface FinanceFormProps {
     payment_method: "cash" | "bank";
     bank_name?: string;
     date: string;
+    category: string;
   };
   onSubmit: (values: {
     id?: string;
@@ -29,6 +30,7 @@ interface FinanceFormProps {
     payment_method: "cash" | "bank";
     bank_name?: string;
     date: string;
+    category: string;
   }) => void;
 }
 
@@ -71,17 +73,6 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             className="col-span-2 md:col-span-1"
             required
           />
-          <Select
-            label="Type"
-            data={["income", "expense"]}
-            {...form.getInputProps("type")}
-            classNames={{
-              label: "text-black",
-              input: "text-black",
-              dropdown: "bg-white text-black",
-            }}
-            className="col-span-2 md:col-span-1"
-          />
           <Textarea
             label="Reason"
             placeholder="Enter reason for transaction"
@@ -90,6 +81,31 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             className="col-span-2 md:col-span-1"
             required
           />
+          <div className="md:flex">
+            <Select
+              label="Category"
+              data={["food", "transport", "clothing", "rent", "others"]}
+              {...form.getInputProps("category")}
+              classNames={{
+                label: "text-black",
+                input: "text-black",
+                dropdown: "bg-white text-black",
+              }}
+              className="col-span-2 md:w-1/2"
+            />
+            <Select
+              label="Type"
+              data={["income", "expense"]}
+              {...form.getInputProps("type")}
+              classNames={{
+                label: "text-black",
+                input: "text-black",
+                dropdown: "bg-white text-black",
+              }}
+              className="col-span-2 md:w-1/2 md:mx-1"
+            />
+          </div>
+
           <Select
             label="Payment Method"
             data={["cash", "bank"]}
