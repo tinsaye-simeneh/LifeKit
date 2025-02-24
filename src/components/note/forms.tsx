@@ -2,7 +2,6 @@ import { Button, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import RichTextInput from "@/components/RichTextInput";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { notifications } from "@mantine/notifications";
 
@@ -56,7 +55,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         color: "red",
       });
     } finally {
-      form.setFieldValue("title", aiContent);
+      form.setFieldValue("content", aiContent);
       setAiLoading(false);
     }
   };
@@ -88,17 +87,19 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           <Button
             onClick={generateContent}
             loading={aiLoading}
-            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 md:mt-7"
+            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 md:mt-7 disabled:cursor-not-allowed disabled:bg-gray-300"
+            disabled={aiLoading}
           >
-            Generate Content with AI
+            {aiLoading ? "Generating..." : "Generate Content from AI"}
           </Button>
 
           <div className="col-span-2 mb-10">
-            <RichTextInput
-              value={form.values.content || ""}
-              onChange={(value = "") =>
-                form.setFieldValue("content", value as string)
-              }
+            <Textarea
+              label="Note Content"
+              placeholder="Enter note content"
+              {...form.getInputProps("content")}
+              classNames={{ label: "text-black", input: "text-black h-40" }}
+              required
             />
           </div>
 
