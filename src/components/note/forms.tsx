@@ -20,7 +20,6 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
   const router = useRouter();
   const form = useForm({ initialValues });
 
-  // AI Content Generation
   const generateContent = async () => {
     if (!form.values.title.trim()) {
       notifications.show({
@@ -33,7 +32,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
 
     setAiLoading(true);
     try {
-      const response = await fetch("/api/ai/gemini", {
+      const response = await fetch("/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -42,10 +41,13 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
       });
 
       const data = await response.json();
-      form.setFieldValue(
-        "content",
-        data?.candidates?.[0]?.output || "No content generated."
-      );
+
+      console.log("AI Content Generated:", data.content);
+      if (data?.content) {
+        form.setFieldValue("content", data.content);
+      } else {
+        form.setFieldValue("content", "No content generated.");
+      }
     } catch (error) {
       console.error("AI Content Generation Error:", error);
       notifications.show({
@@ -83,7 +85,6 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
             required
           />
 
-          {/* AI Generate Content Button */}
           <Button
             onClick={generateContent}
             loading={aiLoading}
@@ -92,7 +93,6 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
             Generate Content
           </Button>
 
-          {/* Rich Text Input */}
           <div className="col-span-2 mb-10">
             <RichTextInput
               value={form.values.content || ""}
@@ -102,7 +102,6 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
             />
           </div>
 
-          {/* Submit Button */}
           <Button
             type="submit"
             className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-2 md:col-span-1 disabled:cursor-not-allowed disabled:bg-gray-300"
@@ -111,7 +110,6 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
             {loading ? "Loading..." : "Submit"}
           </Button>
 
-          {/* Cancel Button */}
           <Button
             onClick={() => router.push("/notes")}
             className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"

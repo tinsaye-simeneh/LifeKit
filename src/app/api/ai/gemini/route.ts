@@ -1,29 +1,44 @@
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-export default async function handler(req: any, res: any) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
-  }
+import { NextResponse } from "next/server";
 
-  const { prompt } = req.body;
-  const apiKey = process.env.GEMINI_API_KEY;
-
+export async function POST(req: Request) {
   try {
+    const { prompt } = await req.json();
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      throw new Error("Missing Gemini API Key.");
+    }
+
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateText?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: { text: prompt },
-          temperature: 0.7,
+          contents: [{ parts: [{ text: prompt }] }], // Correct request format
         }),
       }
     );
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `API Error: ${response.status} - ${JSON.stringify(errorData)}`
+      );
+    }
+
     const data = await response.json();
-    return res.status(200).json(data);
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+    const fullText =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No response received";
+
+    const limitedText = fullText.split("\n").slice(0, 4).join("\n");
+
+    return response.ok ? NextResponse.json({ content: limitedText }) : null;
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 500 }
+    );
   }
 }
