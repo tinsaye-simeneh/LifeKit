@@ -20,6 +20,7 @@ interface FinanceFormProps {
     payment_method: "cash" | "bank";
     bank_name?: string;
     date: string;
+    category: string;
   };
   onSubmit: (values: {
     id?: string;
@@ -29,6 +30,7 @@ interface FinanceFormProps {
     payment_method: "cash" | "bank";
     bank_name?: string;
     date: string;
+    category: string;
   }) => void;
 }
 
@@ -107,6 +109,17 @@ const FinanceForm = ({ initialValues, onSubmit }: FinanceFormProps) => {
             {...form.getInputProps("bank_name")}
             classNames={{ label: "text-black", input: "text-black" }}
             className="mb-10 col-span-2 md:col-span-1"
+          />
+          <Select
+            label="Category"
+            data={["food", "transport", "clothing", "rent", "others"]}
+            {...form.getInputProps("category")}
+            classNames={{
+              label: "text-black",
+              input: "text-black",
+              dropdown: "bg-white text-black",
+            }}
+            className="col-span-2 md:col-span-1"
           />
 
           <Button
