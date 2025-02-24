@@ -19,6 +19,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
   const [aiLoading, setAiLoading] = useState(false);
   const router = useRouter();
   const form = useForm({ initialValues });
+  const [aiContent, setAiContent] = useState("");
 
   const generateContent = async () => {
     if (!form.values.title.trim()) {
@@ -32,7 +33,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
 
     setAiLoading(true);
     try {
-      const response = await fetch("/api/gemini", {
+      const response = await fetch("/api/ai/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -42,9 +43,8 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
 
       const data = await response.json();
 
-      console.log("AI Content Generated:", data.content);
       if (data?.content) {
-        form.setFieldValue("content", data.content);
+        setAiContent(data.content);
       } else {
         form.setFieldValue("content", "No content generated.");
       }
@@ -56,6 +56,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         color: "red",
       });
     } finally {
+      form.setFieldValue("content", aiContent);
       setAiLoading(false);
     }
   };
