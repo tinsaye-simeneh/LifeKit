@@ -31,6 +31,7 @@ export async function POST(req: Request) {
     payment_method,
     bank_name,
     date,
+    category,
   }: Finance = await req.json();
 
   const { data, error } = await supabase
@@ -44,6 +45,7 @@ export async function POST(req: Request) {
         payment_method,
         date,
         bank_name,
+        category,
       },
     ])
     .single();
