@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { notifications } from "@mantine/notifications";
+import parse from "html-react-parser";
 
 interface NoteFormProps {
   initialValues: {
@@ -55,7 +56,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         color: "red",
       });
     } finally {
-      form.setFieldValue("content", aiContent);
+      form.setFieldValue("content", parse(aiContent));
       setAiLoading(false);
     }
   };
@@ -86,7 +87,6 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
 
           <Button
             onClick={generateContent}
-            loading={aiLoading}
             className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 md:mt-7 disabled:cursor-not-allowed disabled:bg-gray-300"
             disabled={aiLoading}
           >
