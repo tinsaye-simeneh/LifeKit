@@ -17,6 +17,7 @@ const columns = [
   { label: "Reason", accessor: "reason" },
   { label: "Amount", accessor: "amount" },
   { label: "Type", accessor: "type" },
+  { label: "Category", accessor: "category" },
   { label: "Payment Method", accessor: "payment_method" },
   { label: "Bank", accessor: "bank_name" },
   { label: "Date", accessor: "date" },
