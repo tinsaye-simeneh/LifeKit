@@ -1,4 +1,4 @@
-import { Button, TextInput } from "@mantine/core";
+import { Button, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -56,7 +56,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         color: "red",
       });
     } finally {
-      form.setFieldValue("content", aiContent);
+      form.setFieldValue("title", aiContent);
       setAiLoading(false);
     }
   };
@@ -76,21 +76,21 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           })}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6"
         >
-          <TextInput
+          <Textarea
             label="Note Title"
             placeholder="Enter note title"
             {...form.getInputProps("title")}
             classNames={{ label: "text-black", input: "text-black" }}
-            className="col-span-2"
+            className="col-span-1"
             required
           />
 
           <Button
             onClick={generateContent}
             loading={aiLoading}
-            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1"
+            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 mt-7"
           >
-            Generate Content
+            Generate Content with AI
           </Button>
 
           <div className="col-span-2 mb-10">
