@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import RichTextInput from "@/components/RichTextInput";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { notifications } from "@mantine/notifications";
 
 interface NoteFormProps {
   initialValues: {
@@ -15,10 +16,47 @@ interface NoteFormProps {
 
 const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
   const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
   const router = useRouter();
-  const form = useForm({
-    initialValues,
-  });
+  const form = useForm({ initialValues });
+
+  // AI Content Generation
+  const generateContent = async () => {
+    if (!form.values.title.trim()) {
+      notifications.show({
+        title: "Error",
+        message: "Please enter a title before generating content.",
+        color: "red",
+      });
+      return;
+    }
+
+    setAiLoading(true);
+    try {
+      const response = await fetch("/api/ai/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `Generate a detailed note content based on the title: "${form.values.title}"`,
+        }),
+      });
+
+      const data = await response.json();
+      form.setFieldValue(
+        "content",
+        data?.candidates?.[0]?.output || "No content generated."
+      );
+    } catch (error) {
+      console.error("AI Content Generation Error:", error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to generate AI content.",
+        color: "red",
+      });
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   return (
     <ProtectedRoute>
@@ -35,6 +73,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           })}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6"
         >
+          {/* Title Input */}
           <TextInput
             label="Note Title"
             placeholder="Enter note title"
@@ -43,6 +82,17 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
             className="col-span-2"
             required
           />
+
+          {/* AI Generate Content Button */}
+          <Button
+            onClick={generateContent}
+            loading={aiLoading}
+            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1"
+          >
+            Generate Content
+          </Button>
+
+          {/* Rich Text Input */}
           <div className="col-span-2 mb-10">
             <RichTextInput
               value={form.values.content || ""}
@@ -51,6 +101,8 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
               }
             />
           </div>
+
+          {/* Submit Button */}
           <Button
             type="submit"
             className="bg-blue-500 hover:bg-gray-600 text-white mt-4 col-span-2 md:col-span-1 disabled:cursor-not-allowed disabled:bg-gray-300"
@@ -58,6 +110,8 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
           >
             {loading ? "Loading..." : "Submit"}
           </Button>
+
+          {/* Cancel Button */}
           <Button
             onClick={() => router.push("/notes")}
             className="w-full col-span-2 md:col-span-1 bg-red-500 hover:bg-red-600 text-white mt-4"
