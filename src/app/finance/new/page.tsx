@@ -16,6 +16,7 @@ const FinancePage = () => {
     payment_method: "cash" | "bank";
     bank_name?: string;
     date: string;
+    category: string;
   }) => {
     const financeData = {
       ...values,
@@ -50,6 +51,7 @@ const FinancePage = () => {
         payment_method: "cash",
         bank_name: "",
         date: new Date().toISOString().split("T")[0],
+        category: "",
       }}
       onSubmit={handleCreate}
     />
