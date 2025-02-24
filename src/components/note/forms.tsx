@@ -45,7 +45,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
       const data = await response.json();
 
       if (data?.content) {
-        markedContent = await marked(data.content);
+        markedContent = await marked(data.content).toString();
       } else {
         form.setFieldValue("content", "No content generated.");
       }
@@ -57,7 +57,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         color: "red",
       });
     } finally {
-      form.setFieldValue("content", parse(markedContent).toString());
+      form.setFieldValue("content", markedContent);
       setAiLoading(false);
     }
   };
