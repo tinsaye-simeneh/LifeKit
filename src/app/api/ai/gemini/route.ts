@@ -15,7 +15,7 @@ export async function POST(req: Request) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }], // Correct request format
+          contents: [{ parts: [{ text: prompt }] }],
         }),
       }
     );
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       data?.candidates?.[0]?.content?.parts?.[0]?.text ||
       "No response received";
 
-    const limitedText = fullText.split("\n").slice(0, 4).join("\n");
+    const limitedText = fullText.split("\n").slice(0, 7).join("\n");
 
     return response.ok ? NextResponse.json({ content: limitedText }) : null;
   } catch (error: unknown) {
