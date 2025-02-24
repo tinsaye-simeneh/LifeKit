@@ -23,6 +23,7 @@ const EditFinancePage = () => {
     payment_method: "cash" | "bank";
     bank_name?: string;
     date: string;
+    category: string;
   } | null>(null);
 
   // Effect hook to load finance data from API
@@ -40,6 +41,7 @@ const EditFinancePage = () => {
               payment_method: financeData.payment_method || "cash",
               bank_name: financeData.bank_name || "",
               date: financeData.date.split("T")[0] || "",
+              category: financeData.category || "",
             });
           } else {
             notifications.show({
@@ -71,6 +73,7 @@ const EditFinancePage = () => {
     payment_method: "cash" | "bank";
     bank_name?: string;
     date: string;
+    category: string;
   }) => {
     if (!financeId) {
       console.error("No finance ID provided");
