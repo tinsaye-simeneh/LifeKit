@@ -62,6 +62,7 @@ export interface Finance {
   date: string;
   payment_method: "cash" | "bank";
   bank_name?: string;
+  category: string;
 }
 
 export interface BankDetails {
