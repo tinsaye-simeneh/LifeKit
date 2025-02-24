@@ -4,8 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { notifications } from "@mantine/notifications";
-import { marked } from "marked";
-import parse from "html-react-parser";
 
 interface NoteFormProps {
   initialValues: {
@@ -20,7 +18,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
   const [aiLoading, setAiLoading] = useState(false);
   const router = useRouter();
   const form = useForm({ initialValues });
-  let markedContent = "";
+  const [aiContent, setAiContent] = useState("");
 
   const generateContent = async () => {
     if (!form.values.title.trim()) {
@@ -45,7 +43,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
       const data = await response.json();
 
       if (data?.content) {
-        markedContent = await marked(data.content).toString();
+        setAiContent(data.content);
       } else {
         form.setFieldValue("content", "No content generated.");
       }
@@ -57,7 +55,7 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
         color: "red",
       });
     } finally {
-      form.setFieldValue("content", markedContent);
+      form.setFieldValue("content", aiContent);
       setAiLoading(false);
     }
   };
