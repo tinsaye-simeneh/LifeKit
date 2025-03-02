@@ -12,7 +12,7 @@ interface GoalFormProps {
     id?: string;
     title: string;
     description?: string;
-    category: "skill" | "project" | "finance" | "personal";
+    category: "skill" | "project" | "finance" | "personal" | "other";
     start_date: string;
     end_date: string;
     status: "notStarted" | "onProgress" | "completed";
@@ -21,7 +21,7 @@ interface GoalFormProps {
     id?: string;
     title: string;
     description?: string;
-    category: "skill" | "project" | "finance" | "personal";
+    category: "skill" | "project" | "finance" | "personal" | "other";
     start_date: string;
     end_date: string;
     status: "notStarted" | "onProgress" | "completed";
