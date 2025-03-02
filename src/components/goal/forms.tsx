@@ -63,6 +63,9 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
           />
 
           <div className="col-span-2 mb-10">
+            <label className="text-black block mb-2">
+              Description (Optional)
+            </label>
             <RichTextInput
               value={form.values.description || ""}
               onChange={(value = "") =>
@@ -81,6 +84,7 @@ const GoalForm = ({ initialValues, onSubmit }: GoalFormProps) => {
               <option value="project">Project</option>
               <option value="finance">Finance</option>
               <option value="personal">Personal</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
