@@ -53,6 +53,9 @@ const IdeaForm = ({ initialValues, onSubmit }: IdeaFormProps) => {
           />
 
           <div className="col-span-2 mb-10">
+            <label htmlFor="description" className="text-black">
+              Description (Optional)
+            </label>
             <RichTextInput
               value={form.values.description || ""}
               onChange={(value = "") =>
