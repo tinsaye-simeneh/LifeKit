@@ -16,7 +16,7 @@ const AddGoalPage = () => {
     description?: string;
     start_date?: string;
     end_date?: string;
-    category?: "skill" | "project" | "finance" | "personal";
+    category?: "skill" | "project" | "finance" | "personal" | "other";
     status?: "notStarted" | "onProgress" | "completed";
   }) => {
     const { title, start_date, end_date, category, status } = values;

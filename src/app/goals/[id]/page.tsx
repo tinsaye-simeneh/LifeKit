@@ -20,11 +20,10 @@ const EditGoalPage = () => {
     description?: string;
     start_date: string;
     end_date: string;
-    category: "skill" | "project" | "finance" | "personal";
+    category: "skill" | "project" | "finance" | "personal" | "other";
     status: "notStarted" | "onProgress" | "completed";
-  } | null>(null); // Initially null to ensure data is fetched before form renders
+  } | null>(null);
 
-  // Effect hook to load goal data from API
   useEffect(() => {
     if (goalId && fetchGoal) {
       const loadGoalData = async () => {
@@ -68,7 +67,7 @@ const EditGoalPage = () => {
     description?: string;
     start_date: string;
     end_date: string;
-    category: "skill" | "project" | "finance" | "personal";
+    category: "skill" | "project" | "finance" | "personal" | "other";
     status: "notStarted" | "onProgress" | "completed";
   }) => {
     if (!goalId) {
@@ -82,7 +81,6 @@ const EditGoalPage = () => {
       user_id: session?.user?.id,
     };
 
-    // Validation: Ensure all required fields are filled
     if (
       !goalData.title ||
       !goalData.description ||
@@ -98,7 +96,7 @@ const EditGoalPage = () => {
     }
 
     try {
-      await updateGoal(goalId, goalData); // Call updateGoal with goalId and goalData
+      await updateGoal(goalId, goalData);
       notifications.show({
         title: "Success",
         message: "Goal updated successfully.",

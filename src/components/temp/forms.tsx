@@ -35,6 +35,9 @@ const TempForm = ({ initialValues, onSubmit }: TempFormProps) => {
           className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6"
         >
           <div className="col-span-2 mb-10">
+            <label htmlFor="content" className="text-black">
+              Content
+            </label>
             <RichTextInput
               value={form.values.content || ""}
               onChange={(value = "") =>

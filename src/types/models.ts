@@ -90,7 +90,7 @@ export interface Idea {
 export interface Goal {
   id?: UUID;
   user_id?: UUID;
-  category?: "skill" | "project" | "finance" | "personal";
+  category?: "skill" | "project" | "finance" | "personal" | "other";
   title?: string;
   description?: string;
   start_date?: string;
