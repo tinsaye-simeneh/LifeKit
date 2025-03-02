@@ -22,8 +22,11 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(
-        `API Error: ${response.status} - ${JSON.stringify(errorData)}`
+      return NextResponse.json(
+        {
+          error: `API Error: ${response.status} - ${JSON.stringify(errorData)}`,
+        },
+        { status: response.status }
       );
     }
 
@@ -34,7 +37,7 @@ export async function POST(req: Request) {
 
     const limitedText = fullText.split("\n").slice(0, 20).join("\n");
 
-    return response.ok ? NextResponse.json({ content: limitedText }) : null;
+    return NextResponse.json({ content: limitedText });
   } catch (error: unknown) {
     return NextResponse.json(
       { error: (error as Error).message },
