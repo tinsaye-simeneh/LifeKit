@@ -80,19 +80,24 @@ const NoteForm = ({ initialValues, onSubmit }: NoteFormProps) => {
             placeholder="Enter note title"
             {...form.getInputProps("title")}
             classNames={{ label: "text-black", input: "text-black" }}
-            className="col-span-1"
+            className="col-span-2"
             required
           />
 
-          <Button
-            onClick={generateContent}
-            className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 md:mt-7 disabled:cursor-not-allowed disabled:bg-gray-300"
-            disabled={aiLoading}
-          >
-            {aiLoading ? "Generating..." : "Generate Content from AI"}
-          </Button>
-
           <div className="col-span-2 mb-10">
+            <Button
+              onClick={generateContent}
+              className="bg-green-500 hover:bg-green-600 text-white col-span-2 md:col-span-1 md:my-3 disabled:cursor-not-allowed disabled:bg-gray-300"
+              disabled={aiLoading || !form.values.title.trim()}
+            >
+              {aiLoading
+                ? "Generating..."
+                : "Generate Content using Gemini's AI"}{" "}
+            </Button>
+            <span className="text-gray-500 text-sm md:ml-5 md:inline block my-5">
+              Note: you can only generate content using AI based on the given
+              title.
+            </span>
             <Textarea
               label="Note Content"
               placeholder="Enter note content"
