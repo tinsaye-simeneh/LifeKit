@@ -107,6 +107,7 @@ const TaskForm = ({ initialValues, onSubmit }: TaskFormProps) => {
             className="col-span-2 md:col-span-1"
           />
           <div className="col-span-2 mb-10">
+            <label className="text-black">Description (Optional)</label>
             <RichTextInput
               value={form.values.description || ""}
               onChange={(value) =>
