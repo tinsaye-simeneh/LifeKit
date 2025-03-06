@@ -23,17 +23,17 @@ interface Column {
 
 interface EntityTableProps {
   columns: Column[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //eslint-disable-next-line
   data: any[];
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
-  rowsPerPage?: number; // Items per page
+  rowsPerPage?: number;
   loading?: boolean;
 }
 
 const EntityTable: React.FC<EntityTableProps> = ({
   columns,
-  data,
+  data = [],
   onEdit,
   onDelete,
   rowsPerPage = 5,
@@ -61,7 +61,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
     setIsModalOpen(false);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //eslint-disable-next-line
   const removeUnwantedFields = (rowData: Record<string, any>) => {
     const unwantedFields = ["id", "user_id", "created_at", "updated_at"];
     if (path.basename(location.pathname) === "bank-details") {
@@ -73,7 +73,6 @@ const EntityTable: React.FC<EntityTableProps> = ({
         unwantedFields.push("atm_number", "account_name", "account_number");
       }
     }
-
     return Object.fromEntries(
       Object.entries(rowData).filter(([key]) => !unwantedFields.includes(key))
     );
@@ -118,16 +117,14 @@ const EntityTable: React.FC<EntityTableProps> = ({
               <FaCopy color={`${textCopied ? "green" : "blue"}`} />
               <Text
                 size="sm"
-                className={`
-                ml-1
-                ${textCopied ? "text-green-500" : "text-blue-500"}
-              `}
+                className={`ml-1 ${
+                  textCopied ? "text-green-500" : "text-blue-500"
+                }`}
               >
-                {`${textCopied ? "Details Copied" : "Copy Details"}`}
+                {textCopied ? "Details Copied" : "Copy Details"}
               </Text>
             </button>
           </div>
-
           <div className="space-y-4">
             {Object.entries(filteredRowData).map(
               ([key, value]) =>
@@ -144,7 +141,6 @@ const EntityTable: React.FC<EntityTableProps> = ({
                 )
             )}
           </div>
-
           <div className="flex justify-end mt-6">
             <button
               onClick={onClose}
@@ -181,8 +177,10 @@ const EntityTable: React.FC<EntityTableProps> = ({
     setSortDirection(newDirection);
 
     const sorted = [...filteredData].sort((a, b) => {
-      if (a[column] < b[column]) return newDirection === "asc" ? -1 : 1;
-      if (a[column] > b[column]) return newDirection === "asc" ? 1 : -1;
+      const aValue = a[column] ?? "";
+      const bValue = b[column] ?? "";
+      if (aValue < bValue) return newDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return newDirection === "asc" ? 1 : -1;
       return 0;
     });
     setFilteredData(sorted);
@@ -190,7 +188,7 @@ const EntityTable: React.FC<EntityTableProps> = ({
 
   const formatDate = (date: string | number | Date): string => {
     return new Date(date).toLocaleString("en-US", {
-      timeZone: "Africa/Nairobi", // UTC+3
+      timeZone: "Africa/Nairobi",
       weekday: "short",
       year: "numeric",
       month: "short",
@@ -206,19 +204,27 @@ const EntityTable: React.FC<EntityTableProps> = ({
   };
 
   useEffect(() => {
+    const sanitizedData = Array.isArray(data)
+      ? data.filter((row) => row && typeof row === "object")
+      : [];
+
     const timeoutId = setTimeout(() => {
-      const filtered = data.filter((row) => {
+      const filtered = sanitizedData.filter((row) => {
+        if (!row) return false;
+
         if (selectedColumn) {
-          return String(row[selectedColumn])
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase());
+          const value = row[selectedColumn];
+          return value != null
+            ? String(value).toLowerCase().includes(searchQuery.toLowerCase())
+            : false;
         }
 
-        return columns.some((column) =>
-          String(row[column.accessor])
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        );
+        return columns.some((column) => {
+          const value = row[column.accessor];
+          return value != null
+            ? String(value).toLowerCase().includes(searchQuery.toLowerCase())
+            : false;
+        });
       });
       setFilteredData(filtered);
       setActivePage(1);
@@ -323,11 +329,9 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             ? row[column.accessor]
                               ? formatDate(row[column.accessor])
                               : "-"
-                            : typeof row[column.accessor] === "string"
-                            ? row[column.accessor]
-                              ? parse(trimText(row[column.accessor]))
-                              : "-"
-                            : row[column.accessor] ?? "-"}
+                            : row[column.accessor] != null
+                            ? parse(trimText(String(row[column.accessor])))
+                            : "-"}
                         </td>
                       ))}
                       <td className="px-4 py-2">
@@ -371,7 +375,6 @@ const EntityTable: React.FC<EntityTableProps> = ({
                             </Menu.Dropdown>
                           </Menu>
                         </div>
-
                         <div className="hidden lg:flex space-x-2">
                           <Button
                             variant="light"
@@ -394,7 +397,6 @@ const EntityTable: React.FC<EntityTableProps> = ({
                               Mark as done
                             </Button>
                           )}
-
                           <Button
                             size="xs"
                             variant="outline"

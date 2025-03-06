@@ -12,7 +12,7 @@ const AddGoalPage = () => {
   const addGoal = useGoalStore((state) => state.addGoal);
 
   const handleCreate = async (values: {
-    title?: string;
+    title: string;
     description?: string;
     start_date?: string;
     end_date?: string;
